@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.mithun.simplebible.ui.custom.VerseTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:verseNumber="1"
+        app:verseText="And when he was come down from the mountain, great multitudes followed him."/>
+
+<!--    <TextView-->
+<!--        android:id="@+id/ctvVerseNumber"-->
+<!--        style="@style/Overline"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintEnd_toStartOf="@id/ctvVerseText"-->
+<!--        tools:text="[1]"/>-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/ctvVerseText"-->
+<!--        style="@style/Body1"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="4dp"-->
+<!--        app:layout_constraintStart_toEndOf="@id/ctvVerseNumber"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        tools:text="And when he was come down from the mountain, great multitudes followed him. "/>-->
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Headline" parent="Base.TextAppearance.AppCompat.Headline">
+        <item name="android:lineSpacingExtra">8sp</item>
+    </style>
+
+
+    <!-- H1 -->
+    <style name="Headline1" parent="TextAppearance.MaterialComponents.Headline1">
+        <item name="fontFamily">@font/quicksand_light</item>
+        <item name="android:fontFamily">@font/quicksand_light</item>
+        <item name="android:textSize">96sp</item>
+    </style>
+
+    <!-- H2 -->
+    <style name="Headline2" parent="TextAppearance.MaterialComponents.Headline2">
+        <item name="fontFamily">@font/quicksand_light</item>
+        <item name="android:fontFamily">@font/quicksand_light</item>
+        <item name="android:textSize">60sp</item>
+    </style>
+
+    <!-- H3 -->
+    <style name="Headline3" parent="TextAppearance.MaterialComponents.Headline3">
+        <item name="fontFamily">@font/quicksand_regular</item>
+        <item name="android:fontFamily">@font/quicksand_regular</item>
+        <item name="android:textSize">48sp</item>
+    </style>
+
+    <!-- H4 -->
+    <style name="Headline4" parent="TextAppearance.MaterialComponents.Headline4">
+        <item name="fontFamily">@font/quicksand_regular</item>
+        <item name="android:fontFamily">@font/quicksand_regular</item>
+        <item name="android:textSize">34sp</item>
+    </style>
+
+    <style name="Headline4.Primary" parent="Headline4">
+        <item name="android:lineSpacingExtra">8sp</item>
+        <item name="android:textColor">@color/primaryText</item>
+    </style>
+
+    <!-- H5 -->
+    <style name="Headline5" parent="TextAppearance.MaterialComponents.Headline5">
+        <item name="fontFamily">@font/quicksand_regular</item>
+        <item name="android:fontFamily">@font/quicksand_regular</item>
+        <item name="android:textSize">24sp</item>
+    </style>
+
+    <style name="Headline5.Primary" parent="Headline5">
+        <item name="android:lineSpacingExtra">8sp</item>
+        <item name="android:textColor">@color/primaryText</item>
+    </style>
+
+    <!-- H6 -->
+    <style name="Headline6" parent="TextAppearance.MaterialComponents.Headline6">
+        <item name="fontFamily">@font/quicksand_medium</item>
+        <item name="android:fontFamily">@font/quicksand_medium</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+
+    <style name="Subtitle1" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="fontFamily">@font/quicksand_regular</item>
+        <item name="android:fontFamily">@font/quicksand_regular</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+    <style name="Subtitle2" parent="TextAppearance.MaterialComponents.Subtitle2">
+        <item name="fontFamily">@font/quicksand_medium</item>
+        <item name="android:fontFamily">@font/quicksand_medium</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="Body1" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="fontFamily">@font/quicksand_regular</item>
+        <item name="android:fontFamily">@font/quicksand_regular</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+    <style name="Body1.GodText" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="fontFamily">@font/quicksand_regular</item>
+        <item name="android:fontFamily">@font/quicksand_regular</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/redText</item>
+    </style>
+
+    <style name="Body2" parent="TextAppearance.MaterialComponents.Body2">
+        <item name="fontFamily">@font/quicksand_regular</item>
+        <item name="android:fontFamily">@font/quicksand_regular</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <style name="Button" parent="TextAppearance.MaterialComponents.Button">
+        <item name="fontFamily">@font/quicksand_medium</item>
+        <item name="android:fontFamily">@font/quicksand_medium</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <style name="Caption" parent="TextAppearance.MaterialComponents.Caption">
+        <item name="fontFamily">@font/quicksand_regular</item>
+        <item name="android:fontFamily">@font/quicksand_regular</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+    <style name="Overline" parent="TextAppearance.MaterialComponents.Overline">
+        <item name="fontFamily">@font/quicksand_regular</item>
+        <item name="android:fontFamily">@font/quicksand_regular</item>
+        <item name="android:textSize">10sp</item>
+    </style>
+</resources>

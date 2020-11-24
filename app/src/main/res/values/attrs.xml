@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="VerseView">
+        <attr name="verseNumber" format="integer" />
+        <attr name="verseText" format="reference|string" />
+    </declare-styleable>
+
+</resources>
