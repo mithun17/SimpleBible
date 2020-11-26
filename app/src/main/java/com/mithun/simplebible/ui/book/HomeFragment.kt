@@ -4,21 +4,31 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
-import com.mithun.simplebible.R
-import com.mithun.simplebible.data.api.ASV_BIBLE_ID
+import com.google.android.material.snackbar.Snackbar
 import com.mithun.simplebible.data.repository.BibleRepository
 import com.mithun.simplebible.databinding.FragmentHomeBinding
 import com.mithun.simplebible.ui.adapter.BookAdapter
-import kotlinx.coroutines.launch
+import com.mithun.simplebible.utilities.KJV_BIBLE_ID
+import com.mithun.simplebible.utilities.ResourcesUtil
+import com.mithun.simplebible.viewmodels.HomeViewModel
+import com.mithun.simplebible.viewmodels.HomeViewModelFactory
 
 class HomeFragment : Fragment() {
 
-    private lateinit var homeViewModel: HomeViewModel
+    private val bibleRepository by lazy {
+        BibleRepository.getInstance(requireContext())
+    }
+
+    private val resourcesUtil by lazy {
+        ResourcesUtil(requireContext())
+    }
+
+    private val homeViewModel: HomeViewModel by viewModels {
+        HomeViewModelFactory(bibleRepository, resourcesUtil)
+    }
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
@@ -27,19 +37,11 @@ class HomeFragment : Fragment() {
         BookAdapter()
     }
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        homeViewModel =
-            ViewModelProvider(this).get(HomeViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_home, container, false)
-        val textView: TextView = root.findViewById(R.id.text_home)
-        homeViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
-        })
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -53,18 +55,26 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.rvBooks.adapter = bookAdapter
-        init()
+
+        initViewModelAndObservers()
     }
 
-    private fun init() {
+    private fun initViewModelAndObservers() {
+        homeViewModel.books.observe(viewLifecycleOwner, Observer { resource ->
+            resource.message?.let { errorMessage ->
+                // error
+                Snackbar.make(binding.root, errorMessage, Snackbar.LENGTH_LONG).show()
+            }
+            resource.data?.let { listOfBooks ->
+                // success or error data
+                bookAdapter.submitList(listOfBooks)
+                binding.pbHome.visibility = View.GONE
+            } ?: run {
+                // Loading message
+                binding.pbHome.visibility = View.VISIBLE
+            }
+        })
 
-        val bibleRepository = BibleRepository.getInstance(requireContext())
-        binding.pbHome.visibility = View.VISIBLE
-        lifecycleScope.launch {
-
-            val books = bibleRepository.getBooks(ASV_BIBLE_ID)
-            bookAdapter.submitList(books)
-            binding.pbHome.visibility = View.GONE
-        }
+        homeViewModel.getBooks(KJV_BIBLE_ID)
     }
 }

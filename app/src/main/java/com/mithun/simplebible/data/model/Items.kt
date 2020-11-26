@@ -4,7 +4,7 @@ data class Items (
 	val text: String,
 	val name : String,
 	val type : String,
-	val attrs : Attrs,
+	val attrs : Attrs?,
 	val items : List<Items>
 )
 

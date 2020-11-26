@@ -23,5 +23,7 @@
     <!-- Text colors -->
     <color name="primaryText">#37474F</color>
 
+    <color name="primaryTextDarkBg">#EEEEEE</color>
+
     <color name="redText">#EF5350</color>
 </resources>

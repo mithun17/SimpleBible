@@ -40,24 +40,28 @@ class VersesRepository constructor(
                         when(item.type) {
                             Type.TEXT.value-> {
                                 val text = item.text
-                                val value = mapOfVerses[item.attrs.verseId] ?: ""
-                                mapOfVerses[item.attrs.verseId] = value+text
+                                item.attrs?.verseId?.let {
+                                    val value = mapOfVerses[item.attrs.verseId] ?: ""
+                                    mapOfVerses[item.attrs.verseId] = value+text
+                                }
+
                             }
                             Type.TAG.value-> {
-                                item.attrs.style?.let {style->
+                                item.attrs?.style?.let {style->
                                     when(style) {
                                         Type.WJ.value -> {
                                             parseJesusItems(item, mapOfVerses)
                                         }
-                                        Type.ADD.value -> {
+                                        else -> {
                                             item.items.forEach {finalItem->
                                                 if (finalItem.type== Type.TEXT.value) {
                                                     val text = finalItem.text
-                                                    val value = mapOfVerses[finalItem.attrs.verseId] ?: ""
-                                                    mapOfVerses[finalItem.attrs.verseId] = value+text
+                                                    finalItem.attrs?.verseId?.let {
+                                                        val value = mapOfVerses[finalItem.attrs.verseId] ?: ""
+                                                        mapOfVerses[finalItem.attrs.verseId] = value+text
+                                                    }
                                                 }
                                             }
-
                                         }
                                     }
                                 }
@@ -102,8 +106,10 @@ class VersesRepository constructor(
                 // only text type has verseId in it
                 redText+=finalItem.text
                 redText+= TAG.RED.end()
-                val value = mapOfVerses[finalItem.attrs.verseId] ?: ""
-                mapOfVerses[finalItem.attrs.verseId] = value+redText
+                finalItem.attrs?.verseId?.let {
+                    val value = mapOfVerses[finalItem.attrs?.verseId] ?: ""
+                    mapOfVerses[finalItem.attrs?.verseId] = value+redText
+                }
             }
             else {
                 parseJesusItems(finalItem, mapOfVerses)

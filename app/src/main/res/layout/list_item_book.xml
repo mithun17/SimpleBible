@@ -16,23 +16,23 @@
 
         <TextView
             android:id="@+id/tvBookName"
+            style="@style/Headline5.Primary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            style="@style/Headline5.Primary"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Genesis"/>
 
         <TextView
             android:id="@+id/tvBookNameLong"
+            style="@style/Caption"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            style="@style/Caption"
-            app:layout_constraintTop_toBottomOf="@id/tvBookName"
-            app:layout_constraintStart_toStartOf="@id/tvBookName"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@id/tvBookName"
+            app:layout_constraintTop_toBottomOf="@id/tvBookName"
             tools:text="The First Book of Moses, called Genesis "/>
 
 

@@ -10,12 +10,12 @@ import com.mithun.simplebible.databinding.FragmentChapterSelectBinding
 import com.mithun.simplebible.ui.adapter.ChapterAdapter
 import com.mithun.simplebible.ui.adapter.ChapterItem
 
-class ChapterSelectionFragment: Fragment() {
+class ChapterSelectionFragment : Fragment() {
 
     private var _binding: FragmentChapterSelectBinding? = null
     private val binding get() = _binding!!
 
-    val args : ChapterSelectionFragmentArgs by navArgs()
+    val args: ChapterSelectionFragmentArgs by navArgs()
 
     private val chapterSelectionAdapter by lazy {
         ChapterAdapter()
@@ -37,14 +37,14 @@ class ChapterSelectionFragment: Fragment() {
         val bookId = args.bookId
         val chapterCount = args.chapterCount
 
-        binding.tvChaptersTitle.text = bookName
+        binding.ctbAppBar.title = bookName
         binding.rvChapters.adapter = chapterSelectionAdapter
         loadChaptersForBookId(bookId, bookName, chapterCount)
     }
 
     private fun loadChaptersForBookId(bookId: String, bookName: String, chapterCount: Int) {
 
-        val chapterList = MutableList<ChapterItem>(chapterCount) { ChapterItem(bookId, bookName,it+1) }
+        val chapterList = MutableList<ChapterItem>(chapterCount) { ChapterItem(bookId, bookName, it + 1) }
         chapterSelectionAdapter.submitList(chapterList)
     }
 }

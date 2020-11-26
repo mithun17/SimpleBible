@@ -27,6 +27,10 @@
         <item name="android:textSize">48sp</item>
     </style>
 
+    <style name="Headline3.PrimaryTextDarkBg" parent="TextAppearance.MaterialComponents.Headline3">
+        <item name="android:textColor">@color/primaryTextDarkBg</item>
+    </style>
+
     <!-- H4 -->
     <style name="Headline4" parent="TextAppearance.MaterialComponents.Headline4">
         <item name="fontFamily">@font/quicksand_regular</item>
@@ -49,6 +53,10 @@
     <style name="Headline5.Primary" parent="Headline5">
         <item name="android:lineSpacingExtra">8sp</item>
         <item name="android:textColor">@color/primaryText</item>
+    </style>
+
+    <style name="Headline5.PrimaryTextDarkBg" parent="TextAppearance.MaterialComponents.Headline5">
+        <item name="android:textColor">@color/primaryTextDarkBg</item>
     </style>
 
     <!-- H6 -->

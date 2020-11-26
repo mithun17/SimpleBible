@@ -6,4 +6,9 @@
 
 
     <string name="bibleFragmentTitle">Books</string>
+
+
+    <!-- Error strings -->
+    <string name="errorGenericString">Something went wrong. please try again later.</string>
+
 </resources>
