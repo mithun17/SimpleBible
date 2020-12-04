@@ -13,5 +13,7 @@ data class VerseEntity(
     val chapterId: String,
     val bibleId: String,
     val number: String,
-    val text: String
+    val text: String,
+    val notes: List<String>,
+    val bookmarks: List<String>
 )

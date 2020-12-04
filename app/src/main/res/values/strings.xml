@@ -1,14 +1,28 @@
 <resources>
     <string name="app_name">Simple Bible</string>
     <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_notes">Notes</string>
+    <string name="title_bookmarks">Bookmarks</string>
 
 
     <string name="bibleFragmentTitle">Books</string>
 
+    <string name="versesActionSheetTitle"></string>
 
     <!-- Error strings -->
     <string name="errorGenericString">Something went wrong. please try again later.</string>
+
+    <!-- Verses screen -->
+    <!-- content descriptions -->
+    <string name="fabVersesMoreActionContentDescription">More actions</string>
+    <!-- More Actions -->
+    <string name="actionSheetShareLabel">Share verse</string>
+    <string name="actionSheetCopyLabel">Copy</string>
+    <string name="actionSheetNoteLabel">Note</string>
+    <string name="actionSheetBookmarkLabel">Bookmark</string>
+
+
+    <!-- Bookmarks screen -->
+    <string name="bookmarksTitle">Bookmarks</string>
 
 </resources>

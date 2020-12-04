@@ -12,10 +12,9 @@
         android:fitsSystemWindows="true">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:id="@+id/ctbAppBar"
             android:layout_width="match_parent"
             android:layout_height="120dp"
-            android:background="@drawable/expanded_appbar_gradient_detail"
+            android:background="@drawable/expanded_appbar_gradient"
             android:fitsSystemWindows="true"
             app:collapsedTitleTextAppearance="@style/Headline5.PrimaryTextDarkBg"
             app:contentScrim="?attr/colorPrimary"
@@ -24,8 +23,7 @@
             app:expandedTitleMarginStart="@dimen/activity_horizontal_margin"
             app:expandedTitleTextAppearance="@style/Headline3.PrimaryTextDarkBg"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            app:title="@string/bibleFragmentTitle"
-            tools:title="Matthew 5">
+            app:title="@string/bookmarksTitle">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -39,11 +37,11 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <ProgressBar
-        android:id="@+id/pbDialog"
+        android:id="@+id/pbHome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center"
+        android:visibility="gone"/>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -51,35 +49,24 @@
         android:clipToPadding="false"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvVerses"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:padding="16dp"
-            android:paddingBottom="48dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            android:layout_height="wrap_content"
+            android:paddingTop="16dp">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvBookmarks"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:listitem="@layout/list_item_bookmark"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.core.widget.NestedScrollView>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabMore"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
-        android:layout_margin="16dp"
-        app:fabSize="normal"
-        android:visibility="gone"
-        android:contentDescription="@string/fabVersesMoreActionContentDescription"
-        android:src="@drawable/ic_share"/>
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

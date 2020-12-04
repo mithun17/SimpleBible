@@ -1,11 +1,14 @@
 package com.mithun.simplebible.ui.custom
 
 import android.content.Context
+import android.graphics.Paint
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.SpannableStringBuilder
 import android.text.style.TextAppearanceSpan
+import android.text.style.UnderlineSpan
 import android.util.AttributeSet
+import androidx.core.content.ContextCompat
 import com.mithun.simplebible.R
 
 
@@ -32,13 +35,26 @@ class VerseTextView @JvmOverloads constructor(
         }
     }
 
-    fun setVerse(number: Int, verse: String) {
+    fun setVerse(number: Int, verse: String, isBookmarked: Boolean = false, hasNotes: Boolean = false) {
         verseNumber = number
         verseText = verse
         val verseNumberText = "${TAG.NUMBER.start()}[$number]${TAG.NUMBER.end()}"
         val fullVerse = "$verseNumberText $verseText"
 
         setText(fullVerse.toSpannedStyle(context),BufferType.SPANNABLE)
+
+        if (isBookmarked) {
+            setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(context, R.drawable.ic_bookmark), null, null, null)
+        }
+    }
+
+
+    fun selectVerse() {
+        paintFlags= Paint.UNDERLINE_TEXT_FLAG
+    }
+
+    fun unselectVerse() {
+        paintFlags=0
     }
 
 }

@@ -13,6 +13,7 @@ import com.mithun.simplebible.databinding.FragmentHomeBinding
 import com.mithun.simplebible.ui.adapter.BookAdapter
 import com.mithun.simplebible.utilities.KJV_BIBLE_ID
 import com.mithun.simplebible.utilities.ResourcesUtil
+import com.mithun.simplebible.utilities.TAMIL_BIBLE_ID
 import com.mithun.simplebible.viewmodels.HomeViewModel
 import com.mithun.simplebible.viewmodels.HomeViewModelFactory
 

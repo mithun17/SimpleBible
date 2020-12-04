@@ -3,9 +3,12 @@ package com.mithun.simplebible.data.repository
 import android.content.Context
 import com.mithun.simplebible.data.api.BibleApi
 import com.mithun.simplebible.data.api.RetrofitBuilder
+import com.mithun.simplebible.data.dao.BookmarksDao
 import com.mithun.simplebible.data.dao.BooksDao
+import com.mithun.simplebible.data.dao.NotesDao
 import com.mithun.simplebible.data.dao.VersesEntityDao
 import com.mithun.simplebible.data.database.SimpleBibleDB
+import com.mithun.simplebible.data.database.model.Bookmark
 import com.mithun.simplebible.data.database.model.VerseEntity
 import com.mithun.simplebible.data.model.Items
 import com.mithun.simplebible.data.model.Type
@@ -14,13 +17,17 @@ import com.mithun.simplebible.ui.custom.TAG
 
 class VersesRepository constructor(
     val bibleApi: BibleApi,
-    val versesEntityDao: VersesEntityDao
+    val versesEntityDao: VersesEntityDao,
+    val bookmarksDao: BookmarksDao,
+    val notesDao: NotesDao
 ) {
 
     companion object {
         fun getInstance(context: Context) = VersesRepository(
             RetrofitBuilder.bibleApi,
-            SimpleBibleDB.getInstance(context).versesEntityDao()
+            SimpleBibleDB.getInstance(context).versesEntityDao(),
+            SimpleBibleDB.getInstance(context).bookmarksDao(),
+            SimpleBibleDB.getInstance(context).notesDao()
         )
     }
 
@@ -80,7 +87,9 @@ class VersesRepository constructor(
                     chapterId = chapter.id,
                     bibleId = chapter.bibleId,
                     number = verseNumber,
-                    text = verseText
+                    text = verseText,
+                    bookmarks = emptyList(),
+                    notes = emptyList()
                 )
             }.toList()
 
@@ -89,12 +98,9 @@ class VersesRepository constructor(
             verses = versesEntityDao.getVersesForChapter(bibleId, chapterId)
         }
 
-
         val result = verses.map {verse->
-            Verse(verse.number.toInt(), verse.text)
+            Verse(verse.number.toInt(), verse.text, hasNotes = verse.notes.isNotEmpty(), isBookmarked = verse.bookmarks.isNotEmpty())
         }.toList().sortedBy { it.number }
-
-
 
         return result
     }
@@ -116,4 +122,15 @@ class VersesRepository constructor(
             }
         }
     }
+
+    suspend fun saveBookmark(verseId: String, bookmark: Bookmark) : Boolean {
+        val bookmarkAdded = bookmarksDao.addBookmark(bookmark)
+        if (bookmarkAdded>0) {
+            versesEntityDao.addBookmarkToVerse(verseId, bookmark.bibleId, bookmarkAdded.toString())
+            return true
+        }
+        return false
+    }
+
+    suspend fun getVerseById(bibleId: String, verseId: String) : VerseEntity = versesEntityDao.getVerseById(verseId, bibleId)
 }

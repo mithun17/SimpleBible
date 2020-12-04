@@ -3,6 +3,7 @@ package com.mithun.simplebible.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mithun.simplebible.R
+import com.mithun.simplebible.data.database.model.Bookmark
 import com.mithun.simplebible.data.model.Verse
 import com.mithun.simplebible.data.repository.Resource
 import com.mithun.simplebible.data.repository.VersesRepository
@@ -25,14 +26,29 @@ class VersesViewModel(
     private val _verses = MutableStateFlow<Resource<List<Verse>>>(Resource.Loading(emptyList()))
     val verses: StateFlow<Resource<List<Verse>>> = _verses
 
-    private val coroutineExceptionHandler = CoroutineExceptionHandler { coroutineContext, throwable ->
+    private val _bookmarkSaveState = MutableStateFlow<Resource<Boolean>>(Resource.Loading(null))
+    val bookmarkSaveState: StateFlow<Resource<Boolean>> = _bookmarkSaveState
+
+    private val versesExceptionHandler = CoroutineExceptionHandler { coroutineContext, throwable ->
         _verses.value = Resource.Error(throwable.message ?: resourcesUtil.getString(R.string.errorGenericString), emptyList())
+    }
+
+    private val bookmarkExceptionHandler = CoroutineExceptionHandler { coroutineContext, throwable ->
+        _bookmarkSaveState.value = Resource.Error(throwable.message ?: resourcesUtil.getString(R.string.errorGenericString), false)
     }
 
     fun getVerses(bibleId: String, chapterId: String) {
         _verses.value = Resource.Loading(null)
-        viewModelScope.launch(coroutineExceptionHandler) {
+        viewModelScope.launch(versesExceptionHandler) {
             _verses.value = Resource.Success(versesRepository.getVerses(bibleId, chapterId))
+        }
+    }
+
+    fun saveBookmark(verseId: String, bookmark: Bookmark) {
+
+        _bookmarkSaveState.value = Resource.Loading(null)
+        viewModelScope.launch(bookmarkExceptionHandler) {
+            _bookmarkSaveState.value = Resource.Success(versesRepository.saveBookmark(verseId, bookmark))
         }
     }
 }

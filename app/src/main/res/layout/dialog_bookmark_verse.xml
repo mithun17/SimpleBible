@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/activity_horizontal_margin"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <TextView
+        android:id="@+id/tvBookmarkTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        style="@style/Headline5.Primary"
+        tools:text="Matthew 3:15"/>
+
+    <com.mithun.simplebible.ui.custom.VerseTextView
+        android:id="@+id/vtvVerse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        app:layout_constraintStart_toStartOf="@id/tvBookmarkTitle"
+        app:layout_constraintTop_toBottomOf="@id/tvBookmarkTitle"
+        tools:verseNumber="15"
+        tools:verseText="And Jesus answering said unto him,...."/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

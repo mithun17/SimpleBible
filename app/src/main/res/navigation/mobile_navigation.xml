@@ -67,14 +67,20 @@
     </fragment>
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.mithun.simplebible.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
+        android:id="@+id/navigation_notes"
+        android:name="com.mithun.simplebible.ui.notes.NotesFragment"
+        android:label="@string/title_notes"
         tools:layout="@layout/fragment_dashboard"/>
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.mithun.simplebible.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications"/>
+        android:id="@+id/navigation_bookmarks"
+        android:name="com.mithun.simplebible.ui.bookmark.BookmarkFragment"
+        android:label="@string/title_bookmarks"
+        tools:layout="@layout/fragment_bookmarks"/>
+
+
+    <dialog
+        android:id="@+id/bookmarkVerseDialog"
+        android:name="com.mithun.simplebible.ui.dialog.BookmarkVerseDialog"
+        android:label="BookmarkVerseDialog"/>
 </navigation>

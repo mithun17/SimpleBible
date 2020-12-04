@@ -5,7 +5,6 @@
         <item name="android:lineSpacingExtra">8sp</item>
     </style>
 
-
     <!-- H1 -->
     <style name="Headline1" parent="TextAppearance.MaterialComponents.Headline1">
         <item name="fontFamily">@font/quicksand_light</item>
@@ -72,6 +71,10 @@
         <item name="android:fontFamily">@font/quicksand_regular</item>
         <item name="android:textSize">16sp</item>
     </style>
+    <style name="Subtitle1.Primary" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="android:textColor">@color/primaryText</item>
+    </style>
+
     <style name="Subtitle2" parent="TextAppearance.MaterialComponents.Subtitle2">
         <item name="fontFamily">@font/quicksand_medium</item>
         <item name="android:fontFamily">@font/quicksand_medium</item>
@@ -110,4 +113,20 @@
         <item name="android:fontFamily">@font/quicksand_regular</item>
         <item name="android:textSize">10sp</item>
     </style>
+
+    <!-- Toolbar/Actionbar -->
+    <style name="Toolbar" parent="Headline5"/>
+
+    <style name="Toolbar.Title" parent="Toolbar">
+        <item name="android:fontFamily">@font/quicksand_light</item>
+    </style>
+
+    <style name="Toolbar.Title.Day" parent="Toolbar.Title">
+        <item name="android:textColor">@color/primaryText</item>
+    </style>
+
+    <style name="Toolbar.Title.Night" parent="Toolbar.Title">
+        <item name="android:fontFamily">@color/white</item>
+    </style>
+
 </resources>

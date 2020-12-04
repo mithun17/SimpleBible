@@ -33,4 +33,26 @@ class Converters {
     fun toListOfStrings(jsonString: String): List<String> {
         return  Gson().fromJson<List<String>>(jsonString, object : TypeToken<List<String>>() {}.type)
     }
+
+    @TypeConverter
+    fun LongToString(listOfLongs: List<Long>): String {
+        return Gson().toJson(listOfLongs)
+    }
+
+    @TypeConverter
+    fun stringToListOfLong(jsonString: String) : List<Long> {
+        return Gson().fromJson(jsonString, object : TypeToken<List<Long>>() {}.type)
+    }
+
+
+
+//    @TypeConverter
+//    fun listOfLongsToJson(listOfLongs: List<Long>): String {
+//        return Gson().toJson(listOfLongs)
+//    }
+//
+//    @TypeConverter
+//    fun stringToListOfLongs(jsonString: String): List<Long> {
+//        return  Gson().fromJson(jsonString, object : TypeToken<List<Long>>() {}.type)
+//    }
 }
