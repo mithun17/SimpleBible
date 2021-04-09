@@ -1,0 +1,6 @@
+ext {
+
+    Version = [
+            hilt_version    : '2.33-beta'
+    ]
+}

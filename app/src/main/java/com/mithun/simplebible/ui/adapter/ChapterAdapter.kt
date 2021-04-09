@@ -15,13 +15,12 @@ class ChapterAdapter : ListAdapter<ChapterItem, ChapterAdapter.ViewHolder>(Chapt
     class ViewHolder(private val binding: GalleryItemChapterBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: ChapterItem) {
-            binding.tvChapterNumber.text=item.number.toString()
+            binding.tvChapterNumber.text = item.number.toString()
 
             binding.root.setOnClickListener {
                 Toast.makeText(binding.root.context, "${item.bookId} : ${item.number}", Toast.LENGTH_SHORT).show()
 
                 binding.root.findNavController().navigate(ChapterSelectionFragmentDirections.actionSelectVerse(chapterId = "${item.bookId}.${item.number}", chapterFullName = "${item.bookName} ${item.number}"))
-
             }
         }
     }
@@ -49,5 +48,4 @@ private class ChapterDiffUtil : DiffUtil.ItemCallback<ChapterItem>() {
     override fun areContentsTheSame(oldItem: ChapterItem, newItem: ChapterItem): Boolean {
         return oldItem.number == newItem.number
     }
-
 }

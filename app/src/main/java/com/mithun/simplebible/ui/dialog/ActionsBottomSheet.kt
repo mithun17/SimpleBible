@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.mithun.simplebible.databinding.FragmentActionBottomSheetBinding
 
-
 class ActionsBottomSheet : BottomSheetDialogFragment() {
 
     interface ActionPickerListener {
@@ -133,14 +132,17 @@ class ActionsBottomSheet : BottomSheetDialogFragment() {
 
             binding.rvItemPicker.layoutManager = LinearLayoutManager(context)
 
-            val adapter = ActionSheetAdapter(list, object : ActionSheetAdapter.ClickListener{
-                override fun onActionClick(actionCode: Int) {
-                    if(::actionPickerListener.isInitialized && requestCode !=null) {
-                        actionPickerListener.onActionClick(requestCode, actionCode)
-                        dismiss()
+            val adapter = ActionSheetAdapter(
+                list,
+                object : ActionSheetAdapter.ClickListener {
+                    override fun onActionClick(actionCode: Int) {
+                        if (::actionPickerListener.isInitialized && requestCode != null) {
+                            actionPickerListener.onActionClick(requestCode, actionCode)
+                            dismiss()
+                        }
                     }
                 }
-            })
+            )
 
             binding.rvItemPicker.adapter = adapter
         }

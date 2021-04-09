@@ -24,9 +24,12 @@ class NotesFragment : Fragment() {
             ViewModelProvider(this).get(NotesViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_dashboard, container, false)
         val textView: TextView = root.findViewById(R.id.text_dashboard)
-        notesViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
-        })
+        notesViewModel.text.observe(
+            viewLifecycleOwner,
+            Observer {
+                textView.text = it
+            }
+        )
         return root
     }
 }

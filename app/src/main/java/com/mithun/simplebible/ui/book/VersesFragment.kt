@@ -27,8 +27,6 @@ import com.mithun.simplebible.utilities.ResourcesUtil
 import com.mithun.simplebible.viewmodels.VersesViewModel
 import com.mithun.simplebible.viewmodels.VersesViewModelFactory
 import kotlinx.coroutines.flow.collect
-import java.util.Calendar
-
 
 class VersesFragment : Fragment(), ActionsBottomSheet.ActionPickerListener {
 
@@ -66,7 +64,6 @@ class VersesFragment : Fragment(), ActionsBottomSheet.ActionPickerListener {
             override fun unClick() {
                 binding.fabMore.hide()
             }
-
         })
     }
 
@@ -137,14 +134,14 @@ class VersesFragment : Fragment(), ActionsBottomSheet.ActionPickerListener {
                 }
             }
 
-            versesViewModel.bookmarkSaveState.collect {resource->
-                resource.message?.let {errorMessage->
+            versesViewModel.bookmarkSaveState.collect { resource ->
+                resource.message?.let { errorMessage ->
                     // error
                     Snackbar.make(binding.root, errorMessage, Snackbar.LENGTH_LONG).show()
                     binding.pbDialog.visibility = View.GONE
                 }
 
-                resource.data?.let { saveState->
+                resource.data?.let { saveState ->
                     // bookmark saved
                     binding.pbDialog.visibility = View.GONE
                 } ?: run {
@@ -153,7 +150,6 @@ class VersesFragment : Fragment(), ActionsBottomSheet.ActionPickerListener {
                 }
             }
         }
-
     }
 
     override fun onActionClick(dialogRequestCode: Int, actionRequestCode: Int) {
@@ -172,7 +168,6 @@ class VersesFragment : Fragment(), ActionsBottomSheet.ActionPickerListener {
 
                         val shareIntent = Intent.createChooser(sendIntent, "Simple Bible")
                         startActivity(shareIntent)
-
                     }
                     kActionRequestCodeCopy -> {
                         // structure the verse text
@@ -198,10 +193,7 @@ class VersesFragment : Fragment(), ActionsBottomSheet.ActionPickerListener {
                         versesViewModel.saveBookmark(verseId, bookmark)
                     }
                 }
-
             }
         }
     }
 }
-
-

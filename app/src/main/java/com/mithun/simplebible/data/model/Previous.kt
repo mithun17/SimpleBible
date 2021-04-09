@@ -1,7 +1,7 @@
 package com.mithun.simplebible.data.model
 
-data class Previous (
+data class Previous(
 
-	val id : String,
-	val number : Int
+    val id: String,
+    val number: Int
 )

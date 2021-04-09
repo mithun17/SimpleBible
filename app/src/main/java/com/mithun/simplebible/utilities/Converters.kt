@@ -20,7 +20,7 @@ class Converters {
     }
 
     @TypeConverter
-    fun stringToSmallChapters(smallChaptersString: String) : List<SmallChapter> {
+    fun stringToSmallChapters(smallChaptersString: String): List<SmallChapter> {
         return Gson().fromJson(smallChaptersString, object : TypeToken<List<SmallChapter>>() {}.type)
     }
 
@@ -31,7 +31,7 @@ class Converters {
 
     @TypeConverter
     fun toListOfStrings(jsonString: String): List<String> {
-        return  Gson().fromJson<List<String>>(jsonString, object : TypeToken<List<String>>() {}.type)
+        return Gson().fromJson<List<String>>(jsonString, object : TypeToken<List<String>>() {}.type)
     }
 
     @TypeConverter
@@ -40,11 +40,9 @@ class Converters {
     }
 
     @TypeConverter
-    fun stringToListOfLong(jsonString: String) : List<Long> {
+    fun stringToListOfLong(jsonString: String): List<Long> {
         return Gson().fromJson(jsonString, object : TypeToken<List<Long>>() {}.type)
     }
-
-
 
 //    @TypeConverter
 //    fun listOfLongsToJson(listOfLongs: List<Long>): String {

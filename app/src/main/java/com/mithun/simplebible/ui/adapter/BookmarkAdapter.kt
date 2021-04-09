@@ -6,8 +6,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mithun.simplebible.data.database.model.Bookmark
 import com.mithun.simplebible.databinding.ListItemBookmarkBinding
 
-class BookmarkAdapter(private val bookmarkList: List<Bookmark>) :
+class BookmarkAdapter :
     RecyclerView.Adapter<BookmarkAdapter.ViewHolder>() {
+
+    private var bookmarkList: List<Bookmark> = mutableListOf()
+
+    fun setBookmarks(bookmarks: List<Bookmark>) {
+        bookmarkList = bookmarks
+    }
 
     interface ClickListener {
         fun onItemClick(actionCode: Int)
@@ -17,7 +23,7 @@ class BookmarkAdapter(private val bookmarkList: List<Bookmark>) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(bookmark: Bookmark) {
 
-            binding.tvBookmarkVerse.text=bookmark.verse
+            binding.tvBookmarkVerse.text = bookmark.verse
         }
     }
 

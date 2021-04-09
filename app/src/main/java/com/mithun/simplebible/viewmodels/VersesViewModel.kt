@@ -9,17 +9,14 @@ import com.mithun.simplebible.data.repository.Resource
 import com.mithun.simplebible.data.repository.VersesRepository
 import com.mithun.simplebible.utilities.ResourcesUtil
 import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-@ExperimentalCoroutinesApi
 class VersesViewModel(
     private val versesRepository: VersesRepository,
     private val resourcesUtil: ResourcesUtil
 ) : ViewModel() {
-
 
     // backing property so that the activity or fragment has access to only the immutable 'verses' object.
     // this prevents any setting of data directly on a variable in viewModel.

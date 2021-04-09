@@ -15,7 +15,7 @@ class BookAdapter : ListAdapter<Book, BookAdapter.ViewHolder>(BookDiffUtil()) {
     class ViewHolder(private val binding: ListItemBookBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Book) {
-            binding.tvBookName.text=item.name
+            binding.tvBookName.text = item.name
             binding.root.setOnClickListener {
                 val bookName = item.name
                 val bookId = item.id
@@ -42,5 +42,4 @@ private class BookDiffUtil : DiffUtil.ItemCallback<Book>() {
     override fun areContentsTheSame(oldItem: Book, newItem: Book): Boolean {
         return oldItem.id == newItem.id
     }
-
 }

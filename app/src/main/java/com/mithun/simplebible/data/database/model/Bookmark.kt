@@ -10,9 +10,9 @@ import java.util.Calendar
 )
 data class Bookmark(
     @PrimaryKey(autoGenerate = true)
-    val id: Long=0,
+    val id: Long = 0,
     val bibleId: String,
     val verse: String,
-    val dateAdded: Calendar= Calendar.getInstance(),
-    val dateUpdated: Calendar= Calendar.getInstance()
+    val dateAdded: Calendar = Calendar.getInstance(),
+    val dateUpdated: Calendar = Calendar.getInstance()
 )

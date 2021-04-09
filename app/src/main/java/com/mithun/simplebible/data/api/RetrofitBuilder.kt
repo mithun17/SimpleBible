@@ -8,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 object RetrofitBuilder {
 
     private val BASE_URL = "https://api.scripture.api.bible/v1/"
-    private val retrofit : Retrofit by lazy {
+    private val retrofit: Retrofit by lazy {
         Retrofit.Builder()
             .baseUrl(BASE_URL)
             .client(okHttpClient)
@@ -23,5 +23,4 @@ object RetrofitBuilder {
     }
 
     val bibleApi: BibleApi = retrofit.create(BibleApi::class.java)
-
 }

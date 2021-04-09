@@ -1,14 +1,11 @@
 package com.mithun.simplebible.ui.adapter
 
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.mithun.simplebible.data.model.Verse
 import com.mithun.simplebible.ui.custom.VerseTextView
-import com.mithun.simplebible.ui.dialog.ActionsBottomSheet
-
 
 class VersesAdapter(private val callback: clickListener) : ListAdapter<Verse, VersesAdapter.ViewHolder>(VersesDiffUtil()) {
 
@@ -40,12 +37,10 @@ class VersesAdapter(private val callback: clickListener) : ListAdapter<Verse, Ve
                     callback.unClick()
                 }
 
-
                 // TODO show action sheet
 //                Toast.makeText(view.context, listOfSelectedVerses.toString(), Toast.LENGTH_SHORT).show()
             }
         }
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

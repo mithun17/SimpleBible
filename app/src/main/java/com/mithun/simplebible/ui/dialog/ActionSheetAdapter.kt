@@ -4,8 +4,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.mithun.simplebible.databinding.ItemActionSheetBinding
 
@@ -18,7 +16,7 @@ class ActionSheetAdapter(private val actionList: List<Action>, private val callb
     inner class ViewHolder(private val binding: ItemActionSheetBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(action: Action) {
-            binding.tvActionItem.text=action.actionText
+            binding.tvActionItem.text = action.actionText
             binding.tvActionItem.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(binding.root.context, action.actionDrawable), null, null, null)
 
             binding.root.setOnClickListener {
@@ -41,7 +39,7 @@ class ActionSheetAdapter(private val actionList: List<Action>, private val callb
     }
 }
 //
-//private class ActionSheetDiffUtil : DiffUtil.ItemCallback<Action>() {
+// private class ActionSheetDiffUtil : DiffUtil.ItemCallback<Action>() {
 //    override fun areItemsTheSame(oldItem: Action, newItem: Action): Boolean {
 //        return oldItem.actionCode == newItem.actionCode
 //    }
@@ -49,4 +47,4 @@ class ActionSheetAdapter(private val actionList: List<Action>, private val callb
 //    override fun areContentsTheSame(oldItem: Action, newItem: Action): Boolean {
 //        return oldItem.actionCode == newItem.actionCode
 //    }
-//}
+// }

@@ -9,7 +9,7 @@ import com.mithun.simplebible.utilities.TABLE_NOTE
 )
 data class Note(
     @PrimaryKey(autoGenerate = true)
-    val id: Long=0,
+    val id: Long = 0,
     val verses: List<Long>,
     val comment: String,
     val dateAdded: Long,

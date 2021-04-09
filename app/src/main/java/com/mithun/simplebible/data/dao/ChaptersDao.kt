@@ -10,7 +10,7 @@ import com.mithun.simplebible.data.database.model.FullChapter
 interface ChaptersDao {
 
     @Query("SELECT * FROM chapters WHERE id=:id LIMIT 1")
-    suspend fun getChapterById(id: String) : FullChapter
+    suspend fun getChapterById(id: String): FullChapter
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertChapterById(fullChapter: FullChapter)

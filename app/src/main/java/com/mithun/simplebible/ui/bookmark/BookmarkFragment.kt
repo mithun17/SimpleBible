@@ -6,9 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
-import com.mithun.simplebible.R
 import com.mithun.simplebible.data.repository.BookmarkRepository
 import com.mithun.simplebible.data.repository.VersesRepository
 import com.mithun.simplebible.databinding.FragmentBookmarksBinding
@@ -26,8 +24,9 @@ class BookmarkFragment : Fragment() {
         BookmarkViewModelFactory(BookmarkRepository.getInstance(requireContext()), VersesRepository.getInstance(requireContext()))
     }
 
-    private var bookmarkAdapter = BookmarkAdapter(emptyList())
-
+    private val bookmarkAdapter by lazy {
+        BookmarkAdapter()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,32 +35,39 @@ class BookmarkFragment : Fragment() {
     ): View? {
 
         _binding = FragmentBookmarksBinding.inflate(inflater, container, false)
-        return inflater.inflate(R.layout.fragment_bookmarks, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.rvBookmarks.adapter = bookmarkAdapter
-        binding.rvBookmarks.layoutManager = LinearLayoutManager(requireContext())
         initViewModelAndObservers()
     }
 
     private fun initViewModelAndObservers() {
-        bookmarkViewModel.lvBookmarks.observe(viewLifecycleOwner, { resource ->
-            resource.message?.let { errorMessage ->
-                // error
-                Snackbar.make(binding.root, errorMessage, Snackbar.LENGTH_LONG).show()
-            }
+        bookmarkViewModel.lvBookmarks.observe(
+            viewLifecycleOwner,
+            { resource ->
+                resource.message?.let { errorMessage ->
+                    // error
+                    Snackbar.make(binding.root, errorMessage, Snackbar.LENGTH_LONG).show()
+                }
 
-            resource.data?.let { bookmarks ->
-                bookmarkAdapter = BookmarkAdapter(bookmarks)
-                bookmarkAdapter.notifyDataSetChanged()
-                binding.pbHome.visibility = View.GONE
-            } ?: run {
-                binding.pbHome.visibility = View.VISIBLE
+                resource.data?.let { bookmarks ->
+                    bookmarkAdapter.setBookmarks(bookmarks)
+                    bookmarkAdapter.notifyDataSetChanged()
+                    binding.pbHome.visibility = View.GONE
+                } ?: run {
+                    binding.pbHome.visibility = View.VISIBLE
+                }
             }
-        })
+        )
 
         bookmarkViewModel.getAllBookmarks(KJV_BIBLE_ID)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

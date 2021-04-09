@@ -12,7 +12,7 @@ object ExtensionUtils {
             appendLine()
         }
 
-        forEach { entry->
+        forEach { entry ->
             with(copyText) {
                 append("[${entry.key}] ")
                 append(entry.value.text)

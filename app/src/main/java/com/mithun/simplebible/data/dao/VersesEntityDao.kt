@@ -84,5 +84,4 @@ interface VersesEntityDao {
 
     @Query("UPDATE verses SET bookmarks=:listOfBookmarkIds WHERE id=:verseId AND bibleId=:bibleId")
     suspend fun updateVerseWithBookmarksList(verseId: String, bibleId: String, listOfBookmarkIds: String)
-
 }

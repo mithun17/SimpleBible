@@ -4,7 +4,6 @@ import android.content.Context
 import com.mithun.simplebible.data.api.BibleApi
 import com.mithun.simplebible.data.api.RetrofitBuilder
 import com.mithun.simplebible.data.dao.BookmarksDao
-import com.mithun.simplebible.data.dao.BooksDao
 import com.mithun.simplebible.data.dao.NotesDao
 import com.mithun.simplebible.data.dao.VersesEntityDao
 import com.mithun.simplebible.data.database.SimpleBibleDB
@@ -31,7 +30,7 @@ class VersesRepository constructor(
         )
     }
 
-    suspend fun getVerses(bibleId: String, chapterId: String) : List<Verse> {
+    suspend fun getVerses(bibleId: String, chapterId: String): List<Verse> {
 
         var verses = versesEntityDao.getVersesForChapter(bibleId, chapterId)
 
@@ -40,32 +39,31 @@ class VersesRepository constructor(
 
             val mapOfVerses = mutableMapOf<String, String>()
 
-            chapter.content.forEach { content->
+            chapter.content.forEach { content ->
 
-                if (content.type== Type.TAG.value && content.name=="para") {
-                    content.items.forEach { item->
-                        when(item.type) {
-                            Type.TEXT.value-> {
+                if (content.type == Type.TAG.value && content.name == "para") {
+                    content.items.forEach { item ->
+                        when (item.type) {
+                            Type.TEXT.value -> {
                                 val text = item.text
                                 item.attrs?.verseId?.let {
                                     val value = mapOfVerses[item.attrs.verseId] ?: ""
-                                    mapOfVerses[item.attrs.verseId] = value+text
+                                    mapOfVerses[item.attrs.verseId] = value + text
                                 }
-
                             }
-                            Type.TAG.value-> {
-                                item.attrs?.style?.let {style->
-                                    when(style) {
+                            Type.TAG.value -> {
+                                item.attrs?.style?.let { style ->
+                                    when (style) {
                                         Type.WJ.value -> {
                                             parseJesusItems(item, mapOfVerses)
                                         }
                                         else -> {
-                                            item.items.forEach {finalItem->
-                                                if (finalItem.type== Type.TEXT.value) {
+                                            item.items.forEach { finalItem ->
+                                                if (finalItem.type == Type.TEXT.value) {
                                                     val text = finalItem.text
                                                     finalItem.attrs?.verseId?.let {
                                                         val value = mapOfVerses[finalItem.attrs.verseId] ?: ""
-                                                        mapOfVerses[finalItem.attrs.verseId] = value+text
+                                                        mapOfVerses[finalItem.attrs.verseId] = value + text
                                                     }
                                                 }
                                             }
@@ -98,7 +96,7 @@ class VersesRepository constructor(
             verses = versesEntityDao.getVersesForChapter(bibleId, chapterId)
         }
 
-        val result = verses.map {verse->
+        val result = verses.map { verse ->
             Verse(verse.number.toInt(), verse.text, hasNotes = verse.notes.isNotEmpty(), isBookmarked = verse.bookmarks.isNotEmpty())
         }.toList().sortedBy { it.number }
 
@@ -106,31 +104,30 @@ class VersesRepository constructor(
     }
 
     private fun parseJesusItems(item: Items, mapOfVerses: MutableMap<String, String>) {
-        item.items.forEach {finalItem->
-            if (finalItem.type== Type.TEXT.value) {
+        item.items.forEach { finalItem ->
+            if (finalItem.type == Type.TEXT.value) {
                 var redText = TAG.RED.start()
                 // only text type has verseId in it
-                redText+=finalItem.text
-                redText+= TAG.RED.end()
+                redText += finalItem.text
+                redText += TAG.RED.end()
                 finalItem.attrs?.verseId?.let {
                     val value = mapOfVerses[finalItem.attrs?.verseId] ?: ""
-                    mapOfVerses[finalItem.attrs?.verseId] = value+redText
+                    mapOfVerses[finalItem.attrs?.verseId] = value + redText
                 }
-            }
-            else {
+            } else {
                 parseJesusItems(finalItem, mapOfVerses)
             }
         }
     }
 
-    suspend fun saveBookmark(verseId: String, bookmark: Bookmark) : Boolean {
+    suspend fun saveBookmark(verseId: String, bookmark: Bookmark): Boolean {
         val bookmarkAdded = bookmarksDao.addBookmark(bookmark)
-        if (bookmarkAdded>0) {
+        if (bookmarkAdded> 0) {
             versesEntityDao.addBookmarkToVerse(verseId, bookmark.bibleId, bookmarkAdded.toString())
             return true
         }
         return false
     }
 
-    suspend fun getVerseById(bibleId: String, verseId: String) : VerseEntity = versesEntityDao.getVerseById(verseId, bibleId)
+    suspend fun getVerseById(bibleId: String, verseId: String): VerseEntity = versesEntityDao.getVerseById(verseId, bibleId)
 }

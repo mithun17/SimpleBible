@@ -1,31 +1,26 @@
 package com.mithun.simplebible.data.repository
 
-import android.content.Context
 import com.mithun.simplebible.data.api.BibleApi
 import com.mithun.simplebible.data.api.RetrofitBuilder
 import com.mithun.simplebible.data.dao.BooksDao
-import com.mithun.simplebible.data.database.SimpleBibleDB
 import com.mithun.simplebible.data.model.Book
-import com.mithun.simplebible.data.model.Items
-import com.mithun.simplebible.data.model.Type
-import com.mithun.simplebible.data.model.Verse
-import com.mithun.simplebible.ui.custom.TAG
+import javax.inject.Inject
 
-class BibleRepository constructor(
+class BibleRepository @Inject constructor(
     val bibleApi: BibleApi,
     val booksDao: BooksDao
 ) {
 
-    companion object {
-        fun getInstance(context: Context) = BibleRepository(
-            RetrofitBuilder.bibleApi,
-            SimpleBibleDB.getInstance(context).booksDao()
-        )
-    }
+//    companion object {
+//        fun getInstance(context: Context) = BibleRepository(
+//            RetrofitBuilder.bibleApi,
+//            SimpleBibleDB.getInstance(context).booksDao()
+//        )
+//    }
 
     suspend fun getBibles() = RetrofitBuilder.bibleApi.getBibles().data
 
-    suspend fun getBooks(bibleId: String) : List<Book> {
+    suspend fun getBooks(bibleId: String): List<Book> {
 
         // first fetch from database. if it exists, then return that.
         var booksDb = booksDao.getBooks()

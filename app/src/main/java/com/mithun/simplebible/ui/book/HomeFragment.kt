@@ -8,28 +8,16 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.google.android.material.snackbar.Snackbar
-import com.mithun.simplebible.data.repository.BibleRepository
 import com.mithun.simplebible.databinding.FragmentHomeBinding
 import com.mithun.simplebible.ui.adapter.BookAdapter
 import com.mithun.simplebible.utilities.KJV_BIBLE_ID
-import com.mithun.simplebible.utilities.ResourcesUtil
-import com.mithun.simplebible.utilities.TAMIL_BIBLE_ID
 import com.mithun.simplebible.viewmodels.HomeViewModel
-import com.mithun.simplebible.viewmodels.HomeViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
 
-    private val bibleRepository by lazy {
-        BibleRepository.getInstance(requireContext())
-    }
-
-    private val resourcesUtil by lazy {
-        ResourcesUtil(requireContext())
-    }
-
-    private val homeViewModel: HomeViewModel by viewModels {
-        HomeViewModelFactory(bibleRepository, resourcesUtil)
-    }
+    private val homeViewModel: HomeViewModel by viewModels()
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
@@ -52,7 +40,6 @@ class HomeFragment : Fragment() {
         _binding = null
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.rvBooks.adapter = bookAdapter
@@ -61,20 +48,23 @@ class HomeFragment : Fragment() {
     }
 
     private fun initViewModelAndObservers() {
-        homeViewModel.books.observe(viewLifecycleOwner, Observer { resource ->
-            resource.message?.let { errorMessage ->
-                // error
-                Snackbar.make(binding.root, errorMessage, Snackbar.LENGTH_LONG).show()
+        homeViewModel.books.observe(
+            viewLifecycleOwner,
+            Observer { resource ->
+                resource.message?.let { errorMessage ->
+                    // error
+                    Snackbar.make(binding.root, errorMessage, Snackbar.LENGTH_LONG).show()
+                }
+                resource.data?.let { listOfBooks ->
+                    // success or error data
+                    bookAdapter.submitList(listOfBooks)
+                    binding.pbHome.visibility = View.GONE
+                } ?: run {
+                    // Loading message
+                    binding.pbHome.visibility = View.VISIBLE
+                }
             }
-            resource.data?.let { listOfBooks ->
-                // success or error data
-                bookAdapter.submitList(listOfBooks)
-                binding.pbHome.visibility = View.GONE
-            } ?: run {
-                // Loading message
-                binding.pbHome.visibility = View.VISIBLE
-            }
-        })
+        )
 
         homeViewModel.getBooks(KJV_BIBLE_ID)
     }

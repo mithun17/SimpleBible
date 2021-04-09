@@ -26,7 +26,6 @@ class BookmarkViewModel(
     }
     val lvBookmarkVerse: LiveData<Resource<VerseEntity>> = _lvBookmarkVerse
 
-
     fun getAllBookmarks(bibleId: String) {
         _lvBookmarks.value = Resource.Loading(null)
         viewModelScope.launch {
