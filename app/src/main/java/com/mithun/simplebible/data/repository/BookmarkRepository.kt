@@ -4,8 +4,9 @@ import android.content.Context
 import com.mithun.simplebible.data.dao.BookmarksDao
 import com.mithun.simplebible.data.database.SimpleBibleDB
 import com.mithun.simplebible.data.database.model.Bookmark
+import javax.inject.Inject
 
-class BookmarkRepository constructor(
+class BookmarkRepository @Inject constructor(
     private val bookmarksDao: BookmarksDao
 ) {
 

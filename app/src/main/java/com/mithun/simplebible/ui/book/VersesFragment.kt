@@ -16,18 +16,17 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.snackbar.Snackbar
 import com.mithun.simplebible.R
 import com.mithun.simplebible.data.database.model.Bookmark
-import com.mithun.simplebible.data.repository.VersesRepository
 import com.mithun.simplebible.databinding.FragmentChapterVersesBinding
 import com.mithun.simplebible.ui.adapter.VersesAdapter
 import com.mithun.simplebible.ui.dialog.Action
 import com.mithun.simplebible.ui.dialog.ActionsBottomSheet
 import com.mithun.simplebible.utilities.ExtensionUtils.toCopyText
 import com.mithun.simplebible.utilities.KJV_BIBLE_ID
-import com.mithun.simplebible.utilities.ResourcesUtil
 import com.mithun.simplebible.viewmodels.VersesViewModel
-import com.mithun.simplebible.viewmodels.VersesViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 
+@AndroidEntryPoint
 class VersesFragment : Fragment(), ActionsBottomSheet.ActionPickerListener {
 
     // Action sheet request codes
@@ -36,17 +35,7 @@ class VersesFragment : Fragment(), ActionsBottomSheet.ActionPickerListener {
     private val kActionRequestCodeNote = 3
     private val kActionRequestCodeBookmark = 4
 
-    private val resourcesUtil by lazy {
-        ResourcesUtil(requireContext())
-    }
-
-    private val versesRepository by lazy {
-        VersesRepository.getInstance(requireContext())
-    }
-
-    private val versesViewModel: VersesViewModel by viewModels {
-        VersesViewModelFactory(versesRepository, resourcesUtil)
-    }
+    private val versesViewModel: VersesViewModel by viewModels()
 
     private var _binding: FragmentChapterVersesBinding? = null
     private val binding get() = _binding!!
@@ -75,7 +64,11 @@ class VersesFragment : Fragment(), ActionsBottomSheet.ActionPickerListener {
         args.chapterFullName
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
 
         _binding = FragmentChapterVersesBinding.inflate(inflater, container, false)
         return binding.root
@@ -102,13 +95,31 @@ class VersesFragment : Fragment(), ActionsBottomSheet.ActionPickerListener {
             fragmentManager?.let {
 
                 val actionList = mutableListOf(
-                    Action(kActionRequestCodeShare, R.drawable.ic_share, getString(R.string.actionSheetShareLabel)),
-                    Action(kActionRequestCodeCopy, R.drawable.ic_copy, getString(R.string.actionSheetCopyLabel)),
-                    Action(kActionRequestCodeNote, R.drawable.ic_note, getString(R.string.actionSheetNoteLabel))
+                    Action(
+                        kActionRequestCodeShare,
+                        R.drawable.ic_share,
+                        getString(R.string.actionSheetShareLabel)
+                    ),
+                    Action(
+                        kActionRequestCodeCopy,
+                        R.drawable.ic_copy,
+                        getString(R.string.actionSheetCopyLabel)
+                    ),
+                    Action(
+                        kActionRequestCodeNote,
+                        R.drawable.ic_note,
+                        getString(R.string.actionSheetNoteLabel)
+                    )
                 )
 
                 if (versesAdapter.listOfSelectedVerses.size == 1) {
-                    actionList.add(Action(kActionRequestCodeBookmark, R.drawable.ic_bookmark, getString(R.string.actionSheetBookmarkLabel)))
+                    actionList.add(
+                        Action(
+                            kActionRequestCodeBookmark,
+                            R.drawable.ic_bookmark,
+                            getString(R.string.actionSheetBookmarkLabel)
+                        )
+                    )
                 }
 
                 ActionsBottomSheet
@@ -162,7 +173,10 @@ class VersesFragment : Fragment(), ActionsBottomSheet.ActionPickerListener {
                         // Create an implicit intent to share text data to other apps
                         val sendIntent: Intent = Intent().apply {
                             action = Intent.ACTION_SEND
-                            putExtra(Intent.EXTRA_TEXT, versesAdapter.listOfSelectedVerses.toCopyText(chapterName))
+                            putExtra(
+                                Intent.EXTRA_TEXT,
+                                versesAdapter.listOfSelectedVerses.toCopyText(chapterName)
+                            )
                             type = "text/plain"
                         }
 
@@ -173,12 +187,20 @@ class VersesFragment : Fragment(), ActionsBottomSheet.ActionPickerListener {
                         // structure the verse text
                         versesAdapter.listOfSelectedVerses.toCopyText(chapterName)
 
-                        val clip = ClipData.newPlainText("label", versesAdapter.listOfSelectedVerses.toCopyText(chapterName))
-                        val clipboard = getSystemService(requireContext(), ClipboardManager::class.java)
+                        val clip = ClipData.newPlainText(
+                            "label",
+                            versesAdapter.listOfSelectedVerses.toCopyText(chapterName)
+                        )
+                        val clipboard =
+                            getSystemService(requireContext(), ClipboardManager::class.java)
                         clipboard?.setPrimaryClip(clip)
                     }
                     kActionRequestCodeNote -> {
-                        Toast.makeText(requireContext(), versesAdapter.listOfSelectedVerses.toString(), Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            requireContext(),
+                            versesAdapter.listOfSelectedVerses.toString(),
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                     kActionRequestCodeBookmark -> {
 

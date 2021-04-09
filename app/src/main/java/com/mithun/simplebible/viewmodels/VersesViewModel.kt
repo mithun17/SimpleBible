@@ -8,12 +8,15 @@ import com.mithun.simplebible.data.model.Verse
 import com.mithun.simplebible.data.repository.Resource
 import com.mithun.simplebible.data.repository.VersesRepository
 import com.mithun.simplebible.utilities.ResourcesUtil
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class VersesViewModel(
+@HiltViewModel
+class VersesViewModel @Inject constructor(
     private val versesRepository: VersesRepository,
     private val resourcesUtil: ResourcesUtil
 ) : ViewModel() {

@@ -9,9 +9,12 @@ import com.mithun.simplebible.data.database.model.VerseEntity
 import com.mithun.simplebible.data.repository.BookmarkRepository
 import com.mithun.simplebible.data.repository.Resource
 import com.mithun.simplebible.data.repository.VersesRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class BookmarkViewModel(
+@HiltViewModel
+class BookmarkViewModel @Inject constructor(
     private val bookmarkRepository: BookmarkRepository,
     private val versesRepository: VersesRepository
 ) : ViewModel() {

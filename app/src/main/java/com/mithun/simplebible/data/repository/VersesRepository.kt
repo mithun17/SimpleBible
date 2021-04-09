@@ -1,34 +1,32 @@
 package com.mithun.simplebible.data.repository
 
-import android.content.Context
 import com.mithun.simplebible.data.api.BibleApi
-import com.mithun.simplebible.data.api.RetrofitBuilder
 import com.mithun.simplebible.data.dao.BookmarksDao
 import com.mithun.simplebible.data.dao.NotesDao
 import com.mithun.simplebible.data.dao.VersesEntityDao
-import com.mithun.simplebible.data.database.SimpleBibleDB
 import com.mithun.simplebible.data.database.model.Bookmark
 import com.mithun.simplebible.data.database.model.VerseEntity
 import com.mithun.simplebible.data.model.Items
 import com.mithun.simplebible.data.model.Type
 import com.mithun.simplebible.data.model.Verse
 import com.mithun.simplebible.ui.custom.TAG
+import javax.inject.Inject
 
-class VersesRepository constructor(
+class VersesRepository @Inject constructor(
     val bibleApi: BibleApi,
     val versesEntityDao: VersesEntityDao,
     val bookmarksDao: BookmarksDao,
     val notesDao: NotesDao
 ) {
 
-    companion object {
-        fun getInstance(context: Context) = VersesRepository(
-            RetrofitBuilder.bibleApi,
-            SimpleBibleDB.getInstance(context).versesEntityDao(),
-            SimpleBibleDB.getInstance(context).bookmarksDao(),
-            SimpleBibleDB.getInstance(context).notesDao()
-        )
-    }
+//    companion object {
+//        fun getInstance(context: Context) = VersesRepository(
+//            RetrofitBuilder.bibleApi,
+//            SimpleBibleDB.getInstance(context).versesEntityDao(),
+//            SimpleBibleDB.getInstance(context).bookmarksDao(),
+//            SimpleBibleDB.getInstance(context).notesDao()
+//        )
+//    }
 
     suspend fun getVerses(bibleId: String, chapterId: String): List<Verse> {
 

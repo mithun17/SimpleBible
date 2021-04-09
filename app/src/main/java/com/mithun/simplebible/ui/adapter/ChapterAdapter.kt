@@ -2,7 +2,6 @@ package com.mithun.simplebible.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -18,8 +17,6 @@ class ChapterAdapter : ListAdapter<ChapterItem, ChapterAdapter.ViewHolder>(Chapt
             binding.tvChapterNumber.text = item.number.toString()
 
             binding.root.setOnClickListener {
-                Toast.makeText(binding.root.context, "${item.bookId} : ${item.number}", Toast.LENGTH_SHORT).show()
-
                 binding.root.findNavController().navigate(ChapterSelectionFragmentDirections.actionSelectVerse(chapterId = "${item.bookId}.${item.number}", chapterFullName = "${item.bookName} ${item.number}"))
             }
         }

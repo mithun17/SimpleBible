@@ -7,22 +7,19 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.google.android.material.snackbar.Snackbar
-import com.mithun.simplebible.data.repository.BookmarkRepository
-import com.mithun.simplebible.data.repository.VersesRepository
 import com.mithun.simplebible.databinding.FragmentBookmarksBinding
 import com.mithun.simplebible.ui.adapter.BookmarkAdapter
 import com.mithun.simplebible.utilities.KJV_BIBLE_ID
 import com.mithun.simplebible.viewmodels.BookmarkViewModel
-import com.mithun.simplebible.viewmodels.BookmarkViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class BookmarkFragment : Fragment() {
 
     private var _binding: FragmentBookmarksBinding? = null
     private val binding get() = _binding!!
 
-    private val bookmarkViewModel: BookmarkViewModel by viewModels {
-        BookmarkViewModelFactory(BookmarkRepository.getInstance(requireContext()), VersesRepository.getInstance(requireContext()))
-    }
+    private val bookmarkViewModel: BookmarkViewModel by viewModels()
 
     private val bookmarkAdapter by lazy {
         BookmarkAdapter()
