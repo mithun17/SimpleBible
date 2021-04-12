@@ -20,6 +20,10 @@ class VersesAdapter(private val callback: clickListener) : ListAdapter<Verse, Ve
         fun bind(item: Verse) {
             view.setVerse(item.number, item.text, item.isBookmarked, item.hasNotes)
 
+            if (item.number in listOfSelectedVerses) {
+                view.selectVerse()
+            }
+
             view.setOnClickListener {
                 item.isSelected = !item.isSelected
 

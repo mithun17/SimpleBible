@@ -7,11 +7,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.snackbar.Snackbar
 import com.mithun.simplebible.R
@@ -68,7 +68,7 @@ class VersesFragment : Fragment(), ActionsBottomSheet.ActionPickerListener {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         _binding = FragmentChapterVersesBinding.inflate(inflater, container, false)
         return binding.root
@@ -196,11 +196,15 @@ class VersesFragment : Fragment(), ActionsBottomSheet.ActionPickerListener {
                         clipboard?.setPrimaryClip(clip)
                     }
                     kActionRequestCodeNote -> {
-                        Toast.makeText(
-                            requireContext(),
-                            versesAdapter.listOfSelectedVerses.toString(),
-                            Toast.LENGTH_SHORT
-                        ).show()
+
+                        val verseIds = versesAdapter.listOfSelectedVerses.keys.toIntArray()
+                        binding.root.findNavController().navigate(VersesFragmentDirections.actionAddEditNote(chapterName, chapterId, verseIds))
+
+//                        Toast.makeText(
+//                            requireContext(),
+//                            versesAdapter.listOfSelectedVerses.toString(),
+//                            Toast.LENGTH_SHORT
+//                        ).show()
                     }
                     kActionRequestCodeBookmark -> {
 
@@ -209,6 +213,7 @@ class VersesFragment : Fragment(), ActionsBottomSheet.ActionPickerListener {
 
                         val bookmark = Bookmark(
                             bibleId = KJV_BIBLE_ID,
+                            chapterId = chapterId,
                             verse = verseId
                         )
 

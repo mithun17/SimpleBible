@@ -22,7 +22,6 @@ class BookmarkAdapter :
     inner class ViewHolder(private val binding: ListItemBookmarkBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(bookmark: Bookmark) {
-
             binding.tvBookmarkVerse.text = bookmark.verse
         }
     }

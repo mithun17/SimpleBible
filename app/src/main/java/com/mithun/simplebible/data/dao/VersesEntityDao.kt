@@ -17,6 +17,9 @@ interface VersesEntityDao {
     @Query("SELECT * FROM verses WHERE id=:verseId AND bibleId=:bibleId LIMIT 1")
     suspend fun getVerseById(verseId: String, bibleId: String): VerseEntity
 
+    @Query("SELECT * FROM verses WHERE id IN (:verseIds) AND bibleId=:bibleId")
+    suspend fun getVersesById(verseIds: List<String>, bibleId: String): List<VerseEntity>
+
     // TODO update query to not update the notes list
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertVerses(verses: List<VerseEntity>)

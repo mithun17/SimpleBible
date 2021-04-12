@@ -19,15 +19,6 @@ class VersesRepository @Inject constructor(
     val notesDao: NotesDao
 ) {
 
-//    companion object {
-//        fun getInstance(context: Context) = VersesRepository(
-//            RetrofitBuilder.bibleApi,
-//            SimpleBibleDB.getInstance(context).versesEntityDao(),
-//            SimpleBibleDB.getInstance(context).bookmarksDao(),
-//            SimpleBibleDB.getInstance(context).notesDao()
-//        )
-//    }
-
     suspend fun getVerses(bibleId: String, chapterId: String): List<Verse> {
 
         var verses = versesEntityDao.getVersesForChapter(bibleId, chapterId)
@@ -128,4 +119,6 @@ class VersesRepository @Inject constructor(
     }
 
     suspend fun getVerseById(bibleId: String, verseId: String): VerseEntity = versesEntityDao.getVerseById(verseId, bibleId)
+
+    suspend fun getVersesById(bibleId: String, verseIds: List<String>): List<VerseEntity> = versesEntityDao.getVersesById(verseIds, bibleId)
 }

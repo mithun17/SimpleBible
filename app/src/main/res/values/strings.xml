@@ -2,8 +2,11 @@
     <string name="app_name">Simple Bible</string>
     <string name="title_home">Home</string>
     <string name="title_notes">Notes</string>
+    <string name="title_note">Note</string>
     <string name="title_bookmarks">Bookmarks</string>
 
+    <!-- Menu items -->
+    <string name="menu_title_save">Save</string>
 
     <string name="bibleFragmentTitle">Books</string>
 
@@ -15,6 +18,9 @@
     <!-- Verses screen -->
     <!-- content descriptions -->
     <string name="fabVersesMoreActionContentDescription">More actions</string>
+    <string name="contentDescriptionShareNote">Share note</string>
+
+
     <!-- More Actions -->
     <string name="actionSheetShareLabel">Share verse</string>
     <string name="actionSheetCopyLabel">Copy</string>
@@ -24,5 +30,6 @@
 
     <!-- Bookmarks screen -->
     <string name="bookmarksTitle">Bookmarks</string>
+
 
 </resources>

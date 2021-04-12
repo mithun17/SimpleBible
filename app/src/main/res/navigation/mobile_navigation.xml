@@ -64,13 +64,56 @@
         <argument
             android:name="chapterFullName"
             app:argType="string"/>
+        <action
+            android:id="@+id/action_add_edit_note"
+            app:destination="@id/navigation_add_edit_note">
+            <argument
+                android:name="chapterFullName"
+                app:argType="string"/>
+            <argument
+                android:name="chapterId"
+                app:argType="string"/>
+            <argument
+                android:name="verses"
+                app:argType="integer[]"/>
+        </action>
     </fragment>
 
     <fragment
         android:id="@+id/navigation_notes"
         android:name="com.mithun.simplebible.ui.notes.NotesFragment"
         android:label="@string/title_notes"
-        tools:layout="@layout/fragment_dashboard"/>
+        tools:layout="@layout/fragment_notes">
+        <action
+            android:id="@+id/action_add_edit_note"
+            app:destination="@id/navigation_add_edit_note">
+            <argument
+                android:name="chapterFullName"
+                app:argType="string"/>
+            <argument
+                android:name="chapterId"
+                app:argType="string"/>
+            <argument
+                android:name="verses"
+                app:argType="integer[]"/>
+        </action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_add_edit_note"
+        android:name="com.mithun.simplebible.ui.notes.AddEditNotesFragment"
+        android:label="@string/title_note"
+        tools:layout="@layout/fragment_add_edit_note">
+        <argument
+            android:name="chapterFullName"
+            app:argType="string"/>
+        <argument
+            android:name="chapterId"
+            app:argType="string"/>
+        <argument
+            android:name="verses"
+            app:argType="integer[]"/>
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_bookmarks"

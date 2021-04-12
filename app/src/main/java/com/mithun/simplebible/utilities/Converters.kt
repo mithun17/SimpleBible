@@ -44,13 +44,13 @@ class Converters {
         return Gson().fromJson(jsonString, object : TypeToken<List<Long>>() {}.type)
     }
 
-//    @TypeConverter
-//    fun listOfLongsToJson(listOfLongs: List<Long>): String {
-//        return Gson().toJson(listOfLongs)
-//    }
-//
-//    @TypeConverter
-//    fun stringToListOfLongs(jsonString: String): List<Long> {
-//        return  Gson().fromJson(jsonString, object : TypeToken<List<Long>>() {}.type)
-//    }
+    @TypeConverter
+    fun listOfIntsToJson(listOfLongs: List<Int>): String {
+        return Gson().toJson(listOfLongs)
+    }
+
+    @TypeConverter
+    fun stringToListOfInts(jsonString: String): List<Int> {
+        return Gson().fromJson(jsonString, object : TypeToken<List<Int>>() {}.type)
+    }
 }

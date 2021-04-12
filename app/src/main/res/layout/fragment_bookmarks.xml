@@ -23,7 +23,7 @@
             app:expandedTitleMarginStart="@dimen/activity_horizontal_margin"
             app:expandedTitleTextAppearance="@style/Headline3.PrimaryTextDarkBg"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            app:title="@string/bookmarksTitle">
+            app:title="@string/title_bookmarks">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -52,8 +52,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="16dp">
+            android:layout_height="wrap_content">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvBookmarks"

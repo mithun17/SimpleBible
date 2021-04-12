@@ -12,6 +12,7 @@ data class Bookmark(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
     val bibleId: String,
+    val chapterId: String,
     val verse: String,
     val dateAdded: Calendar = Calendar.getInstance(),
     val dateUpdated: Calendar = Calendar.getInstance()

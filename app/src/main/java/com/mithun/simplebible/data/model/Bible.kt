@@ -9,6 +9,5 @@ data class Bible(
     val nameLocal: String,
     val description: String,
     val descriptionLocal: String,
-    val info: String,
     val type: String
 )
