@@ -36,6 +36,19 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="KJV"
+        app:icon="@drawable/ic_menu_list"
+        app:iconGravity="end"
+        app:layout_anchor="@id/appBar"
+        app:layout_anchorGravity="bottom|end"
+        app:behavior_autoHide="true"
+        app:srcCompat="@android:drawable/ic_dialog_info" />
+
     <ProgressBar
         android:id="@+id/pbHome"
         android:layout_width="wrap_content"

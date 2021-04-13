@@ -1,6 +1,7 @@
 package com.mithun.simplebible.di
 
 import android.content.Context
+import com.mithun.simplebible.data.dao.BibleDao
 import com.mithun.simplebible.data.dao.BookmarksDao
 import com.mithun.simplebible.data.dao.BooksDao
 import com.mithun.simplebible.data.dao.ChaptersDao
@@ -52,5 +53,11 @@ class DatabaseModule {
     @Provides
     fun provideBookmarksDao(database: SimpleBibleDB): BookmarksDao {
         return database.bookmarksDao()
+    }
+
+    @Singleton
+    @Provides
+    fun provideBiblesDao(database: SimpleBibleDB): BibleDao {
+        return database.bibleDao()
     }
 }

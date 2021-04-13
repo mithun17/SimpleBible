@@ -1,8 +1,8 @@
 package com.mithun.simplebible.data.api
 
 import com.google.gson.JsonObject
+import com.mithun.simplebible.data.database.model.Bible
 import com.mithun.simplebible.data.model.BaseData
-import com.mithun.simplebible.data.model.Bible
 import com.mithun.simplebible.data.model.Book
 import com.mithun.simplebible.data.model.Chapter
 import com.mithun.simplebible.utilities.API_KEY
@@ -14,7 +14,7 @@ import retrofit2.http.Path
 interface BibleApi {
 
     @Headers("api-key: $API_KEY")
-    @GET("bibles?language=eng")
+    @GET("bibles")
     suspend fun getBibles(): BaseData<List<Bible>>
 
     @Headers("api-key: $API_KEY")

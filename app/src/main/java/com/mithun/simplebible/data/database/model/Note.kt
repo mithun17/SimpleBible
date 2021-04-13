@@ -13,6 +13,7 @@ data class Note(
     val id: Long = 0,
     val bibleId: String,
     val chapterId: String,
+    val chapterName: String,
     val verses: List<Int>,
     val comment: String,
     val dateAdded: Calendar = Calendar.getInstance(),

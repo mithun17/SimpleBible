@@ -1,7 +1,5 @@
 package com.mithun.simplebible.viewmodels
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mithun.simplebible.R
@@ -26,11 +24,6 @@ class NotesViewModel @Inject constructor(
     private val notesRepository: NotesRepository,
     private val resourcesUtil: ResourcesUtil
 ) : ViewModel() {
-
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is dashboard Fragment"
-    }
-    val text: LiveData<String> = _text
 
     private val _verses =
         MutableStateFlow<Resource<List<VerseEntity>>>(Resource.Loading(emptyList()))
@@ -61,11 +54,12 @@ class NotesViewModel @Inject constructor(
         }
     }
 
-    fun saveNote(chapterId: String, verseIds: List<Int>, comment: String) {
+    fun saveNote(chapterId: String, chapterName: String, verseIds: List<Int>, comment: String) {
         _noteSaveState.value = Resource.Loading(true)
         val note = Note(
             bibleId = KJV_BIBLE_ID,
             chapterId = chapterId,
+            chapterName = chapterName,
             verses = verseIds,
             comment = comment
         )

@@ -26,6 +26,7 @@ class NotesRepository @Inject constructor(
                 id = note.id,
                 bibleId = note.bibleId,
                 chapterId = note.chapterId,
+                chapterName = note.chapterName,
                 verseIds = note.verses,
                 verses = verses,
                 comment = note.comment,

@@ -77,6 +77,7 @@ class AddEditNotesFragment : Fragment() {
     private fun setupToolbar() {
         supportActionBar = (requireActivity() as AppCompatActivity).supportActionBar
         supportActionBar?.show()
+//        supportActionBar?.setBackgroundDrawable(requireContext().getDrawable(R.color.white))
         supportActionBar?.setShowHideAnimationEnabled(false)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
@@ -104,6 +105,7 @@ class AddEditNotesFragment : Fragment() {
         val comment = binding.etNotesComment.text.toString()
         notesViewModel.saveNote(
             chapterId = args.chapterId,
+            chapterName = args.chapterFullName,
             verseIds = args.verses.toList(),
             comment
         )

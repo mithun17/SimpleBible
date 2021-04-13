@@ -6,13 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import com.mithun.simplebible.databinding.FragmentHomeBinding
 import com.mithun.simplebible.ui.adapter.BookAdapter
 import com.mithun.simplebible.utilities.KJV_BIBLE_ID
 import com.mithun.simplebible.viewmodels.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -48,9 +49,8 @@ class HomeFragment : Fragment() {
     }
 
     private fun initViewModelAndObservers() {
-        homeViewModel.books.observe(
-            viewLifecycleOwner,
-            Observer { resource ->
+        lifecycleScope.launchWhenCreated {
+            homeViewModel.books.collect { resource ->
                 resource.message?.let { errorMessage ->
                     // error
                     Snackbar.make(binding.root, errorMessage, Snackbar.LENGTH_LONG).show()
@@ -64,8 +64,9 @@ class HomeFragment : Fragment() {
                     binding.pbHome.visibility = View.VISIBLE
                 }
             }
-        )
+        }
 
         homeViewModel.getBooks(KJV_BIBLE_ID)
+        homeViewModel.getBibles()
     }
 }

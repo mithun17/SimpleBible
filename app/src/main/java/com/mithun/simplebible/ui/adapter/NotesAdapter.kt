@@ -18,7 +18,7 @@ class NotesAdapter(private val callback: (FullNote) -> Unit) :
     inner class ViewHolder(private val binding: ListItemNoteBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: FullNote) {
-            binding.tvNoteTitle.text = item.chapterId
+            binding.tvNoteTitle.text = item.chapterName
             binding.tvNoteComment.text = item.comment
 
             val spannableString = SpannableStringBuilder()
@@ -37,7 +37,7 @@ class NotesAdapter(private val callback: (FullNote) -> Unit) :
             }
 
             binding.root.setOnClickListener {
-                it.findNavController().navigate(NotesFragmentDirections.actionAddEditNote(item.chapterId, item.chapterId, item.verseIds.toIntArray()))
+                it.findNavController().navigate(NotesFragmentDirections.actionAddEditNote(item.chapterName, item.chapterId, item.verseIds.toIntArray(), item.comment))
             }
         }
     }

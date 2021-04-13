@@ -7,6 +7,7 @@ data class FullNote(
     val id: Long = 0,
     val bibleId: String,
     val chapterId: String,
+    val chapterName: String,
     val verseIds: List<Int>,
     val verses: List<VerseEntity>,
     val comment: String,

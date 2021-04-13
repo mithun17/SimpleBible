@@ -1,24 +1,57 @@
 package com.mithun.simplebible.data.repository
 
+import android.util.Log
 import com.mithun.simplebible.data.api.BibleApi
 import com.mithun.simplebible.data.api.RetrofitBuilder
+import com.mithun.simplebible.data.dao.BibleDao
 import com.mithun.simplebible.data.dao.BooksDao
+import com.mithun.simplebible.data.database.model.Bible
 import com.mithun.simplebible.data.model.Book
+import com.mithun.simplebible.utilities.ASV_BIBLE_ID
+import com.mithun.simplebible.utilities.KJV_BIBLE_ID
+import com.mithun.simplebible.utilities.TAMIL_BIBLE_ID
 import javax.inject.Inject
 
 class BibleRepository @Inject constructor(
-    val bibleApi: BibleApi,
-    val booksDao: BooksDao
+    private val bibleApi: BibleApi,
+    private val booksDao: BooksDao,
+    private val bibleDao: BibleDao
 ) {
 
-//    companion object {
-//        fun getInstance(context: Context) = BibleRepository(
-//            RetrofitBuilder.bibleApi,
-//            SimpleBibleDB.getInstance(context).booksDao()
-//        )
-//    }
+    suspend fun getBibles(): List<Bible> {
+        var bibles = bibleDao.getBibles()
+        if (bibles.isEmpty()) {
+            val bibleResponse = bibleApi.getBibles().data
+            try {
+                val insertedIds = bibleDao.insertBibles(bibleResponse)
+            } catch (ex: Exception) {
+                Log.e("DB error", ex.message!!)
+            }
 
-    suspend fun getBibles() = RetrofitBuilder.bibleApi.getBibles().data
+            bibles = bibleDao.getBibles()
+        }
+        return bibles
+    }
+
+    suspend fun getBibleById(id: String): Bible? {
+        var bible = bibleDao.getBibleById(id)
+        if (bible != null) {
+            bibleDao.insertBibles(bibleApi.getBibles().data)
+            bible = bibleDao.getBibleById(id)
+        }
+        return bible
+    }
+
+    suspend fun getPresetBibles(): List<Bible> {
+        val presets = listOf(KJV_BIBLE_ID, ASV_BIBLE_ID, TAMIL_BIBLE_ID)
+        val bibles = mutableListOf<Bible>()
+        presets.forEach { id ->
+            getBibleById(id)?.let { bible ->
+                bibles.add(bible)
+            }
+        }
+        return bibles
+    }
 
     suspend fun getBooks(bibleId: String): List<Book> {
 
@@ -34,7 +67,8 @@ class BibleRepository @Inject constructor(
         return booksDb
     }
 
-    suspend fun getChapterJson(bibleId: String, chapterId: String) = RetrofitBuilder.bibleApi.getChapterJson(bibleId, chapterId)
+    suspend fun getChapterJson(bibleId: String, chapterId: String) =
+        RetrofitBuilder.bibleApi.getChapterJson(bibleId, chapterId)
 
 //    suspend fun getChapter(bibleId: String, chapterId: String) : Pair<String, List<Verse>> {
 //

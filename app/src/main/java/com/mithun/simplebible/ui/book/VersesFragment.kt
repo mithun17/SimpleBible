@@ -198,7 +198,7 @@ class VersesFragment : Fragment(), ActionsBottomSheet.ActionPickerListener {
                     kActionRequestCodeNote -> {
 
                         val verseIds = versesAdapter.listOfSelectedVerses.keys.toIntArray()
-                        binding.root.findNavController().navigate(VersesFragmentDirections.actionAddEditNote(chapterName, chapterId, verseIds))
+                        binding.root.findNavController().navigate(VersesFragmentDirections.actionAddEditNote(chapterName, chapterId, verseIds, null))
 
 //                        Toast.makeText(
 //                            requireContext(),
