@@ -77,7 +77,6 @@ class AddEditNotesFragment : Fragment() {
     private fun setupToolbar() {
         supportActionBar = (requireActivity() as AppCompatActivity).supportActionBar
         supportActionBar?.show()
-//        supportActionBar?.setBackgroundDrawable(requireContext().getDrawable(R.color.white))
         supportActionBar?.setShowHideAnimationEnabled(false)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }

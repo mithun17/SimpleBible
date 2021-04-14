@@ -7,10 +7,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
+import com.mithun.simplebible.R
+import com.mithun.simplebible.data.repository.Resource
 import com.mithun.simplebible.databinding.FragmentHomeBinding
 import com.mithun.simplebible.ui.adapter.BookAdapter
-import com.mithun.simplebible.utilities.KJV_BIBLE_ID
+import com.mithun.simplebible.ui.filter.FilterFragment
+import com.mithun.simplebible.utilities.Prefs
 import com.mithun.simplebible.viewmodels.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -27,12 +31,16 @@ class HomeFragment : Fragment() {
         BookAdapter()
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    private val prefs by lazy {
+        Prefs(requireContext())
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        binding.rvBooks.adapter = bookAdapter
+
+        initUI()
+        initViewModelAndObservers()
         return binding.root
     }
 
@@ -41,11 +49,18 @@ class HomeFragment : Fragment() {
         _binding = null
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        binding.rvBooks.adapter = bookAdapter
+    private fun initUI() {
 
-        initViewModelAndObservers()
+        binding.fab.setOnClickListener {
+            findNavController().navigate(R.id.navigation_filter)
+        }
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<String>(FilterFragment.kSelectedBible)
+            ?.observe(viewLifecycleOwner) { version ->
+                homeViewModel.getBooks(prefs.selectedBibleId)
+                binding.fab.text = version
+
+                findNavController().currentBackStackEntry?.savedStateHandle?.remove<String>(FilterFragment.kSelectedBible)
+            }
     }
 
     private fun initViewModelAndObservers() {
@@ -66,7 +81,19 @@ class HomeFragment : Fragment() {
             }
         }
 
-        homeViewModel.getBooks(KJV_BIBLE_ID)
-        homeViewModel.getBibles()
+        lifecycleScope.launchWhenCreated {
+            homeViewModel.bible.collect { resource ->
+                when (resource) {
+                    is Resource.Success -> {
+                        binding.fab.text = resource.data?.abbreviationLocal
+                    }
+                    is Resource.Error -> {
+                        binding.fab.text = ""
+                    }
+                }
+            }
+        }
+
+        homeViewModel.getBooks(prefs.selectedBibleId)
     }
 }

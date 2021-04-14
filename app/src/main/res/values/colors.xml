@@ -22,6 +22,7 @@
 
     <!-- Icon colors -->
     <color name="goodState">#4CAF50</color>
+    <color name="selectedState">@color/goodState</color>
 
     <!-- Text colors -->
     <color name="primaryText">#37474F</color>

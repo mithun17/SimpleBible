@@ -4,6 +4,7 @@
     <string name="title_notes">Notes</string>
     <string name="title_note">Note</string>
     <string name="title_bookmarks">Bookmarks</string>
+    <string name="title_filter">Versions</string>
 
     <!-- Menu items -->
     <string name="menu_title_save">Save</string>

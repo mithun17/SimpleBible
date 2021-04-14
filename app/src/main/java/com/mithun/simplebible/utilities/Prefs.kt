@@ -14,7 +14,7 @@ class Prefs @Inject constructor(private val context: Context) {
         )
     }
 
-    fun <T : Any> get(key: String, default: T): T {
+    private fun <T : Any> get(key: String, default: T): T {
         try {
             val type = default::class.java
             return when (default) {
@@ -30,7 +30,7 @@ class Prefs @Inject constructor(private val context: Context) {
         }
     }
 
-    fun <T : Any> set(key: String, value: T) {
+    private fun <T : Any> set(key: String, value: T) {
         if (key.isNotEmpty()) {
             val editor = sharedPreferences.edit()
             when (value) {
@@ -48,7 +48,14 @@ class Prefs @Inject constructor(private val context: Context) {
         get() = get(PREF_SELECTED_BIBLE_ID, KJV_BIBLE_ID)
         set(value) = set(PREF_SELECTED_BIBLE_ID, value)
 
+    var lastReadChapter: String
+        get() = get(PREF_LAST_READ_CHAPTER_ID, kLastReadChapterDefaultId)
+        set(value) = set(PREF_LAST_READ_CHAPTER_ID, value)
+
     companion object {
         private const val PREF_SELECTED_BIBLE_ID = "PrefSelectedBibleId"
+        private const val PREF_LAST_READ_CHAPTER_ID = "PrefLastReadChapterId"
+
+        private const val kLastReadChapterDefaultId = "JHN.3"
     }
 }

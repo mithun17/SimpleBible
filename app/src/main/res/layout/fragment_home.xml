@@ -41,7 +41,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:text="KJV"
         app:icon="@drawable/ic_menu_list"
         app:iconGravity="end"
         app:layout_anchor="@id/appBar"

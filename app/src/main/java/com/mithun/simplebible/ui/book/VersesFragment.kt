@@ -196,15 +196,8 @@ class VersesFragment : Fragment(), ActionsBottomSheet.ActionPickerListener {
                         clipboard?.setPrimaryClip(clip)
                     }
                     kActionRequestCodeNote -> {
-
                         val verseIds = versesAdapter.listOfSelectedVerses.keys.toIntArray()
                         binding.root.findNavController().navigate(VersesFragmentDirections.actionAddEditNote(chapterName, chapterId, verseIds, null))
-
-//                        Toast.makeText(
-//                            requireContext(),
-//                            versesAdapter.listOfSelectedVerses.toString(),
-//                            Toast.LENGTH_SHORT
-//                        ).show()
                     }
                     kActionRequestCodeBookmark -> {
 

@@ -26,6 +26,13 @@
     </fragment>
 
     <fragment
+        android:id="@+id/navigation_filter"
+        android:name="com.mithun.simplebible.ui.filter.FilterFragment"
+        android:label="@string/title_filter"
+        tools:layout="@layout/fragment_filter">
+    </fragment>
+
+    <fragment
         android:id="@+id/navigation_chapters"
         android:name="com.mithun.simplebible.ui.book.ChapterSelectionFragment"
         android:label="Chapter"

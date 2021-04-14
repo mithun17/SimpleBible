@@ -7,6 +7,7 @@ import com.mithun.simplebible.data.database.model.Bible
 import com.mithun.simplebible.data.model.Book
 import com.mithun.simplebible.data.repository.BibleRepository
 import com.mithun.simplebible.data.repository.Resource
+import com.mithun.simplebible.utilities.Prefs
 import com.mithun.simplebible.utilities.ResourcesUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -22,14 +23,15 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val bibleRepository: BibleRepository,
-    private val resourcesUtil: ResourcesUtil
+    private val resourcesUtil: ResourcesUtil,
+    private val prefs: Prefs
 ) : ViewModel() {
 
     private val _books = MutableStateFlow<Resource<List<Book>>>(Resource.Loading(emptyList()))
     val books: StateFlow<Resource<List<Book>>> = _books
 
-    private val _bibles = MutableStateFlow<Resource<List<Bible>>>(Resource.Loading(emptyList()))
-    val bibles: StateFlow<Resource<List<Bible>>> = _bibles
+    private val _bible = MutableStateFlow<Resource<Bible>>(Resource.Loading())
+    val bible: StateFlow<Resource<Bible>> = _bible
 
     private val booksExceptionHandler =
         CoroutineExceptionHandler { coroutineContext, throwable ->
@@ -41,25 +43,27 @@ class HomeViewModel @Inject constructor(
 
     private val biblesExceptionHandler =
         CoroutineExceptionHandler { coroutineContext, throwable ->
-            _bibles.value = Resource.Error(
-                throwable.message ?: resourcesUtil.getString(R.string.errorGenericString),
-                emptyList()
+            _bible.value = Resource.Error(
+                throwable.message ?: resourcesUtil.getString(R.string.errorGenericString)
             )
         }
+
+    init {
+        getSelectedBible()
+    }
+
+    fun getSelectedBible() {
+        viewModelScope.launch(biblesExceptionHandler) {
+            val bibleBooks = bibleRepository.getPresetBibles()
+            _bible.value = Resource.Success(bibleBooks.first { it.id == prefs.selectedBibleId })
+        }
+    }
 
     fun getBooks(bibleId: String) {
         _books.value = Resource.Loading(null)
         viewModelScope.launch(booksExceptionHandler) {
             val bibleBooks = bibleRepository.getBooks(bibleId)
             _books.value = Resource.Success(bibleBooks)
-        }
-    }
-
-    fun getBibles() {
-        _bibles.value = Resource.Loading(null)
-        viewModelScope.launch(biblesExceptionHandler) {
-            val bibleBooks = bibleRepository.getBibles()
-            _bibles.value = Resource.Success(bibleBooks)
         }
     }
 }

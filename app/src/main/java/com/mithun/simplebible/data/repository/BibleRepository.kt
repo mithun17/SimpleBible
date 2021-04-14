@@ -35,7 +35,7 @@ class BibleRepository @Inject constructor(
 
     suspend fun getBibleById(id: String): Bible? {
         var bible = bibleDao.getBibleById(id)
-        if (bible != null) {
+        if (bible == null) {
             bibleDao.insertBibles(bibleApi.getBibles().data)
             bible = bibleDao.getBibleById(id)
         }
