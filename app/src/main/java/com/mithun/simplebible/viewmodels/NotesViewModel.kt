@@ -9,7 +9,7 @@ import com.mithun.simplebible.data.repository.NotesRepository
 import com.mithun.simplebible.data.repository.Resource
 import com.mithun.simplebible.data.repository.VersesRepository
 import com.mithun.simplebible.data.repository.data.FullNote
-import com.mithun.simplebible.utilities.KJV_BIBLE_ID
+import com.mithun.simplebible.utilities.Prefs
 import com.mithun.simplebible.utilities.ResourcesUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -22,7 +22,8 @@ import javax.inject.Inject
 class NotesViewModel @Inject constructor(
     private val versesRepository: VersesRepository,
     private val notesRepository: NotesRepository,
-    private val resourcesUtil: ResourcesUtil
+    private val resourcesUtil: ResourcesUtil,
+    private val prefs: Prefs
 ) : ViewModel() {
 
     private val _verses =
@@ -47,17 +48,17 @@ class NotesViewModel @Inject constructor(
         )
     }
 
-    fun fetchListOfVerses(verseIds: List<String>) {
+    fun fetchListOfVerses(bibleVersionId: String, verseIds: List<String>) {
         viewModelScope.launch(versesExceptionHandler) {
             _verses.value =
-                Resource.Success(versesRepository.getVersesById(bibleId = KJV_BIBLE_ID, verseIds))
+                Resource.Success(versesRepository.getVersesById(bibleId = bibleVersionId, verseIds))
         }
     }
 
-    fun saveNote(chapterId: String, chapterName: String, verseIds: List<Int>, comment: String) {
+    fun saveNote(bibleVersionId: String, chapterId: String, chapterName: String, verseIds: List<Int>, comment: String) {
         _noteSaveState.value = Resource.Loading(true)
         val note = Note(
-            bibleId = KJV_BIBLE_ID,
+            bibleId = bibleVersionId,
             chapterId = chapterId,
             chapterName = chapterName,
             verses = verseIds,
@@ -70,9 +71,9 @@ class NotesViewModel @Inject constructor(
         }
     }
 
-    fun fetchNotes() {
+    fun fetchNotes(bibleVersionId: String) {
         viewModelScope.launch {
-            _notes.value = Resource.Success(notesRepository.getNotes(KJV_BIBLE_ID))
+            _notes.value = Resource.Success(notesRepository.getNotes(bibleVersionId))
         }
     }
 }

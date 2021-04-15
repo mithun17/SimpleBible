@@ -9,7 +9,7 @@ import androidx.fragment.app.viewModels
 import com.google.android.material.snackbar.Snackbar
 import com.mithun.simplebible.databinding.FragmentBookmarksBinding
 import com.mithun.simplebible.ui.adapter.BookmarkAdapter
-import com.mithun.simplebible.utilities.KJV_BIBLE_ID
+import com.mithun.simplebible.utilities.Prefs
 import com.mithun.simplebible.viewmodels.BookmarkViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -23,6 +23,10 @@ class BookmarkFragment : Fragment() {
 
     private val bookmarkAdapter by lazy {
         BookmarkAdapter()
+    }
+
+    private val prefs by lazy {
+        Prefs(requireContext())
     }
 
     override fun onCreateView(
@@ -60,7 +64,7 @@ class BookmarkFragment : Fragment() {
             }
         )
 
-        bookmarkViewModel.getAllBookmarks(KJV_BIBLE_ID)
+        bookmarkViewModel.getAllBookmarks(prefs.selectedBibleId)
     }
 
     override fun onDestroyView() {

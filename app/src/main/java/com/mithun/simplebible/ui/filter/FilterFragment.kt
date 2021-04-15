@@ -93,7 +93,7 @@ class FilterFragment : Fragment() {
 
     private fun selectBible(biblePair: Pair<String, String>) {
         prefs.selectedBibleId = biblePair.first
-        findNavController().previousBackStackEntry?.savedStateHandle?.set(kSelectedBible, biblePair.second)
+        findNavController().previousBackStackEntry?.savedStateHandle?.set(kSelectedBible, biblePair.first)
         findNavController().popBackStack()
     }
 }

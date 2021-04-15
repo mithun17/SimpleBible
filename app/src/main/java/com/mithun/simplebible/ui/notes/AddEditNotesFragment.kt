@@ -18,6 +18,7 @@ import androidx.navigation.fragment.navArgs
 import com.mithun.simplebible.R
 import com.mithun.simplebible.data.repository.Resource
 import com.mithun.simplebible.databinding.FragmentAddEditNoteBinding
+import com.mithun.simplebible.utilities.Prefs
 import com.mithun.simplebible.utilities.VerseFormatter
 import com.mithun.simplebible.utilities.gone
 import com.mithun.simplebible.utilities.visible
@@ -41,6 +42,10 @@ class AddEditNotesFragment : Fragment() {
         args.verses.map {
             "${args.chapterId}.$it"
         }
+    }
+
+    private val prefs by lazy {
+        Prefs(requireContext())
     }
 
     override fun onCreateView(
@@ -71,7 +76,7 @@ class AddEditNotesFragment : Fragment() {
         setHasOptionsMenu(true)
         binding.tvNoteTitle.text = args.chapterFullName
         initObserveAndSubscribe()
-        notesViewModel.fetchListOfVerses(verseIds)
+        notesViewModel.fetchListOfVerses(prefs.selectedBibleId, verseIds)
     }
 
     private fun setupToolbar() {
@@ -103,6 +108,7 @@ class AddEditNotesFragment : Fragment() {
     private fun saveNote() {
         val comment = binding.etNotesComment.text.toString()
         notesViewModel.saveNote(
+            bibleVersionId = prefs.selectedBibleId,
             chapterId = args.chapterId,
             chapterName = args.chapterFullName,
             verseIds = args.verses.toList(),

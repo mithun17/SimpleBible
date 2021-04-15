@@ -11,6 +11,7 @@ import com.mithun.simplebible.data.repository.Resource
 import com.mithun.simplebible.data.repository.data.FullNote
 import com.mithun.simplebible.databinding.FragmentNotesBinding
 import com.mithun.simplebible.ui.adapter.NotesAdapter
+import com.mithun.simplebible.utilities.Prefs
 import com.mithun.simplebible.viewmodels.NotesViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -27,6 +28,10 @@ class NotesFragment : Fragment() {
         NotesAdapter {
             openNote(it)
         }
+    }
+
+    private val prefs by lazy {
+        Prefs(requireContext())
     }
 
     override fun onCreateView(
@@ -65,7 +70,7 @@ class NotesFragment : Fragment() {
             }
         }
 
-        notesViewModel.fetchNotes()
+        notesViewModel.fetchNotes(prefs.selectedBibleId)
     }
 
     private fun openNote(note: FullNote) {

@@ -14,7 +14,6 @@ import com.mithun.simplebible.data.repository.Resource
 import com.mithun.simplebible.databinding.FragmentHomeBinding
 import com.mithun.simplebible.ui.adapter.BookAdapter
 import com.mithun.simplebible.ui.filter.FilterFragment
-import com.mithun.simplebible.utilities.Prefs
 import com.mithun.simplebible.viewmodels.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -29,10 +28,6 @@ class HomeFragment : Fragment() {
 
     private val bookAdapter by lazy {
         BookAdapter()
-    }
-
-    private val prefs by lazy {
-        Prefs(requireContext())
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -56,9 +51,7 @@ class HomeFragment : Fragment() {
         }
         findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<String>(FilterFragment.kSelectedBible)
             ?.observe(viewLifecycleOwner) { version ->
-                homeViewModel.getBooks(prefs.selectedBibleId)
-                binding.fab.text = version
-
+                homeViewModel.setSelectedBible(version)
                 findNavController().currentBackStackEntry?.savedStateHandle?.remove<String>(FilterFragment.kSelectedBible)
             }
     }
@@ -93,7 +86,5 @@ class HomeFragment : Fragment() {
                 }
             }
         }
-
-        homeViewModel.getBooks(prefs.selectedBibleId)
     }
 }

@@ -36,10 +36,10 @@ class BookAdapter : ListAdapter<Book, BookAdapter.ViewHolder>(BookDiffUtil()) {
 
 private class BookDiffUtil : DiffUtil.ItemCallback<Book>() {
     override fun areItemsTheSame(oldItem: Book, newItem: Book): Boolean {
-        return oldItem.id == newItem.id
+        return "${oldItem.id}.${oldItem.bibleId}" == "${newItem.id}.${newItem.bibleId}"
     }
 
     override fun areContentsTheSame(oldItem: Book, newItem: Book): Boolean {
-        return oldItem.id == newItem.id
+        return "${oldItem.id}.${oldItem.bibleId}" == "${newItem.id}.${newItem.bibleId}"
     }
 }

@@ -56,12 +56,12 @@ class BibleRepository @Inject constructor(
     suspend fun getBooks(bibleId: String): List<Book> {
 
         // first fetch from database. if it exists, then return that.
-        var booksDb = booksDao.getBooks()
+        var booksDb = booksDao.getBooks(bibleId)
 
         // if not, make a network call and store it in the database and then return the database
         if (booksDb.isEmpty()) {
             booksDao.insertBooks(bibleApi.getBooks(bibleId).data)
-            booksDb = booksDao.getBooks()
+            booksDb = booksDao.getBooks(bibleId)
         }
 
         return booksDb
@@ -69,69 +69,4 @@ class BibleRepository @Inject constructor(
 
     suspend fun getChapterJson(bibleId: String, chapterId: String) =
         RetrofitBuilder.bibleApi.getChapterJson(bibleId, chapterId)
-
-//    suspend fun getChapter(bibleId: String, chapterId: String) : Pair<String, List<Verse>> {
-//
-//        val chapter = RetrofitBuilder.bibleApi.getChapter(bibleId, chapterId).data
-//
-//        val mapOfVerses = mutableMapOf<String, String>()
-//
-//        chapter.content.forEach { content->
-//
-//            if (content.type== Type.TAG.value && content.name=="para") {
-//                content.items.forEach { item->
-//                    when(item.type) {
-//                        Type.TEXT.value-> {
-//                            val text = item.text
-//                            val value = mapOfVerses[item.attrs.verseId] ?: ""
-//                            mapOfVerses[item.attrs.verseId] = value+text
-//                        }
-//                        Type.TAG.value-> {
-//                            item.attrs.style?.let {style->
-//                                when(style) {
-//                                    Type.WJ.value -> {
-//                                        parseJesusItems(item, mapOfVerses)
-//                                    }
-//                                    Type.ADD.value -> {
-//                                        item.items.forEach {finalItem->
-//                                            if (finalItem.type==Type.TEXT.value) {
-//                                                val text = finalItem.text
-//                                                val value = mapOfVerses[finalItem.attrs.verseId] ?: ""
-//                                                mapOfVerses[finalItem.attrs.verseId] = value+text
-//                                            }
-//                                        }
-//
-//                                    }
-//                                }
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//
-//        }
-//
-//        val verses = mapOfVerses.map {
-//            val verseNumber = it.key.split(".").last()
-//            Verse(verseNumber.toInt(), it.value)
-//        }.toList()
-//
-//        return Pair(chapter.reference, verses)
-//    }
-//
-//    private fun parseJesusItems(item: Items, mapOfVerses: MutableMap<String, String>) {
-//        item.items.forEach {finalItem->
-//            if (finalItem.type==Type.TEXT.value) {
-//                var redText = TAG.RED.start()
-//                // only text type has verseId in it
-//                redText+=finalItem.text
-//                redText+= TAG.RED.end()
-//                val value = mapOfVerses[finalItem.attrs.verseId] ?: ""
-//                mapOfVerses[finalItem.attrs.verseId] = value+redText
-//            }
-//            else {
-//                parseJesusItems(finalItem, mapOfVerses)
-//            }
-//        }
-//    }
 }

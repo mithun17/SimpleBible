@@ -9,8 +9,8 @@ import com.mithun.simplebible.data.model.Book
 @Dao
 interface BooksDao {
 
-    @Query("SELECT * FROM books")
-    suspend fun getBooks(): List<Book>
+    @Query("SELECT * FROM books WHERE bibleId=:bibleVersionId")
+    suspend fun getBooks(bibleVersionId: String): List<Book>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertBooks(books: List<Book>)

@@ -21,7 +21,7 @@ import com.mithun.simplebible.ui.adapter.VersesAdapter
 import com.mithun.simplebible.ui.dialog.Action
 import com.mithun.simplebible.ui.dialog.ActionsBottomSheet
 import com.mithun.simplebible.utilities.ExtensionUtils.toCopyText
-import com.mithun.simplebible.utilities.KJV_BIBLE_ID
+import com.mithun.simplebible.utilities.Prefs
 import com.mithun.simplebible.viewmodels.VersesViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -64,6 +64,10 @@ class VersesFragment : Fragment(), ActionsBottomSheet.ActionPickerListener {
         args.chapterFullName
     }
 
+    private val prefs by lazy {
+        Prefs(requireContext())
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -85,7 +89,7 @@ class VersesFragment : Fragment(), ActionsBottomSheet.ActionPickerListener {
 
         binding.ctbAppBar.title = chapterName
         initViewModelAndSetCollectors()
-        versesViewModel.getVerses(KJV_BIBLE_ID, chapterId)
+        versesViewModel.getVerses(prefs.selectedBibleId, chapterId)
     }
 
     private fun initViewModelAndSetCollectors() {
@@ -205,7 +209,7 @@ class VersesFragment : Fragment(), ActionsBottomSheet.ActionPickerListener {
                         val verseId = "$chapterId.$verseNumber"
 
                         val bookmark = Bookmark(
-                            bibleId = KJV_BIBLE_ID,
+                            bibleId = prefs.selectedBibleId,
                             chapterId = chapterId,
                             verse = verseId
                         )
