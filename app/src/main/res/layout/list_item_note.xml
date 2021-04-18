@@ -56,6 +56,7 @@
             android:layout_margin="8dp"
             android:contentDescription="@string/contentDescriptionShareNote"
             android:src="@drawable/ic_more"
+            android:background="?android:attr/selectableItemBackground"
             app:layout_constraintBottom_toBottomOf="@id/tvNoteComment"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/tvNoteComment"

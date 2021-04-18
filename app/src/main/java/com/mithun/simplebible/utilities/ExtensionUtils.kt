@@ -1,13 +1,12 @@
 package com.mithun.simplebible.utilities
 
 import android.view.View
-import com.mithun.simplebible.data.model.Verse
-import java.lang.StringBuilder
+import com.mithun.simplebible.R
+import com.mithun.simplebible.data.repository.data.FullNote
 
 object ExtensionUtils {
 
-    fun Map<Int, Verse>.toCopyText(chapterName: String): String {
-
+    fun Map<Int, String>.toCopyText(chapterName: String): String {
         val copyText = StringBuilder().apply {
             append(chapterName)
             appendLine()
@@ -16,11 +15,26 @@ object ExtensionUtils {
         forEach { entry ->
             with(copyText) {
                 append("[${entry.key}] ")
-                append(entry.value.text)
+                append(entry.value)
                 appendLine()
             }
         }
 
+        return copyText.toString()
+    }
+
+    fun FullNote.toCopyText(resourceUtil: ResourcesUtil): String {
+        val verses = this.verses.associateBy({ it.id.split(".").last().toInt() }, { it.text })
+        val copyText = StringBuilder().apply {
+            append(verses.toCopyText(this@toCopyText.chapterName))
+        }
+        with(copyText) {
+            appendLine()
+            append(resourceUtil.getString(R.string.moreOptionsNoteText))
+            appendLine()
+            append(this@toCopyText.comment)
+            appendLine()
+        }
         return copyText.toString()
     }
 }

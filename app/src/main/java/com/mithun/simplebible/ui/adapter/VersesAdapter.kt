@@ -7,14 +7,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mithun.simplebible.data.model.Verse
 import com.mithun.simplebible.ui.custom.VerseTextView
 
-class VersesAdapter(private val callback: clickListener) : ListAdapter<Verse, VersesAdapter.ViewHolder>(VersesDiffUtil()) {
+class VersesAdapter(private val callback: clickListener) :
+    ListAdapter<Verse, VersesAdapter.ViewHolder>(VersesDiffUtil()) {
 
     interface clickListener {
         fun onClick()
         fun unClick()
     }
 
-    val listOfSelectedVerses = sortedMapOf<Int, Verse>()
+    val listOfSelectedVerses = sortedMapOf<Int, String>()
 
     inner class ViewHolder(private val view: VerseTextView) : RecyclerView.ViewHolder(view) {
         fun bind(item: Verse) {
@@ -29,7 +30,7 @@ class VersesAdapter(private val callback: clickListener) : ListAdapter<Verse, Ve
 
                 if (item.isSelected) {
                     view.selectVerse()
-                    listOfSelectedVerses[item.number] = item
+                    listOfSelectedVerses[item.number] = item.text
                 } else {
                     view.unselectVerse()
                     listOfSelectedVerses.remove(item.number)
@@ -40,9 +41,6 @@ class VersesAdapter(private val callback: clickListener) : ListAdapter<Verse, Ve
                 } else {
                     callback.unClick()
                 }
-
-                // TODO show action sheet
-//                Toast.makeText(view.context, listOfSelectedVerses.toString(), Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -55,7 +53,7 @@ class VersesAdapter(private val callback: clickListener) : ListAdapter<Verse, Ve
         holder.bind(getItem(position))
     }
 
-    fun getSelectedVerses(): Map<Int, Verse> {
+    fun getSelectedVerses(): Map<Int, String> {
         return listOfSelectedVerses
     }
 }

@@ -5,11 +5,14 @@
     <string name="title_note">Note</string>
     <string name="title_bookmarks">Bookmarks</string>
     <string name="title_filter">Versions</string>
+    <string name="bibleFragmentTitle">Books</string>
 
     <!-- Menu items -->
     <string name="menu_title_save">Save</string>
+    <string name="menuItemNoteEdit">Edit</string>
+    <string name="menuItemNoteShare">Share</string>
+    <string name="menuItemNoteCopy">Copy</string>
 
-    <string name="bibleFragmentTitle">Books</string>
 
     <string name="versesActionSheetTitle"></string>
 
@@ -28,9 +31,11 @@
     <string name="actionSheetNoteLabel">Note</string>
     <string name="actionSheetBookmarkLabel">Bookmark</string>
 
-
     <!-- Bookmarks screen -->
     <string name="bookmarksTitle">Bookmarks</string>
 
+
+    <!-- Menu Action Strings -->
+    <string name="moreOptionsNoteText">Note</string>
 
 </resources>

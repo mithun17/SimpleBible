@@ -70,11 +70,10 @@ class AddEditNotesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         setupToolbar()
-
         setHasOptionsMenu(true)
         binding.tvNoteTitle.text = args.chapterFullName
+        binding.etNotesComment.setText(args.comment)
         initObserveAndSubscribe()
         notesViewModel.fetchListOfVerses(prefs.selectedBibleId, verseIds)
     }

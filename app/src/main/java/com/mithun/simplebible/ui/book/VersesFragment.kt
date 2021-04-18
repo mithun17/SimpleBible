@@ -1,13 +1,9 @@
 package com.mithun.simplebible.ui.book
 
-import android.content.ClipData
-import android.content.ClipboardManager
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -20,6 +16,8 @@ import com.mithun.simplebible.databinding.FragmentChapterVersesBinding
 import com.mithun.simplebible.ui.adapter.VersesAdapter
 import com.mithun.simplebible.ui.dialog.Action
 import com.mithun.simplebible.ui.dialog.ActionsBottomSheet
+import com.mithun.simplebible.utilities.CommonUtils.copyToClipboard
+import com.mithun.simplebible.utilities.CommonUtils.showShareIntent
 import com.mithun.simplebible.utilities.ExtensionUtils.toCopyText
 import com.mithun.simplebible.utilities.Prefs
 import com.mithun.simplebible.viewmodels.VersesViewModel
@@ -173,35 +171,17 @@ class VersesFragment : Fragment(), ActionsBottomSheet.ActionPickerListener {
             kRequestCodeActionSheet -> {
                 when (actionRequestCode) {
                     kActionRequestCodeShare -> {
-                        // TODO Add a deeplink with the content of verse
                         // Create an implicit intent to share text data to other apps
-                        val sendIntent: Intent = Intent().apply {
-                            action = Intent.ACTION_SEND
-                            putExtra(
-                                Intent.EXTRA_TEXT,
-                                versesAdapter.listOfSelectedVerses.toCopyText(chapterName)
-                            )
-                            type = "text/plain"
-                        }
-
-                        val shareIntent = Intent.createChooser(sendIntent, "Simple Bible")
-                        startActivity(shareIntent)
+                        showShareIntent(requireContext(), versesAdapter.listOfSelectedVerses.toCopyText(chapterName))
                     }
                     kActionRequestCodeCopy -> {
-                        // structure the verse text
-                        versesAdapter.listOfSelectedVerses.toCopyText(chapterName)
-
-                        val clip = ClipData.newPlainText(
-                            "label",
-                            versesAdapter.listOfSelectedVerses.toCopyText(chapterName)
-                        )
-                        val clipboard =
-                            getSystemService(requireContext(), ClipboardManager::class.java)
-                        clipboard?.setPrimaryClip(clip)
+                        // structure the verse text and copy to clipboard
+                        copyToClipboard(requireContext(), versesAdapter.listOfSelectedVerses.toCopyText(chapterName))
                     }
                     kActionRequestCodeNote -> {
                         val verseIds = versesAdapter.listOfSelectedVerses.keys.toIntArray()
-                        binding.root.findNavController().navigate(VersesFragmentDirections.actionAddEditNote(chapterName, chapterId, verseIds, null))
+                        binding.root.findNavController()
+                            .navigate(VersesFragmentDirections.actionAddEditNote(chapterName, chapterId, verseIds, null))
                     }
                     kActionRequestCodeBookmark -> {
 

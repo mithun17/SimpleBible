@@ -2,6 +2,7 @@ package com.mithun.simplebible.ui.adapter
 
 import android.text.SpannableStringBuilder
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
@@ -12,7 +13,7 @@ import com.mithun.simplebible.databinding.ListItemNoteBinding
 import com.mithun.simplebible.ui.notes.NotesFragmentDirections
 import com.mithun.simplebible.utilities.VerseFormatter
 
-class NotesAdapter(private val callback: (FullNote) -> Unit) :
+class NotesAdapter(private val callback: (View, FullNote) -> Unit) :
     ListAdapter<FullNote, NotesAdapter.ViewHolder>(NoteDiffUtil()) {
 
     inner class ViewHolder(private val binding: ListItemNoteBinding) :
@@ -34,10 +35,12 @@ class NotesAdapter(private val callback: (FullNote) -> Unit) :
             }
             binding.tvNoteVerses.text = spannableString
             binding.ivNoteShare.setOnClickListener {
+                callback(it, item)
             }
 
             binding.root.setOnClickListener {
-                it.findNavController().navigate(NotesFragmentDirections.actionAddEditNote(item.chapterName, item.chapterId, item.verseIds.toIntArray(), item.comment))
+                it.findNavController()
+                    .navigate(NotesFragmentDirections.actionAddEditNote(item.chapterName, item.chapterId, item.verseIds.toIntArray(), item.comment))
             }
         }
     }
