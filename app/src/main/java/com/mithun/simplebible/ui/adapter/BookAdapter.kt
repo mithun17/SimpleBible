@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.mithun.simplebible.data.model.Book
 import com.mithun.simplebible.databinding.ListItemBookBinding
-import com.mithun.simplebible.ui.book.HomeFragmentDirections
+import com.mithun.simplebible.ui.book.BooksFragmentDirections
 
 class BookAdapter : ListAdapter<Book, BookAdapter.ViewHolder>(BookDiffUtil()) {
 
@@ -20,7 +20,7 @@ class BookAdapter : ListAdapter<Book, BookAdapter.ViewHolder>(BookDiffUtil()) {
                 val bookName = item.name
                 val bookId = item.id
                 val chapterCount = item.chapters.last().number.toInt()
-                binding.root.findNavController().navigate(HomeFragmentDirections.actionSelectBook(bookName, bookId, chapterCount))
+                binding.root.findNavController().navigate(BooksFragmentDirections.actionSelectBook(bookName, bookId, chapterCount))
             }
         }
     }

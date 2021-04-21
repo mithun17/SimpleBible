@@ -4,13 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.mithun.simplebible.databinding.FragmentChapterSelectBinding
+import com.mithun.simplebible.ui.BaseCollapsibleFragment
 import com.mithun.simplebible.ui.adapter.ChapterAdapter
 import com.mithun.simplebible.ui.adapter.ChapterItem
 
-class ChapterSelectionFragment : Fragment() {
+class ChapterSelectionFragment : BaseCollapsibleFragment() {
 
     private var _binding: FragmentChapterSelectBinding? = null
     private val binding get() = _binding!!
@@ -37,7 +37,7 @@ class ChapterSelectionFragment : Fragment() {
         val bookId = args.bookId
         val chapterCount = args.chapterCount
 
-        binding.ctbAppBar.title = bookName
+        binding.collapsibleToolbar.ctbAppBar.title = bookName
         binding.rvChapters.adapter = chapterSelectionAdapter
         loadChaptersForBookId(bookId, bookName, chapterCount)
     }

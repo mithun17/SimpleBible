@@ -4,17 +4,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.google.android.material.snackbar.Snackbar
 import com.mithun.simplebible.databinding.FragmentBookmarksBinding
+import com.mithun.simplebible.ui.BaseCollapsibleFragment
 import com.mithun.simplebible.ui.adapter.BookmarkAdapter
 import com.mithun.simplebible.utilities.Prefs
 import com.mithun.simplebible.viewmodels.BookmarkViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class BookmarkFragment : Fragment() {
+class BookmarkFragment : BaseCollapsibleFragment() {
 
     private var _binding: FragmentBookmarksBinding? = null
     private val binding get() = _binding!!

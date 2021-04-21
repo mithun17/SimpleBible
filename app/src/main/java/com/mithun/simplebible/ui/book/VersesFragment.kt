@@ -2,9 +2,11 @@ package com.mithun.simplebible.ui.book
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
@@ -13,6 +15,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.mithun.simplebible.R
 import com.mithun.simplebible.data.database.model.Bookmark
 import com.mithun.simplebible.databinding.FragmentChapterVersesBinding
+import com.mithun.simplebible.ui.BaseCollapsibleFragment
 import com.mithun.simplebible.ui.adapter.VersesAdapter
 import com.mithun.simplebible.ui.dialog.Action
 import com.mithun.simplebible.ui.dialog.ActionsBottomSheet
@@ -23,15 +26,19 @@ import com.mithun.simplebible.utilities.Prefs
 import com.mithun.simplebible.viewmodels.VersesViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
+import javax.inject.Inject
 
 @AndroidEntryPoint
-class VersesFragment : Fragment(), ActionsBottomSheet.ActionPickerListener {
+class VersesFragment : BaseCollapsibleFragment(), ActionsBottomSheet.ActionPickerListener {
 
     // Action sheet request codes
     private val kActionRequestCodeShare = 1
     private val kActionRequestCodeCopy = 2
     private val kActionRequestCodeNote = 3
     private val kActionRequestCodeBookmark = 4
+
+    @Inject
+    lateinit var prefs: Prefs
 
     private val versesViewModel: VersesViewModel by viewModels()
 
@@ -62,8 +69,9 @@ class VersesFragment : Fragment(), ActionsBottomSheet.ActionPickerListener {
         args.chapterFullName
     }
 
-    private val prefs by lazy {
-        Prefs(requireContext())
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
     }
 
     override fun onCreateView(
@@ -84,10 +92,23 @@ class VersesFragment : Fragment(), ActionsBottomSheet.ActionPickerListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.rvVerses.adapter = versesAdapter
-
-        binding.ctbAppBar.title = chapterName
+        prefs.lastReadChapter = args.chapterId
+        binding.collapsibleToolbar.ctbAppBar.title = chapterName
         initViewModelAndSetCollectors()
         versesViewModel.getVerses(prefs.selectedBibleId, chapterId)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_overflow, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        when (item.itemId) {
+            R.id.action_version -> {
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun initViewModelAndSetCollectors() {
@@ -95,7 +116,6 @@ class VersesFragment : Fragment(), ActionsBottomSheet.ActionPickerListener {
         // set click listener
         binding.fabMore.setOnClickListener {
             fragmentManager?.let {
-
                 val actionList = mutableListOf(
                     Action(
                         kActionRequestCodeShare,

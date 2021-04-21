@@ -11,7 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.mithun.simplebible.R
 import com.mithun.simplebible.data.repository.Resource
-import com.mithun.simplebible.databinding.FragmentHomeBinding
+import com.mithun.simplebible.databinding.FragmentBooksBinding
 import com.mithun.simplebible.ui.adapter.BookAdapter
 import com.mithun.simplebible.ui.filter.FilterFragment
 import com.mithun.simplebible.viewmodels.HomeViewModel
@@ -19,11 +19,11 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
-class HomeFragment : Fragment() {
+class BooksFragment : Fragment() {
 
     private val homeViewModel: HomeViewModel by viewModels()
 
-    private var _binding: FragmentHomeBinding? = null
+    private var _binding: FragmentBooksBinding? = null
     private val binding get() = _binding!!
 
     private val bookAdapter by lazy {
@@ -31,7 +31,7 @@ class HomeFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        _binding = FragmentBooksBinding.inflate(inflater, container, false)
         binding.rvBooks.adapter = bookAdapter
 
         initUI()
@@ -45,7 +45,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun initUI() {
-
+        binding.collapsibleToolbar.ctbAppBar.title = getString(R.string.booksFragmentTitle)
         binding.fab.setOnClickListener {
             findNavController().navigate(R.id.navigation_filter)
         }

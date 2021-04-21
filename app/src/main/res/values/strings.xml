@@ -5,10 +5,11 @@
     <string name="title_note">Note</string>
     <string name="title_bookmarks">Bookmarks</string>
     <string name="title_filter">Versions</string>
-    <string name="bibleFragmentTitle">Books</string>
+    <string name="booksFragmentTitle">Books</string>
 
     <!-- Menu items -->
     <string name="menu_title_save">Save</string>
+    <string name="menu_title_version">Version</string>
     <string name="menuItemNoteEdit">Edit</string>
     <string name="menuItemNoteShare">Share</string>
     <string name="menuItemNoteCopy">Copy</string>

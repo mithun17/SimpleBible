@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -13,6 +12,7 @@ import com.mithun.simplebible.R
 import com.mithun.simplebible.data.repository.Resource
 import com.mithun.simplebible.data.repository.data.FullNote
 import com.mithun.simplebible.databinding.FragmentNotesBinding
+import com.mithun.simplebible.ui.BaseCollapsibleFragment
 import com.mithun.simplebible.ui.adapter.NotesAdapter
 import com.mithun.simplebible.utilities.CommonUtils
 import com.mithun.simplebible.utilities.ExtensionUtils.toCopyText
@@ -24,7 +24,7 @@ import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class NotesFragment : Fragment() {
+class NotesFragment : BaseCollapsibleFragment() {
 
     private var _binding: FragmentNotesBinding? = null
     private val binding get() = _binding!!

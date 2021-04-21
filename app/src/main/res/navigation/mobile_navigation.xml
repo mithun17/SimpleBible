@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.mithun.simplebible.ui.book.HomeFragment"
+        android:name="com.mithun.simplebible.ui.book.BooksFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home">
+        tools:layout="@layout/fragment_books">
         <action
             android:id="@+id/action_select_book"
             app:destination="@+id/navigation_chapters">
