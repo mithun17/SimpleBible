@@ -5,13 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.ActionBar
-import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.mithun.simplebible.data.repository.Resource
 import com.mithun.simplebible.databinding.FragmentFilterBinding
+import com.mithun.simplebible.ui.BaseFragment
 import com.mithun.simplebible.ui.adapter.BibleFilterAdapter
 import com.mithun.simplebible.utilities.Prefs
 import com.mithun.simplebible.viewmodels.FilterViewModel
@@ -20,7 +19,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class FilterFragment : Fragment() {
+class FilterFragment : BaseFragment() {
 
     companion object {
         const val kSelectedBible = "selectedBibleId"
@@ -60,16 +59,8 @@ class FilterFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupToolbar()
         binding.rvBibleFilter.adapter = filterAdapter
         initSubscribeAndObserve()
-    }
-
-    private fun setupToolbar() {
-        supportActionBar = (requireActivity() as AppCompatActivity).supportActionBar
-        supportActionBar?.show()
-        supportActionBar?.setShowHideAnimationEnabled(false)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
     private fun initSubscribeAndObserve() {

@@ -58,6 +58,7 @@
     </style>
 
     <style name="ThemeOverlay.AppCompat.ActionBar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:elevation">4dp</item>
         <item name="android:textColorPrimary">@color/primaryText</item>
         <item name="actionMenuTextColor">@color/primaryText</item>
         <item name="colorControlNormal">@color/primaryText</item>

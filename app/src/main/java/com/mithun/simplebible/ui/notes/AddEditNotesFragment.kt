@@ -9,8 +9,6 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.ActionBar
-import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -18,6 +16,7 @@ import androidx.navigation.fragment.navArgs
 import com.mithun.simplebible.R
 import com.mithun.simplebible.data.repository.Resource
 import com.mithun.simplebible.databinding.FragmentAddEditNoteBinding
+import com.mithun.simplebible.ui.BaseFragment
 import com.mithun.simplebible.utilities.Prefs
 import com.mithun.simplebible.utilities.VerseFormatter
 import com.mithun.simplebible.utilities.gone
@@ -27,7 +26,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
-class AddEditNotesFragment : Fragment() {
+class AddEditNotesFragment : BaseFragment() {
 
     private var _binding: FragmentAddEditNoteBinding? = null
     private val binding get() = _binding!!
@@ -70,19 +69,11 @@ class AddEditNotesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupToolbar()
         setHasOptionsMenu(true)
         binding.tvNoteTitle.text = args.chapterFullName
         binding.etNotesComment.setText(args.comment)
         initObserveAndSubscribe()
         notesViewModel.fetchListOfVerses(prefs.selectedBibleId, verseIds)
-    }
-
-    private fun setupToolbar() {
-        supportActionBar = (requireActivity() as AppCompatActivity).supportActionBar
-        supportActionBar?.show()
-        supportActionBar?.setShowHideAnimationEnabled(false)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
