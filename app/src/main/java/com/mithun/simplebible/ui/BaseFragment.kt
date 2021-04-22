@@ -11,7 +11,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.mithun.simplebible.R
 
-open class BaseFragment: Fragment() {
+open class BaseFragment : Fragment() {
     protected lateinit var toolbar: Toolbar
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
