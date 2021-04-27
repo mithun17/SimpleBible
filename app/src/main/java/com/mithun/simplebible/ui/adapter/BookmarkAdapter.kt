@@ -1,17 +1,18 @@
 package com.mithun.simplebible.ui.adapter
 
+import android.text.SpannableStringBuilder
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.mithun.simplebible.data.database.model.Bookmark
 import com.mithun.simplebible.databinding.ListItemBookmarkBinding
+import com.mithun.simplebible.utilities.VerseFormatter
 
 class BookmarkAdapter :
     RecyclerView.Adapter<BookmarkAdapter.ViewHolder>() {
 
-    private var bookmarkList: List<Bookmark> = mutableListOf()
+    private var bookmarkList: List<BookmarkItem> = mutableListOf()
 
-    fun setBookmarks(bookmarks: List<Bookmark>) {
+    fun setBookmarks(bookmarks: List<BookmarkItem>) {
         bookmarkList = bookmarks
     }
 
@@ -21,8 +22,19 @@ class BookmarkAdapter :
 
     inner class ViewHolder(private val binding: ListItemBookmarkBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(bookmark: Bookmark) {
-            binding.tvBookmarkVerse.text = bookmark.verse
+        fun bind(bookmark: BookmarkItem) {
+
+            val spannableString = SpannableStringBuilder()
+
+            spannableString.append(
+                VerseFormatter.formatVerseForDisplay(
+                    binding.root.context,
+                    bookmark.verseId.split(".").last().toInt(),
+                    bookmark.verse
+                )
+            )
+            binding.tvBookmarkVerse.text = spannableString
+            binding.tvBookmarkTitle.text = bookmark.reference
         }
     }
 
@@ -36,3 +48,12 @@ class BookmarkAdapter :
 
     override fun getItemCount(): Int = bookmarkList.size
 }
+
+class BookmarkItem(
+    val id: Long = 0,
+    val bibleId: String,
+    val chapterId: String,
+    val verseId: String,
+    val verse: String,
+    val reference: String
+)

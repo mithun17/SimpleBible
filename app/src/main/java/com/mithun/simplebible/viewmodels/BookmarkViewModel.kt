@@ -1,15 +1,14 @@
 package com.mithun.simplebible.viewmodels
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mithun.simplebible.data.database.model.Bookmark
-import com.mithun.simplebible.data.database.model.VerseEntity
 import com.mithun.simplebible.data.repository.BookmarkRepository
 import com.mithun.simplebible.data.repository.Resource
 import com.mithun.simplebible.data.repository.VersesRepository
+import com.mithun.simplebible.ui.adapter.BookmarkItem
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -19,26 +18,30 @@ class BookmarkViewModel @Inject constructor(
     private val versesRepository: VersesRepository
 ) : ViewModel() {
 
-    private val _lvBookmarks = MutableLiveData<Resource<List<Bookmark>>>().apply {
-        Resource.Loading(null)
-    }
-    val lvBookmarks: LiveData<Resource<List<Bookmark>>> = _lvBookmarks
+    private val _lvBookmarks = MutableStateFlow<Resource<List<BookmarkItem>>>(Resource.Loading(emptyList()))
+    val lvBookmarks: StateFlow<Resource<List<BookmarkItem>>> = _lvBookmarks
 
-    private val _lvBookmarkVerse = MutableLiveData<Resource<VerseEntity>>().apply {
-        Resource.Loading(null)
-    }
-    val lvBookmarkVerse: LiveData<Resource<VerseEntity>> = _lvBookmarkVerse
-
-    fun getAllBookmarks(bibleId: String) {
+    fun getAllBookmarks() {
         _lvBookmarks.value = Resource.Loading(null)
         viewModelScope.launch {
-            _lvBookmarks.value = Resource.Success(bookmarkRepository.getAllBookmarks())
-        }
-    }
 
-    fun getBookmarkVerse(bibleId: String, verseId: String) {
-        viewModelScope.launch {
-            _lvBookmarkVerse.value = Resource.Success(versesRepository.getVerseById(bibleId, verseId))
+            val listOfBookmarkItems = mutableListOf<BookmarkItem>()
+            val bookmarks = bookmarkRepository.getAllBookmarks()
+
+            bookmarks.forEach { bookmark ->
+                val verse = versesRepository.getVerseById(bookmark.bibleId, bookmark.verseId)
+                listOfBookmarkItems.add(
+                    BookmarkItem(
+                        id = bookmark.id,
+                        bibleId = bookmark.bibleId,
+                        chapterId = bookmark.chapterId,
+                        verseId = bookmark.verseId,
+                        verse = verse.text,
+                        reference = verse.reference
+                    )
+                )
+            }
+            _lvBookmarks.value = Resource.Success(listOfBookmarkItems)
         }
     }
 }

@@ -246,7 +246,7 @@ class VersesFragment : BaseCollapsibleFragment(), ActionsBottomSheet.ActionPicke
                         val bookmark = Bookmark(
                             bibleId = prefs.selectedBibleVersionId,
                             chapterId = chapterId,
-                            verse = verseId
+                            verseId = verseId
                         )
 
                         versesViewModel.saveBookmark(verseId, bookmark)

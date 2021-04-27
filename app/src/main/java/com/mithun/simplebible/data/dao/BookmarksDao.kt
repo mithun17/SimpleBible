@@ -10,7 +10,7 @@ import com.mithun.simplebible.data.database.model.Bookmark
 interface BookmarksDao {
 
     // get bookmarks sorted by last updated being at the top
-    @Query("SELECT * FROM bookmarks GROUP BY bibleId, verse ORDER BY dateUpdated DESC")
+    @Query("SELECT * FROM bookmarks GROUP BY bibleId, verseId ORDER BY dateUpdated DESC")
     suspend fun getBookmarks(): List<Bookmark>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

@@ -5,13 +5,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
+import com.mithun.simplebible.data.repository.Resource
 import com.mithun.simplebible.databinding.FragmentBookmarksBinding
 import com.mithun.simplebible.ui.BaseFragment
 import com.mithun.simplebible.ui.adapter.BookmarkAdapter
 import com.mithun.simplebible.utilities.Prefs
+import com.mithun.simplebible.utilities.gone
+import com.mithun.simplebible.utilities.visible
 import com.mithun.simplebible.viewmodels.BookmarkViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class BookmarkFragment : BaseFragment() {
@@ -45,25 +51,33 @@ class BookmarkFragment : BaseFragment() {
     }
 
     private fun initViewModelAndObservers() {
-        bookmarkViewModel.lvBookmarks.observe(
-            viewLifecycleOwner,
-            { resource ->
-                resource.message?.let { errorMessage ->
-                    // error
-                    Snackbar.make(binding.root, errorMessage, Snackbar.LENGTH_LONG).show()
-                }
 
-                resource.data?.let { bookmarks ->
-                    bookmarkAdapter.setBookmarks(bookmarks)
-                    bookmarkAdapter.notifyDataSetChanged()
-                    binding.pbLoading.visibility = View.GONE
-                } ?: run {
-                    binding.pbLoading.visibility = View.VISIBLE
+        lifecycleScope.launch {
+            bookmarkViewModel.lvBookmarks.collect { resource ->
+
+                when (resource) {
+                    is Resource.Loading -> {
+                        binding.pbLoading.visible
+                    }
+                    is Resource.Success -> {
+                        resource.data?.let { bookmarks ->
+                            bookmarkAdapter.setBookmarks(bookmarks)
+                            bookmarkAdapter.notifyDataSetChanged()
+                            binding.pbLoading.gone
+                        }
+                    }
+                    is Resource.Error -> {
+                        resource.message?.let { errorMessage ->
+                            // error
+                            Snackbar.make(binding.root, errorMessage, Snackbar.LENGTH_LONG).show()
+                            binding.pbLoading.gone
+                        }
+                    }
                 }
             }
-        )
+        }
 
-        bookmarkViewModel.getAllBookmarks(prefs.selectedBibleVersionId)
+        bookmarkViewModel.getAllBookmarks()
     }
 
     override fun onDestroyView() {
