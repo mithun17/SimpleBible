@@ -4,37 +4,48 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
-import com.mithun.simplebible.R
-import com.mithun.simplebible.data.repository.Resource
 import com.mithun.simplebible.databinding.FragmentBooksBinding
 import com.mithun.simplebible.ui.adapter.BookAdapter
-import com.mithun.simplebible.ui.filter.FilterFragment
-import com.mithun.simplebible.viewmodels.HomeViewModel
+import com.mithun.simplebible.viewmodels.SelectionViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
 class BooksFragment : Fragment() {
 
-    private val homeViewModel: HomeViewModel by viewModels()
+    companion object {
+        // key set to track the status of book selection in view pager
+        const val kBookSelectState = "bookSelectState"
+    }
+
+    private val selectionViewModel: SelectionViewModel by viewModels({ requireParentFragment() })
 
     private var _binding: FragmentBooksBinding? = null
     private val binding get() = _binding!!
 
     private val bookAdapter by lazy {
-        BookAdapter()
+        BookAdapter { bookName, bookId, chapterCount ->
+            selectionViewModel.setSelectedBookId(bookId)
+            selectionViewModel.setSelectedBookName(bookName)
+            setResult()
+        }
+    }
+
+    private fun setResult() {
+        setFragmentResult(SelectionFragment.kRequestKeyBookSelectFragment, bundleOf(kBookSelectState to true))
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentBooksBinding.inflate(inflater, container, false)
         binding.rvBooks.adapter = bookAdapter
 
-        initUI()
+//        initUI()
         initViewModelAndObservers()
         return binding.root
     }
@@ -44,21 +55,9 @@ class BooksFragment : Fragment() {
         _binding = null
     }
 
-    private fun initUI() {
-        binding.collapsibleToolbar.ctbAppBar.title = getString(R.string.booksFragmentTitle)
-        binding.fab.setOnClickListener {
-            findNavController().navigate(R.id.navigation_filter)
-        }
-        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<String>(FilterFragment.kSelectedBible)
-            ?.observe(viewLifecycleOwner) { version ->
-                homeViewModel.setSelectedBible(version)
-                findNavController().currentBackStackEntry?.savedStateHandle?.remove<String>(FilterFragment.kSelectedBible)
-            }
-    }
-
     private fun initViewModelAndObservers() {
         lifecycleScope.launchWhenCreated {
-            homeViewModel.books.collect { resource ->
+            selectionViewModel.books.collect { resource ->
                 resource.message?.let { errorMessage ->
                     // error
                     Snackbar.make(binding.root, errorMessage, Snackbar.LENGTH_LONG).show()
@@ -66,23 +65,11 @@ class BooksFragment : Fragment() {
                 resource.data?.let { listOfBooks ->
                     // success or error data
                     bookAdapter.submitList(listOfBooks)
+                    bookAdapter.setSelectedBook(selectionViewModel.selectedBookId.value)
                     binding.pbHome.visibility = View.GONE
                 } ?: run {
                     // Loading message
                     binding.pbHome.visibility = View.VISIBLE
-                }
-            }
-        }
-
-        lifecycleScope.launchWhenCreated {
-            homeViewModel.bible.collect { resource ->
-                when (resource) {
-                    is Resource.Success -> {
-                        binding.fab.text = resource.data?.abbreviationLocal
-                    }
-                    is Resource.Error -> {
-                        binding.fab.text = ""
-                    }
                 }
             }
         }

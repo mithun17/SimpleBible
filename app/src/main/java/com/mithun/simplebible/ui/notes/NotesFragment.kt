@@ -12,7 +12,7 @@ import com.mithun.simplebible.R
 import com.mithun.simplebible.data.repository.Resource
 import com.mithun.simplebible.data.repository.data.FullNote
 import com.mithun.simplebible.databinding.FragmentNotesBinding
-import com.mithun.simplebible.ui.BaseCollapsibleFragment
+import com.mithun.simplebible.ui.BaseFragment
 import com.mithun.simplebible.ui.adapter.NotesAdapter
 import com.mithun.simplebible.utilities.CommonUtils
 import com.mithun.simplebible.utilities.ExtensionUtils.toCopyText
@@ -24,7 +24,7 @@ import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class NotesFragment : BaseCollapsibleFragment() {
+class NotesFragment : BaseFragment() {
 
     private var _binding: FragmentNotesBinding? = null
     private val binding get() = _binding!!
@@ -80,7 +80,7 @@ class NotesFragment : BaseCollapsibleFragment() {
             }
         }
 
-        notesViewModel.fetchNotes(prefs.selectedBibleId)
+        notesViewModel.fetchNotes(prefs.selectedBibleVersionId)
     }
 
     private fun shareNote(card: View, note: FullNote) {

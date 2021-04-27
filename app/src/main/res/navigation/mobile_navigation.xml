@@ -3,62 +3,49 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@+id/navigation_chapter_verses">
 
     <fragment
-        android:id="@+id/navigation_home"
+        android:id="@+id/navigation_book_select"
+        android:name="com.mithun.simplebible.ui.book.SelectionFragment"
+        android:label="@string/bookSelectTitle"
+        tools:layout="@layout/fragment_selection" />
+
+    <fragment
+        android:id="@+id/navigation_books"
         android:name="com.mithun.simplebible.ui.book.BooksFragment"
-        android:label="@string/title_home"
+        android:label="@string/title_read"
         tools:layout="@layout/fragment_books">
-        <action
-            android:id="@+id/action_select_book"
-            app:destination="@+id/navigation_chapters">
-            <argument
-                android:name="bookName"
-                app:argType="string"/>
-            <argument
-                android:name="bookId"
-                app:argType="string"/>
-            <argument
-                android:name="chapterCount"
-                app:argType="integer"/>
-        </action>
+        <argument
+            android:name="bookId"
+            android:defaultValue="GEN"
+            app:argType="string" />
     </fragment>
 
-    <action android:id="@+id/action_global_navigation_filter" app:destination="@id/navigation_filter"/>
+    <action
+        android:id="@+id/action_global_navigation_filter"
+        app:destination="@id/navigation_filter" />
 
     <fragment
         android:id="@+id/navigation_filter"
         android:name="com.mithun.simplebible.ui.filter.FilterFragment"
         android:label="@string/title_filter"
-        tools:layout="@layout/fragment_filter">
-    </fragment>
+        tools:layout="@layout/fragment_filter" />
 
     <fragment
         android:id="@+id/navigation_chapters"
         android:name="com.mithun.simplebible.ui.book.ChapterSelectionFragment"
         android:label="Chapter"
         tools:layout="@layout/fragment_chapter_select">
-        <argument
-            android:name="bookName"
-            app:argType="string"
-            android:defaultValue="Chapters"/>
-        <argument
-            android:name="bookId"
-            app:argType="string"/>
-        <argument
-            android:name="chapterCount"
-            app:argType="integer"
-            android:defaultValue="1"/>
         <action
             android:id="@+id/action_select_verse"
             app:destination="@+id/navigation_chapter_verses">
             <argument
                 android:name="chapterId"
-                app:argType="string"/>
+                app:argType="string" />
             <argument
                 android:name="chapterFullName"
-                app:argType="string"/>
+                app:argType="string" />
         </action>
     </fragment>
 
@@ -69,22 +56,33 @@
         tools:layout="@layout/fragment_chapter_verses">
         <argument
             android:name="chapterId"
-            app:argType="string"/>
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
         <argument
             android:name="chapterFullName"
-            app:argType="string"/>
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
         <action
             android:id="@+id/action_add_edit_note"
             app:destination="@id/navigation_add_edit_note">
             <argument
                 android:name="chapterFullName"
-                app:argType="string"/>
+                app:argType="string" />
             <argument
                 android:name="chapterId"
-                app:argType="string"/>
+                app:argType="string" />
             <argument
                 android:name="verses"
-                app:argType="integer[]"/>
+                app:argType="integer[]" />
+        </action>
+        <action
+            android:id="@+id/action_navigation_chapter_verses_to_navigation_books"
+            app:destination="@id/navigation_book_select">
+            <argument
+                android:name="bookId"
+                app:argType="string" />
         </action>
     </fragment>
 
@@ -98,13 +96,13 @@
             app:destination="@id/navigation_add_edit_note">
             <argument
                 android:name="chapterFullName"
-                app:argType="string"/>
+                app:argType="string" />
             <argument
                 android:name="chapterId"
-                app:argType="string"/>
+                app:argType="string" />
             <argument
                 android:name="verses"
-                app:argType="integer[]"/>
+                app:argType="integer[]" />
         </action>
     </fragment>
 
@@ -115,13 +113,13 @@
         tools:layout="@layout/fragment_add_edit_note">
         <argument
             android:name="chapterFullName"
-            app:argType="string"/>
+            app:argType="string" />
         <argument
             android:name="chapterId"
-            app:argType="string"/>
+            app:argType="string" />
         <argument
             android:name="verses"
-            app:argType="integer[]"/>
+            app:argType="integer[]" />
         <argument
             android:name="comment"
             app:argType="string"
@@ -132,11 +130,11 @@
         android:id="@+id/navigation_bookmarks"
         android:name="com.mithun.simplebible.ui.bookmark.BookmarkFragment"
         android:label="@string/title_bookmarks"
-        tools:layout="@layout/fragment_bookmarks"/>
+        tools:layout="@layout/fragment_bookmarks" />
 
 
     <dialog
         android:id="@+id/bookmarkVerseDialog"
         android:name="com.mithun.simplebible.ui.dialog.BookmarkVerseDialog"
-        android:label="BookmarkVerseDialog"/>
+        android:label="BookmarkVerseDialog" />
 </navigation>

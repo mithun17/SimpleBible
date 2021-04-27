@@ -39,13 +39,18 @@ class VersesViewModel @Inject constructor(
 
     fun getVerses(bibleId: String, chapterId: String) {
         _verses.value = Resource.Loading(null)
+
         viewModelScope.launch(versesExceptionHandler) {
             _verses.value = Resource.Success(versesRepository.getVerses(bibleId, chapterId))
         }
     }
 
-    fun saveBookmark(verseId: String, bookmark: Bookmark) {
+    fun getChapterName(bibleId: String, chapterId: String) {
+        viewModelScope.launch {
+        }
+    }
 
+    fun saveBookmark(verseId: String, bookmark: Bookmark) {
         _bookmarkSaveState.value = Resource.Loading(null)
         viewModelScope.launch(bookmarkExceptionHandler) {
             _bookmarkSaveState.value = Resource.Success(versesRepository.saveBookmark(verseId, bookmark))

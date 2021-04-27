@@ -2,9 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/navigation_home"
-        android:icon="@drawable/ic_menu_home"
-        android:title="@string/title_home"/>
+        android:id="@+id/navigation_chapter_verses"
+        android:icon="@drawable/ic_read"
+        android:title="@string/title_read"/>
 
     <item
         android:id="@+id/navigation_notes"

@@ -15,6 +15,7 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.snackbar.Snackbar
 import com.mithun.simplebible.R
 import com.mithun.simplebible.data.database.model.Bookmark
+import com.mithun.simplebible.data.repository.Resource
 import com.mithun.simplebible.databinding.FragmentChapterVersesBinding
 import com.mithun.simplebible.ui.BaseCollapsibleFragment
 import com.mithun.simplebible.ui.adapter.VersesAdapter
@@ -26,7 +27,9 @@ import com.mithun.simplebible.utilities.ExtensionUtils.toCopyText
 import com.mithun.simplebible.utilities.Prefs
 import com.mithun.simplebible.viewmodels.VersesViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -45,6 +48,7 @@ class VersesFragment : BaseCollapsibleFragment(), ActionsBottomSheet.ActionPicke
 
     private var _binding: FragmentChapterVersesBinding? = null
     private val binding get() = _binding!!
+    private var lookupJob: Job? = null
 
     val args: VersesFragmentArgs by navArgs()
 
@@ -55,20 +59,15 @@ class VersesFragment : BaseCollapsibleFragment(), ActionsBottomSheet.ActionPicke
             override fun onClick() {
                 binding.fabMore.show()
             }
-
             override fun unClick() {
                 binding.fabMore.hide()
             }
         })
     }
 
-    private val chapterId by lazy {
-        args.chapterId
-    }
-
-    private val chapterName by lazy {
-        args.chapterFullName
-    }
+    private lateinit var chapterId: String
+    private lateinit var chapterName: String
+    private lateinit var menu: Menu
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,7 +79,6 @@ class VersesFragment : BaseCollapsibleFragment(), ActionsBottomSheet.ActionPicke
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         _binding = FragmentChapterVersesBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -93,14 +91,37 @@ class VersesFragment : BaseCollapsibleFragment(), ActionsBottomSheet.ActionPicke
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.rvVerses.adapter = versesAdapter
-        prefs.lastReadChapter = args.chapterId
-        binding.collapsibleToolbar.ctbAppBar.title = chapterName
+
+        chapterId = args.chapterId ?: prefs.lastReadChapter
+        chapterName = args.chapterFullName ?: ""
+
+        setTitle(chapterName)
+        initUI()
         initViewModelAndSetCollectors()
-        versesViewModel.getVerses(prefs.selectedBibleId, chapterId)
+        versesViewModel.getVerses(prefs.selectedBibleVersionId, chapterId)
+    }
+
+    private fun initUI() {
+        binding.fabSelectBook.setOnClickListener {
+            navigateToBookSelection()
+        }
+        setSelectionClickListener {
+            navigateToBookSelection()
+        }
+    }
+
+    private fun navigateToBookSelection() {
+        findNavController().navigate(VersesFragmentDirections.actionNavigationChapterVersesToNavigationBooks(chapterId.split(".").first()))
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        this.menu = menu
         inflater.inflate(R.menu.menu_overflow, menu)
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        super.onPrepareOptionsMenu(menu)
+        menu.findItem(R.id.action_version).title = prefs.selectedBibleVersionName
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -151,20 +172,33 @@ class VersesFragment : BaseCollapsibleFragment(), ActionsBottomSheet.ActionPicke
                     .show()
             }
         }
-        lifecycleScope.launchWhenCreated {
+
+        lookupJob?.cancel()
+        lookupJob = lifecycleScope.launch {
             versesViewModel.verses.collect { resource ->
-                resource.message?.let { errorMessage ->
-                    // error
-                    Snackbar.make(binding.root, errorMessage, Snackbar.LENGTH_LONG).show()
-                    binding.pbDialog.visibility = View.GONE
-                }
-                resource.data?.let { listOfVerses ->
-                    // success or error data
-                    versesAdapter.submitList(listOfVerses)
-                    binding.pbDialog.visibility = View.GONE
-                } ?: run {
-                    // Loading message
-                    binding.pbDialog.visibility = View.VISIBLE
+                when (resource) {
+                    is Resource.Loading -> {
+                        // Loading message
+                        binding.pbDialog.visibility = View.VISIBLE
+                    }
+                    is Resource.Success -> {
+                        val listOfVerses = resource.data
+                        // success or error data
+                        listOfVerses?.let { verses ->
+                            if (verses.isNotEmpty()) {
+                                chapterName = verses.first().reference
+                                setTitle(chapterName)
+                            }
+                        }
+                        versesAdapter.submitList(listOfVerses)
+                        binding.pbDialog.visibility = View.GONE
+                    }
+                    is Resource.Error -> {
+                        // error
+                        val errorMessage = resource.message
+                        Snackbar.make(binding.root, errorMessage ?: "", Snackbar.LENGTH_LONG).show()
+                        binding.pbDialog.visibility = View.GONE
+                    }
                 }
             }
 
@@ -210,12 +244,13 @@ class VersesFragment : BaseCollapsibleFragment(), ActionsBottomSheet.ActionPicke
                         val verseId = "$chapterId.$verseNumber"
 
                         val bookmark = Bookmark(
-                            bibleId = prefs.selectedBibleId,
+                            bibleId = prefs.selectedBibleVersionId,
                             chapterId = chapterId,
                             verse = verseId
                         )
 
                         versesViewModel.saveBookmark(verseId, bookmark)
+                        versesAdapter.setBookmarked(verseNumber)
                     }
                 }
             }

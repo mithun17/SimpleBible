@@ -1,11 +1,12 @@
 <resources>
     <string name="app_name">Simple Bible</string>
-    <string name="title_home">Home</string>
+    <string name="title_read">Read</string>
     <string name="title_notes">Notes</string>
     <string name="title_note">Note</string>
     <string name="title_bookmarks">Bookmarks</string>
     <string name="title_filter">Versions</string>
     <string name="booksFragmentTitle">Books</string>
+    <string name="bookSelectTitle">Select</string>
 
     <!-- Menu items -->
     <string name="menu_title_save">Save</string>
@@ -15,7 +16,7 @@
     <string name="menuItemNoteCopy">Copy</string>
 
 
-    <string name="versesActionSheetTitle"></string>
+    <string name="versesActionSheetTitle">More Actions</string>
 
     <!-- Error strings -->
     <string name="errorGenericString">Something went wrong. please try again later.</string>
@@ -38,5 +39,11 @@
 
     <!-- Menu Action Strings -->
     <string name="moreOptionsNoteText">Note</string>
+    <string name="contentDescriptionSelectBook">select book</string>
+
+    <!-- View Pager page titles -->
+    <string name="title_tab_books">Books</string>
+    <string name="title_tab_chapters">Chapters</string>
+    <string name="title_tab_verses">Verses</string>
 
 </resources>

@@ -2,25 +2,36 @@ package com.mithun.simplebible.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.navigation.findNavController
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.mithun.simplebible.R
 import com.mithun.simplebible.data.model.Book
 import com.mithun.simplebible.databinding.ListItemBookBinding
-import com.mithun.simplebible.ui.book.BooksFragmentDirections
 
-class BookAdapter : ListAdapter<Book, BookAdapter.ViewHolder>(BookDiffUtil()) {
+class BookAdapter constructor(private val bookSelectListener: (bookName: String, bookId: String, chapterCount: Int) -> Unit) : ListAdapter<Book, BookAdapter.ViewHolder>(BookDiffUtil()) {
 
-    class ViewHolder(private val binding: ListItemBookBinding) :
+    private var selectedBookId = ""
+
+    inner class ViewHolder(private val binding: ListItemBookBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Book) {
             binding.tvBookName.text = item.name
+
             binding.root.setOnClickListener {
                 val bookName = item.name
                 val bookId = item.id
                 val chapterCount = item.chapters.last().number.toInt()
-                binding.root.findNavController().navigate(BooksFragmentDirections.actionSelectBook(bookName, bookId, chapterCount))
+                selectedBookId = bookId
+                bookSelectListener.invoke(bookName, bookId, chapterCount)
+            }
+
+            // set selected item style
+            if (item.id == selectedBookId) {
+                binding.tvBookName.setTextColor(ContextCompat.getColor(binding.root.context, R.color.selectedState))
+            } else {
+                binding.tvBookName.setTextColor(ContextCompat.getColor(binding.root.context, R.color.black))
             }
         }
     }
@@ -31,6 +42,11 @@ class BookAdapter : ListAdapter<Book, BookAdapter.ViewHolder>(BookDiffUtil()) {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(getItem(position))
+    }
+
+    fun setSelectedBook(bookId: String) {
+        selectedBookId = bookId
+        notifyDataSetChanged()
     }
 }
 

@@ -31,8 +31,8 @@ class FilterFragment : BaseFragment() {
     private val filterViewModel: FilterViewModel by viewModels()
 
     private val filterAdapter by lazy {
-        BibleFilterAdapter {
-            selectBible(it)
+        BibleFilterAdapter { (id, name) ->
+            selectBible(id, name)
         }
     }
 
@@ -70,7 +70,7 @@ class FilterFragment : BaseFragment() {
                 when (resource) {
                     is Resource.Success -> {
                         val data = resource.data
-                        filterAdapter.selectedId = prefs.selectedBibleId
+                        filterAdapter.selectedId = prefs.selectedBibleVersionId
                         filterAdapter.submitList(data)
                     }
                     is Resource.Loading -> {
@@ -82,9 +82,10 @@ class FilterFragment : BaseFragment() {
         }
     }
 
-    private fun selectBible(biblePair: Pair<String, String>) {
-        prefs.selectedBibleId = biblePair.first
-        findNavController().previousBackStackEntry?.savedStateHandle?.set(kSelectedBible, biblePair.first)
+    private fun selectBible(bibleVersionId: String, bibleVersionName: String) {
+        prefs.selectedBibleVersionId = bibleVersionId
+        prefs.selectedBibleVersionName = bibleVersionName
+        findNavController().previousBackStackEntry?.savedStateHandle?.set(kSelectedBible, bibleVersionId)
         findNavController().popBackStack()
     }
 }

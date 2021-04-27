@@ -7,14 +7,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.google.android.material.snackbar.Snackbar
 import com.mithun.simplebible.databinding.FragmentBookmarksBinding
-import com.mithun.simplebible.ui.BaseCollapsibleFragment
+import com.mithun.simplebible.ui.BaseFragment
 import com.mithun.simplebible.ui.adapter.BookmarkAdapter
 import com.mithun.simplebible.utilities.Prefs
 import com.mithun.simplebible.viewmodels.BookmarkViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class BookmarkFragment : BaseCollapsibleFragment() {
+class BookmarkFragment : BaseFragment() {
 
     private var _binding: FragmentBookmarksBinding? = null
     private val binding get() = _binding!!
@@ -33,8 +33,7 @@ class BookmarkFragment : BaseCollapsibleFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-
+    ): View {
         _binding = FragmentBookmarksBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -57,14 +56,14 @@ class BookmarkFragment : BaseCollapsibleFragment() {
                 resource.data?.let { bookmarks ->
                     bookmarkAdapter.setBookmarks(bookmarks)
                     bookmarkAdapter.notifyDataSetChanged()
-                    binding.pbHome.visibility = View.GONE
+                    binding.pbLoading.visibility = View.GONE
                 } ?: run {
-                    binding.pbHome.visibility = View.VISIBLE
+                    binding.pbLoading.visibility = View.VISIBLE
                 }
             }
         )
 
-        bookmarkViewModel.getAllBookmarks(prefs.selectedBibleId)
+        bookmarkViewModel.getAllBookmarks(prefs.selectedBibleVersionId)
     }
 
     override fun onDestroyView() {

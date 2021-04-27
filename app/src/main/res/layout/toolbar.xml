@@ -6,7 +6,8 @@
     android:layout_height="?attr/actionBarSize"
     android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
     app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
-    app:titleTextAppearance="@style/Toolbar.Text"
-    tools:title="Toolbar title" />
+    tools:title="Toolbar"
+    app:titleTextAppearance="@style/Headline6">
+</androidx.appcompat.widget.Toolbar>
 
 

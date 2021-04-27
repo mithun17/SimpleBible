@@ -73,7 +73,7 @@ class AddEditNotesFragment : BaseFragment() {
         binding.tvNoteTitle.text = args.chapterFullName
         binding.etNotesComment.setText(args.comment)
         initObserveAndSubscribe()
-        notesViewModel.fetchListOfVerses(prefs.selectedBibleId, verseIds)
+        notesViewModel.fetchListOfVerses(prefs.selectedBibleVersionId, verseIds)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -98,7 +98,7 @@ class AddEditNotesFragment : BaseFragment() {
     private fun saveNote() {
         val comment = binding.etNotesComment.text.toString()
         notesViewModel.saveNote(
-            bibleVersionId = prefs.selectedBibleId,
+            bibleVersionId = prefs.selectedBibleVersionId,
             chapterId = args.chapterId,
             chapterName = args.chapterFullName,
             verseIds = args.verses.toList(),

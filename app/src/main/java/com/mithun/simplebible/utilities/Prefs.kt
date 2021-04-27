@@ -44,16 +44,21 @@ class Prefs @Inject constructor(private val context: Context) {
         }
     }
 
-    var selectedBibleId: String
-        get() = get(PREF_SELECTED_BIBLE_ID, KJV_BIBLE_ID)
-        set(value) = set(PREF_SELECTED_BIBLE_ID, value)
+    var selectedBibleVersionId: String
+        get() = get(PREF_SELECTED_BIBLE_VERSION_ID, DEFAULT_BIBLE_ID)
+        set(value) = set(PREF_SELECTED_BIBLE_VERSION_ID, value)
+
+    var selectedBibleVersionName: String
+        get() = get(PREF_SELECTED_BIBLE_VERSION_NAME, DEFAULT_BIBLE_VERSION)
+        set(value) = set(PREF_SELECTED_BIBLE_VERSION_NAME, value)
 
     var lastReadChapter: String
         get() = get(PREF_LAST_READ_CHAPTER_ID, kLastReadChapterDefaultId)
         set(value) = set(PREF_LAST_READ_CHAPTER_ID, value)
 
     companion object {
-        private const val PREF_SELECTED_BIBLE_ID = "PrefSelectedBibleId"
+        private const val PREF_SELECTED_BIBLE_VERSION_ID = "PrefSelectedBibleVersionId"
+        private const val PREF_SELECTED_BIBLE_VERSION_NAME = "PrefSelectedBibleVersionName"
         private const val PREF_LAST_READ_CHAPTER_ID = "PrefLastReadChapterId"
 
         private const val kLastReadChapterDefaultId = "JHN.3"

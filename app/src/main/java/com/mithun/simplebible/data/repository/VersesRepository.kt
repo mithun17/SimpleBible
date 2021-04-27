@@ -73,6 +73,7 @@ class VersesRepository @Inject constructor(
                     id = it.key,
                     chapterId = chapter.id,
                     bibleId = chapter.bibleId,
+                    reference = chapter.reference,
                     number = verseNumber,
                     text = verseText,
                     bookmarks = emptyList(),
@@ -86,7 +87,7 @@ class VersesRepository @Inject constructor(
         }
 
         val result = verses.map { verse ->
-            Verse(verse.number.toInt(), verse.text, hasNotes = verse.notes.isNotEmpty(), isBookmarked = verse.bookmarks.isNotEmpty())
+            Verse(verse.number.toInt(), verse.reference, verse.text, hasNotes = verse.notes.isNotEmpty(), isBookmarked = verse.bookmarks.isNotEmpty())
         }.toList().sortedBy { it.number }
 
         return result

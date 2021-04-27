@@ -36,11 +36,11 @@ class FilterViewModel @Inject constructor(
     init {
         viewModelScope.launch(biblesExceptionHandler) {
             _bibles.value = Resource.Success(bibleRepository.getPresetBibles())
-            _bibleSelection.value = prefs.selectedBibleId
+            _bibleSelection.value = prefs.selectedBibleVersionId
         }
     }
 
     fun saveBibleSelection(bibleId: String) {
-        prefs.selectedBibleId = bibleId
+        prefs.selectedBibleVersionId = bibleId
     }
 }

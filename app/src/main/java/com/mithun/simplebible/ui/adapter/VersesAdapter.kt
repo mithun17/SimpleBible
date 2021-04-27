@@ -53,8 +53,11 @@ class VersesAdapter(private val callback: clickListener) :
         holder.bind(getItem(position))
     }
 
-    fun getSelectedVerses(): Map<Int, String> {
-        return listOfSelectedVerses
+    fun setBookmarked(verseNumber: Int) {
+        listOfSelectedVerses.remove(verseNumber)
+        val index = if (verseNumber> 0) verseNumber - 1 else 0
+        getItem(index).isBookmarked = true
+        notifyItemChanged(index)
     }
 }
 

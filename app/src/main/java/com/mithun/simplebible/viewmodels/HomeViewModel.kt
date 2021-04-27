@@ -50,18 +50,18 @@ class HomeViewModel @Inject constructor(
 
     init {
         getSelectedBible()
-        getBooks(prefs.selectedBibleId)
+        getBooks(prefs.selectedBibleVersionId)
     }
 
     private fun getSelectedBible() {
         viewModelScope.launch(biblesExceptionHandler) {
             val bibleBooks = bibleRepository.getPresetBibles()
-            _bible.value = Resource.Success(bibleBooks.first { it.id == prefs.selectedBibleId })
+            _bible.value = Resource.Success(bibleBooks.first { it.id == prefs.selectedBibleVersionId })
         }
     }
 
     fun setSelectedBible(bibleVersionId: String) {
-        prefs.selectedBibleId = bibleVersionId
+        prefs.selectedBibleVersionId = bibleVersionId
         getSelectedBible()
         getBooks(bibleVersionId)
     }
