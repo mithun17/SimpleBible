@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primaryColor">#045bd3</color>
-    <color name="primaryLightColor">#6087ff</color>
-    <color name="primaryDarkColor">#0033a1</color>
-    <color name="secondaryColor">#546e7a</color>
-    <color name="secondaryLightColor">#819ca9</color>
-    <color name="secondaryDarkColor">#29434e</color>
+
+    <color name="primaryColorLightVariant">#b7c2c9</color>
+    <color name="primaryColor">#344955</color>
+    <color name="primaryLightColor">#5f7481</color>
+    <color name="primaryDarkColor">#0b222c</color>
+    <color name="secondaryColor">#f9aa33</color>
+    <color name="secondaryLightColor">#ffdc65</color>
+    <color name="secondaryDarkColor">#c17b00</color>
     <color name="primaryTextColor">#ffffff</color>
-    <color name="secondaryTextColor">#ffffff</color>
+    <color name="secondaryTextColor">#000000</color>
+
+    <color name="red_200">#cf6679</color> <!--Color error (dark)-->
+    <color name="red_600">#b00020</color> <!--Color error (light)-->
 
 
     <color name="purple_200">#FFBB86FC</color>
@@ -18,14 +23,14 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="windowBackground">#ECEFF1</color>
+    <color name="windowBackground">#eff0f0</color>
 
     <!-- Icon colors -->
     <color name="goodState">#4CAF50</color>
     <color name="selectedState">@color/goodState</color>
 
     <!-- Text colors -->
-    <color name="primaryText">#37474F</color>
+    <color name="primaryText">@color/primaryColor</color>
     <color name="primaryTextDarkBg">#EEEEEE</color>
     <color name="redText">#EF5350</color>
 </resources>

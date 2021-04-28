@@ -1,17 +1,24 @@
 package com.mithun.simplebible.ui.book
 
 import android.os.Bundle
+import android.util.TypedValue
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.transition.Slide
+import androidx.transition.Transition
+import androidx.transition.TransitionManager
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.mithun.simplebible.R
 import com.mithun.simplebible.data.database.model.Bookmark
@@ -25,6 +32,8 @@ import com.mithun.simplebible.utilities.CommonUtils.copyToClipboard
 import com.mithun.simplebible.utilities.CommonUtils.showShareIntent
 import com.mithun.simplebible.utilities.ExtensionUtils.toCopyText
 import com.mithun.simplebible.utilities.Prefs
+import com.mithun.simplebible.utilities.gone
+import com.mithun.simplebible.utilities.visible
 import com.mithun.simplebible.viewmodels.VersesViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
@@ -59,6 +68,7 @@ class VersesFragment : BaseCollapsibleFragment(), ActionsBottomSheet.ActionPicke
             override fun onClick() {
                 binding.fabMore.show()
             }
+
             override fun unClick() {
                 binding.fabMore.hide()
             }
@@ -67,7 +77,9 @@ class VersesFragment : BaseCollapsibleFragment(), ActionsBottomSheet.ActionPicke
 
     private lateinit var chapterId: String
     private lateinit var chapterName: String
+
     private lateinit var menu: Menu
+    private lateinit var bottomNav: BottomNavigationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -90,6 +102,7 @@ class VersesFragment : BaseCollapsibleFragment(), ActionsBottomSheet.ActionPicke
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        bottomNav = requireActivity().findViewById(R.id.nav_view)
         binding.rvVerses.adapter = versesAdapter
 
         chapterId = args.chapterId ?: prefs.lastReadChapter
@@ -108,10 +121,52 @@ class VersesFragment : BaseCollapsibleFragment(), ActionsBottomSheet.ActionPicke
         setSelectionClickListener {
             navigateToBookSelection()
         }
+        val tv = TypedValue()
+
+        var actionBarHeight = 0f
+        if (requireActivity().theme.resolveAttribute(R.attr.actionBarSize, tv, true)) {
+            actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data, resources.displayMetrics).toFloat()
+        }
+
+        val parent: ViewGroup = requireActivity().findViewById(R.id.container)
+        val transitionDown: Transition = Slide(Gravity.BOTTOM)
+
+        binding.nestedScrollView.setOnScrollChangeListener(
+            NestedScrollView.OnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+                if (scrollY > oldScrollY) {
+                    // Scroll DOWN
+                    transitionDown.setDuration(600)
+                    transitionDown.addTarget(bottomNav)
+
+                    TransitionManager.beginDelayedTransition(parent, transitionDown)
+                    bottomNav.gone
+                }
+                if (scrollY < oldScrollY) {
+                    // Scroll UP
+                    transitionDown.setDuration(300)
+                    transitionDown.addTarget(bottomNav)
+
+                    TransitionManager.beginDelayedTransition(parent, transitionDown)
+                    bottomNav.visible
+                }
+
+//            if (scrollY == 0) {
+//                //TOP SCROLL
+//            }
+//
+//            if (scrollY == ( v.measuredHeight - v.getChildAt(0).measuredHeight)) {
+//                //BOTTOM SCROLL
+//            }
+            }
+        )
     }
 
     private fun navigateToBookSelection() {
-        findNavController().navigate(VersesFragmentDirections.actionNavigationChapterVersesToNavigationBooks(chapterId.split(".").first()))
+        findNavController().navigate(
+            VersesFragmentDirections.actionNavigationChapterVersesToNavigationBooks(
+                chapterId.split(".").first()
+            )
+        )
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
