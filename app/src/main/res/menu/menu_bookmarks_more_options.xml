@@ -1,19 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/editNote"
-        android:title="@string/menuItemNoteEdit" />
-
-    <item
-        android:id="@+id/shareNote"
+        android:id="@+id/shareBookmark"
         android:title="@string/menuItemNoteShare" />
 
     <item
-        android:id="@+id/copyNote"
+        android:id="@+id/copyBookmark"
         android:title="@string/menuItemNoteCopy" />
 
     <item
-        android:id="@+id/deleteNote"
+        android:id="@+id/deleteBookmark"
         android:title="@string/menuItemNoteDelete" />
 
 </menu>

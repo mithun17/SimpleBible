@@ -15,6 +15,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -55,9 +56,10 @@ class NotesViewModel @Inject constructor(
         }
     }
 
-    fun saveNote(bibleVersionId: String, chapterId: String, chapterName: String, verseIds: List<Int>, comment: String) {
+    fun saveNote(noteId: Long, bibleVersionId: String, chapterId: String, chapterName: String, verseIds: List<Int>, comment: String) {
         _noteSaveState.value = Resource.Loading(true)
         val note = Note(
+            id = noteId,
             bibleId = bibleVersionId,
             chapterId = chapterId,
             chapterName = chapterName,
@@ -71,9 +73,39 @@ class NotesViewModel @Inject constructor(
         }
     }
 
-    fun fetchNotes(bibleVersionId: String) {
+    init {
+        fetchNotes()
+    }
+
+    private fun fetchNotes() {
         viewModelScope.launch {
-            _notes.value = Resource.Success(notesRepository.getNotes(bibleVersionId))
+            notesRepository.getNotes().collect { notes ->
+                _notes.value = Resource.Success(
+                    notes.map { note ->
+                        val verseIds = note.verses.map { it -> "${note.chapterId}.$it" }.toList()
+                        val verses = versesRepository.getVersesById(note.bibleId, verseIds)
+                        val fullNote = FullNote(
+                            id = note.id,
+                            bibleId = note.bibleId,
+                            chapterId = note.chapterId,
+                            chapterName = note.chapterName,
+                            verseIds = note.verses,
+                            verses = verses,
+                            comment = note.comment,
+                            dateAdded = note.dateAdded,
+                            dateUpdated = note.dateUpdated
+                        )
+                        fullNote
+                    }.toList()
+                )
+            }
+//            _notes.value = Resource.Success(notesRepository.getNotes(bibleVersionId))
+        }
+    }
+
+    fun deleteNote(note: FullNote) {
+        viewModelScope.launch {
+            notesRepository.deleteNote(note.id)
         }
     }
 }

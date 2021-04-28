@@ -68,6 +68,10 @@
             android:id="@+id/action_add_edit_note"
             app:destination="@id/navigation_add_edit_note">
             <argument
+                android:name="noteId"
+                app:argType="long"
+                android:defaultValue="0L" />
+            <argument
                 android:name="chapterFullName"
                 app:argType="string" />
             <argument
@@ -95,6 +99,10 @@
             android:id="@+id/action_add_edit_note"
             app:destination="@id/navigation_add_edit_note">
             <argument
+                android:name="noteId"
+                app:argType="long"
+                android:defaultValue="0L" />
+            <argument
                 android:name="chapterFullName"
                 app:argType="string" />
             <argument
@@ -111,6 +119,10 @@
         android:name="com.mithun.simplebible.ui.notes.AddEditNotesFragment"
         android:label="@string/title_note"
         tools:layout="@layout/fragment_add_edit_note">
+        <argument
+            android:name="noteId"
+            app:argType="long"
+            android:defaultValue="0L" />
         <argument
             android:name="chapterFullName"
             app:argType="string" />

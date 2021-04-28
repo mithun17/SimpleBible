@@ -14,6 +14,7 @@
     <string name="menuItemNoteEdit">Edit</string>
     <string name="menuItemNoteShare">Share</string>
     <string name="menuItemNoteCopy">Copy</string>
+    <string name="menuItemNoteDelete">Delete</string>
 
 
     <string name="versesActionSheetTitle">More Actions</string>

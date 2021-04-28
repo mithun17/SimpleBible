@@ -42,6 +42,9 @@ class AddEditNotesFragment : BaseFragment() {
             "${args.chapterId}.$it"
         }
     }
+    private val noteId: Long by lazy {
+        args.noteId
+    }
 
     private val prefs by lazy {
         Prefs(requireContext())
@@ -98,6 +101,7 @@ class AddEditNotesFragment : BaseFragment() {
     private fun saveNote() {
         val comment = binding.etNotesComment.text.toString()
         notesViewModel.saveNote(
+            noteId = noteId,
             bibleVersionId = prefs.selectedBibleVersionId,
             chapterId = args.chapterId,
             chapterName = args.chapterFullName,

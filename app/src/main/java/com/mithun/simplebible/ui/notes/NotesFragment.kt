@@ -79,8 +79,6 @@ class NotesFragment : BaseFragment() {
                 }
             }
         }
-
-        notesViewModel.fetchNotes(prefs.selectedBibleVersionId)
     }
 
     private fun shareNote(card: View, note: FullNote) {
@@ -90,7 +88,7 @@ class NotesFragment : BaseFragment() {
 
             when (menuItem.itemId) {
                 R.id.editNote -> {
-                    findNavController().navigate(NotesFragmentDirections.actionAddEditNote(note.chapterName, note.chapterId, note.verseIds.toIntArray(), note.comment))
+                    findNavController().navigate(NotesFragmentDirections.actionAddEditNote(note.id, note.chapterName, note.chapterId, note.verseIds.toIntArray(), note.comment))
                 }
                 R.id.shareNote -> {
                     // trigger share intent
@@ -99,6 +97,10 @@ class NotesFragment : BaseFragment() {
                 R.id.copyNote -> {
                     // copy to clipboard
                     CommonUtils.copyToClipboard(requireContext(), note.toCopyText(resourcesUtil))
+                }
+                R.id.deleteNote -> {
+                    // TODO delete note
+                    notesViewModel.deleteNote(note)
                 }
             }
             true
