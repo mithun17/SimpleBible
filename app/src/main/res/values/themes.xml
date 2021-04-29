@@ -12,8 +12,8 @@
         <!--background. colorSurface is mapped to the surface of components such as cards, sheets-->
         <!--and menus. colorError is used to indicate an error state for components such as-->
         <!--text fields.-->
-        <item name="android:colorBackground">@color/windowBackground</item>
-        <item name="colorSurface">@color/white</item>
+        <item name="android:colorBackground">@color/white</item>
+        <item name="colorSurface">@color/windowBackgroundLM</item>
         <item name="colorError">@color/red_600</item>
         <!--"On" colors define how text, icons and strokes are colored in relation to the surface-->
         <!--on which they appear.-->
@@ -22,8 +22,13 @@
         <item name="colorOnBackground">@color/primaryDarkColor</item>
         <item name="colorOnSurface">@color/primaryDarkColor</item>
         <item name="colorOnError">@color/white</item>
+
+        <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="CardViewStyle" parent="Widget.MaterialComponents.CardView">
+        <item name="cardBackgroundColor">@color/windowBackgroundLM</item>
+    </style>
 
     <style name="Toolbar.Text" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
         <item name="android:textColor">@color/primaryText</item>
@@ -54,14 +59,15 @@
 
     <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@drawable/round_corner</item>
+        <item name="android:backgroundTint">@color/windowBackgroundLM</item>
     </style>
 
     <style name="Base.Theme.SimpleBible" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:statusBarColor" tools:ignore="NewApi">@color/primaryColorLightVariant</item>
         <item name="android:windowLightStatusBar" tools:ignore="NewApi">true</item>
-        <item name="android:navigationBarColor" tools:ignore="NewApi">?android:attr/colorBackground</item>
-        <item name="android:windowLightNavigationBar" tools:ignore="NewApi">true</item>
-        <item name="android:navigationBarDividerColor" tools:ignore="NewApi">?attr/colorControlHighlight</item>
+<!--        <item name="android:navigationBarColor" tools:ignore="NewApi">?android:attr/colorBackground</item>-->
+<!--        <item name="android:windowLightNavigationBar" tools:ignore="NewApi">true</item>-->
+<!--        <item name="android:navigationBarDividerColor" tools:ignore="NewApi">?attr/colorControlHighlight</item>-->
     </style>
 
 </resources>

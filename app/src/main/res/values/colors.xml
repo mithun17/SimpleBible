@@ -11,19 +11,22 @@
     <color name="primaryTextColor">#ffffff</color>
     <color name="secondaryTextColor">#000000</color>
 
+    <color name="colorAccent">#556978</color>
+
     <color name="red_200">#cf6679</color> <!--Color error (dark)-->
     <color name="red_600">#b00020</color> <!--Color error (light)-->
 
 
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
+<!--    <color name="purple_200">#FFBB86FC</color>-->
+<!--    <color name="purple_500">#FF6200EE</color>-->
+<!--    <color name="purple_700">#FF3700B3</color>-->
+<!--    <color name="teal_200">#FF03DAC5</color>-->
+<!--    <color name="teal_700">#FF018786</color>-->
+
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="windowBackground">#eff0f0</color>
+    <color name="windowBackgroundLM">#eff0f0</color>
 
     <!-- Icon colors -->
     <color name="goodState">#4CAF50</color>
@@ -31,6 +34,12 @@
 
     <!-- Text colors -->
     <color name="primaryText">@color/primaryColor</color>
-    <color name="primaryTextDarkBg">#EEEEEE</color>
     <color name="redText">#EF5350</color>
+
+    <color name="primaryTextDarkBg">#EEEEEE</color>
+
+
+    <!--  Dark mode Colors  -->
+    <color name="windowBackgroundDM">#344a55</color>
+
 </resources>

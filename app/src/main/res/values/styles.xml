@@ -27,7 +27,7 @@
     </style>
 
     <style name="Headline3.PrimaryTextDarkBg" parent="TextAppearance.MaterialComponents.Headline3">
-        <item name="android:textColor">@color/primaryTextDarkBg</item>
+<!--        <item name="android:textColor">@color/primaryTextDarkBg</item>-->
     </style>
 
     <!-- H4 -->
@@ -51,11 +51,11 @@
 
     <style name="Headline5.Primary" parent="Headline5">
         <item name="android:lineSpacingExtra">8sp</item>
-        <item name="android:textColor">@color/primaryText</item>
+<!--        <item name="android:textColor">@color/primaryText</item>-->
     </style>
 
     <style name="Headline5.PrimaryTextDarkBg" parent="TextAppearance.MaterialComponents.Headline5">
-        <item name="android:textColor">@color/primaryTextDarkBg</item>
+<!--        <item name="android:textColor">@color/primaryTextDarkBg</item>-->
     </style>
 
     <!-- H6 -->
@@ -72,7 +72,7 @@
         <item name="android:textSize">16sp</item>
     </style>
     <style name="Subtitle1.Primary" parent="TextAppearance.MaterialComponents.Subtitle1">
-        <item name="android:textColor">@color/primaryText</item>
+<!--        <item name="android:textColor">@color/primaryText</item>-->
     </style>
 
     <style name="Subtitle2" parent="TextAppearance.MaterialComponents.Subtitle2">

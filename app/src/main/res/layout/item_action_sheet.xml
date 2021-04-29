@@ -12,7 +12,6 @@
         android:layout_height="wrap_content"
         android:background="?android:attr/selectableItemBackground"
         android:drawablePadding="16dp"
-        android:drawableTint="@color/primaryText"
         android:gravity="center_vertical"
         android:padding="8dp"
         app:drawableStartCompat="@drawable/ic_share"

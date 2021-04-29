@@ -2,6 +2,7 @@ package com.mithun.simplebible
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
@@ -21,6 +22,8 @@ class MainActivity : AppCompatActivity() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.findNavController()
         navView.setupWithNavController(navController)
+
+        delegate.localNightMode = AppCompatDelegate.MODE_NIGHT_YES
     }
 
     override fun onSupportNavigateUp(): Boolean {
