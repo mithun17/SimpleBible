@@ -18,7 +18,7 @@
         app:expandedTitleGravity="bottom"
         app:expandedTitleMarginEnd="@dimen/activity_horizontal_margin"
         app:expandedTitleMarginStart="@dimen/activity_horizontal_margin"
-        app:expandedTitleTextAppearance="@style/Headline3.PrimaryTextDarkBg"
+        app:expandedTitleTextAppearance="@style/CollapsibleToolbarHeadline"
         app:layout_scrollFlags="scroll|exitUntilCollapsed"
         tools:title="Collapsible toolbar">
 

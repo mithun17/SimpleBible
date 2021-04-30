@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        style="@style/Headline5.Primary"
+        style="@style/Headline5"
         tools:text="Matthew 3:15"/>
 
     <com.mithun.simplebible.ui.custom.VerseTextView

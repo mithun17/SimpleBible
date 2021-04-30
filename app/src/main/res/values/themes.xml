@@ -22,7 +22,6 @@
         <item name="colorOnBackground">@color/primaryDarkColor</item>
         <item name="colorOnSurface">@color/primaryDarkColor</item>
         <item name="colorOnError">@color/white</item>
-
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
@@ -65,9 +64,6 @@
     <style name="Base.Theme.SimpleBible" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:statusBarColor" tools:ignore="NewApi">@color/primaryColorLightVariant</item>
         <item name="android:windowLightStatusBar" tools:ignore="NewApi">true</item>
-<!--        <item name="android:navigationBarColor" tools:ignore="NewApi">?android:attr/colorBackground</item>-->
-<!--        <item name="android:windowLightNavigationBar" tools:ignore="NewApi">true</item>-->
-<!--        <item name="android:navigationBarDividerColor" tools:ignore="NewApi">?attr/colorControlHighlight</item>-->
     </style>
 
 </resources>

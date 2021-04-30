@@ -2,7 +2,7 @@ package com.mithun.simplebible.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
+import androidx.core.widget.TextViewCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -10,7 +10,8 @@ import com.mithun.simplebible.R
 import com.mithun.simplebible.data.model.Book
 import com.mithun.simplebible.databinding.ListItemBookBinding
 
-class BookAdapter constructor(private val bookSelectListener: (bookName: String, bookId: String, chapterCount: Int) -> Unit) : ListAdapter<Book, BookAdapter.ViewHolder>(BookDiffUtil()) {
+class BookAdapter constructor(private val bookSelectListener: (bookName: String, bookId: String, chapterCount: Int) -> Unit) :
+    ListAdapter<Book, BookAdapter.ViewHolder>(BookDiffUtil()) {
 
     private var selectedBookId = ""
 
@@ -29,9 +30,9 @@ class BookAdapter constructor(private val bookSelectListener: (bookName: String,
 
             // set selected item style
             if (item.id == selectedBookId) {
-                binding.tvBookName.setTextColor(ContextCompat.getColor(binding.root.context, R.color.selectedState))
+                TextViewCompat.setTextAppearance(binding.tvBookName, R.style.Headline5_SelectedState)
             } else {
-                binding.tvBookName.setTextColor(ContextCompat.getColor(binding.root.context, R.color.black))
+                TextViewCompat.setTextAppearance(binding.tvBookName, R.style.Headline5)
             }
         }
     }

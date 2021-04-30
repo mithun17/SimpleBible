@@ -8,12 +8,17 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.mithun.simplebible.utilities.Prefs
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var navController: NavController
+
+    @Inject
+    lateinit var prefs: Prefs
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,7 +28,11 @@ class MainActivity : AppCompatActivity() {
         navController = navHostFragment.findNavController()
         navView.setupWithNavController(navController)
 
-        delegate.localNightMode = AppCompatDelegate.MODE_NIGHT_YES
+        initMode()
+    }
+
+    private fun initMode() {
+        delegate.localNightMode = if (prefs.isNightMode) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
     }
 
     override fun onSupportNavigateUp(): Boolean {

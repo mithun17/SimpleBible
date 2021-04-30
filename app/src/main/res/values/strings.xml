@@ -4,6 +4,7 @@
     <string name="title_notes">Notes</string>
     <string name="title_note">Note</string>
     <string name="title_bookmarks">Bookmarks</string>
+    <string name="title_settings">Settings</string>
     <string name="title_filter">Versions</string>
     <string name="booksFragmentTitle">Books</string>
     <string name="bookSelectTitle">Select</string>
@@ -46,5 +47,13 @@
     <string name="title_tab_books">Books</string>
     <string name="title_tab_chapters">Chapters</string>
     <string name="title_tab_verses">Verses</string>
+
+
+    <!-- Preference Titles -->
+    <string name="preference_title_theme">Theme</string>
+
+    <!-- Theme Preferences -->
+    <string name="preference_theme_key">preference_theme</string>
+    <string name="preference_theme_title">Night mode</string>
 
 </resources>

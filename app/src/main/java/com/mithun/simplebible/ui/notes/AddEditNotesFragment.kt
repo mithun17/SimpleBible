@@ -76,6 +76,7 @@ class AddEditNotesFragment : BaseFragment() {
         binding.tvNoteTitle.text = args.chapterFullName
         binding.etNotesComment.setText(args.comment)
         initObserveAndSubscribe()
+
         notesViewModel.fetchListOfVerses(prefs.selectedBibleVersionId, verseIds)
     }
 

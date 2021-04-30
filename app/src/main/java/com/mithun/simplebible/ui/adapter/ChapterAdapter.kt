@@ -2,7 +2,7 @@ package com.mithun.simplebible.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
+import androidx.core.widget.TextViewCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -25,9 +25,9 @@ class ChapterAdapter constructor(private val chapterSelectListener: (String) -> 
             }
 
             if (item.number == selectedChapterNumber) {
-                binding.tvChapterNumber.setTextColor(ContextCompat.getColor(binding.root.context, R.color.selectedState))
+                TextViewCompat.setTextAppearance(binding.tvChapterNumber, R.style.Headline5_SelectedState)
             } else {
-                binding.tvChapterNumber.setTextColor(ContextCompat.getColor(binding.root.context, R.color.black))
+                TextViewCompat.setTextAppearance(binding.tvChapterNumber, R.style.Headline5)
             }
         }
     }

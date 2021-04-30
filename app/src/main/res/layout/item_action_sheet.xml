@@ -7,7 +7,7 @@
 
     <TextView
         android:id="@+id/tvActionItem"
-        style="@style/Subtitle1.Primary"
+        style="@style/Subtitle1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?android:attr/selectableItemBackground"

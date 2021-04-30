@@ -3,13 +3,14 @@ package com.mithun.simplebible.utilities
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
+import com.mithun.simplebible.R
 import javax.inject.Inject
 
 class Prefs @Inject constructor(private val context: Context) {
 
     private val sharedPreferences: SharedPreferences by lazy {
         context.applicationContext.getSharedPreferences(
-            "${context.packageName}_prefs",
+            "${context.packageName}_preferences",
             MODE_PRIVATE
         )
     }
@@ -55,6 +56,10 @@ class Prefs @Inject constructor(private val context: Context) {
     var lastReadChapter: String
         get() = get(PREF_LAST_READ_CHAPTER_ID, kLastReadChapterDefaultId)
         set(value) = set(PREF_LAST_READ_CHAPTER_ID, value)
+
+    var isNightMode: Boolean
+        get() = get(context.getString(R.string.preference_theme_key), false)
+        set(value) = set(context.getString(R.string.preference_theme_key), value)
 
     companion object {
         private const val PREF_SELECTED_BIBLE_VERSION_ID = "PrefSelectedBibleVersionId"

@@ -59,7 +59,7 @@ class NotesViewModel @Inject constructor(
     fun saveNote(noteId: Long, bibleVersionId: String, chapterId: String, chapterName: String, verseIds: List<Int>, comment: String) {
         _noteSaveState.value = Resource.Loading(true)
         val note = Note(
-            id = noteId,
+            id = if (noteId != 0L) noteId else 0,
             bibleId = bibleVersionId,
             chapterId = chapterId,
             chapterName = chapterName,
