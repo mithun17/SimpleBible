@@ -2,7 +2,7 @@ package com.mithun.simplebible.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
+import androidx.core.widget.TextViewCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -29,9 +29,9 @@ class BibleFilterAdapter constructor(private val selection: (Pair<String, String
             }
 
             if (item.id == selectedId) {
-                binding.tvBibleTitle.setTextColor(ContextCompat.getColor(binding.root.context, R.color.selectedState))
+                TextViewCompat.setTextAppearance(binding.tvBibleTitle, R.style.Headline6_SelectedState)
             } else {
-                binding.tvBibleTitle.setTextColor(ContextCompat.getColor(binding.root.context, R.color.black))
+                TextViewCompat.setTextAppearance(binding.tvBibleTitle, R.style.Headline6)
             }
         }
     }
