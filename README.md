@@ -10,3 +10,5 @@ It is a passion project that makes use of the latest Android [Jetpack](https://d
     
 #### Supported Bible Versions  
 KJV (King James Version), ASV (American Standard Version), IRVTam (Indian Tamil)
+  
+The App uses API provided by [api.bible](https://docs.api.bible/)
