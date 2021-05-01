@@ -2,22 +2,19 @@ package com.mithun.simplebible.ui.adapter
 
 import android.text.SpannableStringBuilder
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mithun.simplebible.databinding.ListItemBookmarkBinding
 import com.mithun.simplebible.utilities.VerseFormatter
 
-class BookmarkAdapter :
+class BookmarkAdapter constructor(private val onItemClick: (View, BookmarkItem) -> Unit) :
     RecyclerView.Adapter<BookmarkAdapter.ViewHolder>() {
 
     private var bookmarkList: List<BookmarkItem> = mutableListOf()
 
     fun setBookmarks(bookmarks: List<BookmarkItem>) {
         bookmarkList = bookmarks
-    }
-
-    interface ClickListener {
-        fun onItemClick(actionCode: Int)
     }
 
     inner class ViewHolder(private val binding: ListItemBookmarkBinding) :
@@ -35,6 +32,9 @@ class BookmarkAdapter :
             )
             binding.tvBookmarkVerse.text = spannableString
             binding.tvBookmarkTitle.text = bookmark.reference
+            binding.ivBookmarkShare.setOnClickListener {
+                onItemClick.invoke(it, bookmark)
+            }
         }
     }
 
