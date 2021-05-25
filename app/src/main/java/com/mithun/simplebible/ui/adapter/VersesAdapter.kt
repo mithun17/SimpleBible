@@ -15,6 +15,7 @@ class VersesAdapter(private val callback: clickListener) :
         fun unClick()
     }
 
+    // Map of verse <id, text>
     val listOfSelectedVerses = sortedMapOf<Int, String>()
 
     inner class ViewHolder(private val view: VerseTextView) : RecyclerView.ViewHolder(view) {

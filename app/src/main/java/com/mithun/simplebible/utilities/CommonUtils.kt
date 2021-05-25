@@ -28,4 +28,12 @@ object CommonUtils {
         val clipboard = ContextCompat.getSystemService(context, ClipboardManager::class.java)
         clipboard?.setPrimaryClip(clip)
     }
+
+    fun getPxToSp(context: Context, px: Float): Float {
+        return px / context.resources.displayMetrics.scaledDensity
+    }
+
+    fun getSpToPx(context: Context, sp: Int): Float {
+        return sp * context.resources.displayMetrics.scaledDensity
+    }
 }

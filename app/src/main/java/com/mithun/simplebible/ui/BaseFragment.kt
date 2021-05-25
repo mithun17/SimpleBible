@@ -15,7 +15,8 @@ open class BaseFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val navController = findNavController()
-        val appBarConfiguration = AppBarConfiguration(navController.graph)
+        val appBarConfiguration = AppBarConfiguration(setOf(R.id.navigation_chapter_verses, R.id.navigation_notes, R.id.navigation_bookmarks, R.id.navigation_settings_fragment))
+
         toolbar = view.findViewById(R.id.toolbar)
         toolbar.setupWithNavController(navController, appBarConfiguration)
 

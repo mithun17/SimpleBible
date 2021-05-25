@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/imageCanvas"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/tvTextSize"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+        <ImageView
+            android:id="@+id/ivVerseBackgorund"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:src="@drawable/bg_blur1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvVerse"
+            style="@style/Headline6"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="16dp"
+            android:gravity="center"
+            android:text="For God so loved the world, that he gave his only begotten Son, that whoever believeth in him should perish, but have everlasting life.\n-John 3:16"
+            android:textAlignment="center"
+            app:autoSizeMaxTextSize="24sp"
+            app:autoSizeMinTextSize="8sp"
+            app:autoSizeStepGranularity="2sp"
+            app:autoSizeTextType="none"
+            app:layout_constraintBottom_toBottomOf="@id/ivVerseBackgorund"
+            app:layout_constraintEnd_toEndOf="@id/ivVerseBackgorund"
+            app:layout_constraintStart_toStartOf="@id/ivVerseBackgorund"
+            app:layout_constraintTop_toTopOf="@id/ivVerseBackgorund" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/tvTextSize"
+        style="@style/Subtitle1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="Size"
+        app:layout_constraintBottom_toTopOf="@id/tvTextAlignment"
+        app:layout_constraintEnd_toStartOf="@id/sbTextSize"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imageCanvas" />
+
+    <SeekBar
+        android:id="@+id/sbTextSize"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:progress="100"
+        app:layout_constraintBottom_toBottomOf="@id/tvTextSize"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="2"
+        app:layout_constraintStart_toEndOf="@id/tvTextSize"
+        app:layout_constraintTop_toTopOf="@id/tvTextSize" />
+
+    <TextView
+        android:id="@+id/tvTextAlignment"
+        style="@style/Subtitle1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="Alignment"
+        app:layout_constraintBottom_toTopOf="@id/tvTextColor"
+        app:layout_constraintEnd_toStartOf="@id/rgTextAlignment"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvTextSize" />
+
+    <RadioGroup
+        android:id="@+id/rgTextAlignment"
+        android:layout_width="0dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="@id/tvTextAlignment"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="2"
+        app:layout_constraintStart_toEndOf="@id/tvTextAlignment"
+        app:layout_constraintTop_toTopOf="@id/tvTextAlignment">
+
+        <RadioButton
+            android:id="@+id/rbLeft"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:background="@drawable/selector_align_left_button_background"
+            android:button="@android:color/transparent"
+            android:checked="false"
+            android:foreground="?attr/selectableItemBackground" />
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <RadioButton
+            android:id="@+id/rbCenter"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:background="@drawable/selector_align_center_button_background"
+            android:button="@android:color/transparent"
+            android:checked="true"
+            android:foreground="?attr/selectableItemBackground" />
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <RadioButton
+            android:id="@+id/rbRight"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:background="@drawable/selector_align_right_button_background"
+            android:button="@android:color/transparent"
+            android:foreground="?attr/selectableItemBackground" />
+
+
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/tvTextColor"
+        style="@style/Subtitle1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="Color"
+        app:layout_constraintBottom_toTopOf="@id/btnGenerate"
+        app:layout_constraintEnd_toStartOf="@id/rgTextColor"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvTextAlignment" />
+
+    <RadioGroup
+        android:id="@+id/rgTextColor"
+        android:layout_width="0dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="@id/tvTextColor"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="2"
+        app:layout_constraintStart_toEndOf="@id/tvTextColor"
+        app:layout_constraintTop_toTopOf="@id/tvTextColor">
+
+        <RadioButton
+            android:id="@+id/rbColorWhite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/button_rounded_white_left"
+            android:button="@android:color/transparent"
+            android:text=""
+            android:textOff=""
+            android:textOn="" />
+
+        <RadioButton
+            android:id="@+id/rbColorBlack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/button_rounded_black_right"
+            android:button="@android:color/transparent"
+            android:text=""
+            android:textOff=""
+            android:textOn="" />
+
+    </RadioGroup>
+
+
+    <Button
+        android:id="@+id/btnGenerate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:text="Save"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

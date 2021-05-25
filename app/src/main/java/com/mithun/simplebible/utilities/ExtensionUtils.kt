@@ -2,6 +2,7 @@ package com.mithun.simplebible.utilities
 
 import android.view.View
 import com.mithun.simplebible.R
+import com.mithun.simplebible.data.database.model.VerseEntity
 import com.mithun.simplebible.data.repository.data.FullNote
 import com.mithun.simplebible.ui.adapter.BookmarkItem
 
@@ -46,6 +47,16 @@ object ExtensionUtils {
         }
         return copyText.toString()
     }
+
+    fun VerseEntity.toShareText(): String {
+        val shareText = StringBuilder()
+        shareText.append(text.toRegularText())
+        shareText.appendLine()
+        shareText.append("-$reference:$number")
+        return shareText.toString()
+    }
+
+    fun String.toRegularText() = replace("<red>", "").replace("</red>", "")
 }
 
 /**

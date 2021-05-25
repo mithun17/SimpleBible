@@ -4,6 +4,8 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.navigation.fragment.findNavController
+import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreferenceCompat
 import com.mithun.simplebible.R
@@ -44,6 +46,12 @@ class SettingsFragment : PreferenceFragmentCompat() {
                     }
                 }
             }
+        }
+
+        val imageSharedPreferences: Preference? = findPreference("imageShare")
+        imageSharedPreferences?.setOnPreferenceClickListener {
+            findNavController().navigate(R.id.action_global_image_share)
+            true
         }
     }
 }

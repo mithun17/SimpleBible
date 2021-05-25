@@ -10,4 +10,13 @@
             app:title="@string/preference_theme_title" />
     </PreferenceCategory>
 
+    <PreferenceCategory app:title="Beta">
+
+        <Preference
+            app:key="imageShare"
+            app:summary="Experimental Image share feature"
+            app:title="Image Share" />
+
+    </PreferenceCategory>
+
 </PreferenceScreen>

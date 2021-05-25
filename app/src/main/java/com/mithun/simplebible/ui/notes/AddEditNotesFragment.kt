@@ -11,7 +11,6 @@ import android.view.ViewGroup
 import androidx.appcompat.app.ActionBar
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.mithun.simplebible.R
 import com.mithun.simplebible.data.repository.Resource
@@ -91,9 +90,6 @@ class AddEditNotesFragment : BaseFragment() {
         when (item.itemId) {
             R.id.action_save -> {
                 saveNote()
-            }
-            android.R.id.home -> {
-                findNavController().popBackStack()
             }
         }
         return super.onOptionsItemSelected(item)

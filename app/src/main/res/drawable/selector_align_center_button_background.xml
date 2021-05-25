@@ -1,0 +1,4 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/ic_format_align_center" android:state_checked="false" />
+    <item android:drawable="@drawable/ic_format_align_center_selected" android:state_checked="true" />
+</selector>

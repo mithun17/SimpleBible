@@ -61,6 +61,8 @@ class NotesFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+//        enableHomeButton(false)
+//        setTitle(getString(R.string.title_notes))
         binding.rvNotes.adapter = notesAdapter
         initOberserveAndSubscribe()
     }

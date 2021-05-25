@@ -49,6 +49,7 @@ class VersesFragment : BaseCollapsibleFragment(), ActionsBottomSheet.ActionPicke
     private val kActionRequestCodeCopy = 2
     private val kActionRequestCodeNote = 3
     private val kActionRequestCodeBookmark = 4
+    private val kActionRequestCodeImage = 5
 
     @Inject
     lateinit var prefs: Prefs
@@ -125,7 +126,8 @@ class VersesFragment : BaseCollapsibleFragment(), ActionsBottomSheet.ActionPicke
 
         var actionBarHeight = 0f
         if (requireActivity().theme.resolveAttribute(R.attr.actionBarSize, tv, true)) {
-            actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data, resources.displayMetrics).toFloat()
+            actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data, resources.displayMetrics)
+                .toFloat()
         }
 
         val parent: ViewGroup = requireActivity().findViewById(R.id.container)
@@ -149,14 +151,6 @@ class VersesFragment : BaseCollapsibleFragment(), ActionsBottomSheet.ActionPicke
                     TransitionManager.beginDelayedTransition(parent, transitionDown)
                     bottomNav.visible
                 }
-
-//            if (scrollY == 0) {
-//                //TOP SCROLL
-//            }
-//
-//            if (scrollY == ( v.measuredHeight - v.getChildAt(0).measuredHeight)) {
-//                //BOTTOM SCROLL
-//            }
             }
         )
     }
@@ -212,11 +206,18 @@ class VersesFragment : BaseCollapsibleFragment(), ActionsBottomSheet.ActionPicke
                 )
 
                 if (versesAdapter.listOfSelectedVerses.size == 1) {
-                    actionList.add(
-                        Action(
-                            kActionRequestCodeBookmark,
-                            R.drawable.ic_bookmark,
-                            getString(R.string.actionSheetBookmarkLabel)
+                    actionList.addAll(
+                        listOf(
+                            Action(
+                                kActionRequestCodeBookmark,
+                                R.drawable.ic_bookmark,
+                                getString(R.string.actionSheetBookmarkLabel)
+                            ),
+                            Action(
+                                kActionRequestCodeImage,
+                                R.drawable.ic_image,
+                                getString(R.string.actionSheetImageLabel)
+                            )
                         )
                     )
                 }
@@ -306,6 +307,15 @@ class VersesFragment : BaseCollapsibleFragment(), ActionsBottomSheet.ActionPicke
 
                         versesViewModel.saveBookmark(verseId, bookmark)
                         versesAdapter.setBookmarked(verseNumber)
+                    }
+                    kActionRequestCodeImage -> {
+                        val verseNumber = versesAdapter.listOfSelectedVerses.firstKey()
+                        val verseText = versesAdapter.listOfSelectedVerses[verseNumber]
+                        val verseId = "$chapterId.$verseNumber"
+
+                        verseText?.let {
+                            findNavController().navigate(VersesFragmentDirections.actionImageShare(verseText, verseId))
+                        }
                     }
                 }
             }
