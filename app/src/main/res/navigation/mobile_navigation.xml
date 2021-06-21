@@ -26,9 +26,9 @@
         android:id="@+id/action_global_navigation_filter"
         app:destination="@id/navigation_filter" />
 
-    <action
-        android:id="@+id/action_global_image_share"
-        app:destination="@id/navigation_image_share" />
+<!--    <action-->
+<!--        android:id="@+id/action_global_image_share"-->
+<!--        app:destination="@id/navigation_image_edit" />-->
 
 
     <fragment
@@ -95,7 +95,7 @@
         </action>
         <action
             android:id="@+id/action_image_share"
-            app:destination="@id/navigation_image_share">
+            app:destination="@id/navigation_image_edit">
             <argument
                 android:name="verse"
                 app:argType="string" />
@@ -106,15 +106,32 @@
     </fragment>
 
     <fragment
-        android:id="@+id/navigation_image_share"
-        android:name="com.mithun.simplebible.ui.share.ImageShareFragment"
-        android:label="@string/title_image_share"
+        android:id="@+id/navigation_image_edit"
+        android:name="com.mithun.simplebible.ui.share.ImageEditFragment"
+        android:label="@string/title_image_edit"
         tools:layout="@layout/fragment_image_verse">
         <argument
             android:name="verse"
             app:argType="string" />
         <argument
             android:name="verseId"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_navigation_image_edit_to_navigation_image_share"
+            app:destination="@id/navigation_image_share">
+            <argument
+                android:name="fileUri"
+                app:argType="string" />
+        </action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_image_share"
+        android:name="com.mithun.simplebible.ui.share.ImageShareFragment"
+        android:label="@string/title_image_share"
+        tools:layout="@layout/fragment_image_share">
+        <argument
+            android:name="fileUri"
             app:argType="string" />
     </fragment>
 
