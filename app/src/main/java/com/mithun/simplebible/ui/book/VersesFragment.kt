@@ -314,7 +314,7 @@ class VersesFragment : BaseCollapsibleFragment(), ActionsBottomSheet.ActionPicke
                         val verseId = "$chapterId.$verseNumber"
 
                         verseText?.let {
-                            findNavController().navigate(VersesFragmentDirections.actionImageShare(verseText, verseId))
+                            findNavController().navigate(VersesFragmentDirections.actionImageSelect(verseText, verseId))
                         }
                     }
                 }

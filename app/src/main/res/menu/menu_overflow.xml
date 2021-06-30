@@ -5,5 +5,5 @@
     <item
         android:id="@+id/action_version"
         app:showAsAction="always"
-        android:title="@string/menu_title_version"/>
+        android:title="@string/menuItemVersion"/>
 </menu>

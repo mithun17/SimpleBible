@@ -2,18 +2,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/editNote"
-        android:title="@string/menuItemNoteEdit" />
+        android:title="@string/menuItemEdit" />
 
     <item
         android:id="@+id/shareNote"
-        android:title="@string/menuItemNoteShare" />
+        android:title="@string/menuItemShare" />
 
     <item
         android:id="@+id/copyNote"
-        android:title="@string/menuItemNoteCopy" />
+        android:title="@string/menuItemCopy" />
 
     <item
         android:id="@+id/deleteNote"
-        android:title="@string/menuItemNoteDelete" />
+        android:title="@string/menuItemDelete" />
 
 </menu>

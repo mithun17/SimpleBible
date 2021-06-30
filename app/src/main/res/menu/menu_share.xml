@@ -2,9 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_save"
-        android:icon="@drawable/ic_save"
-        android:title="@string/menuItemSave"
+        android:id="@+id/action_share"
+        android:icon="@drawable/ic_share"
+        android:title="@string/menuItemShare"
         android:visible="true"
         app:showAsAction="always" />
 </menu>

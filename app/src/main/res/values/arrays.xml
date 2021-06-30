@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer-array name="images_for_verses">
+        <item>@drawable/bg_1</item>
+        <item>@drawable/bg_2</item>
+        <item>@drawable/bg_3</item>
+        <item>@drawable/bg_4</item>
+        <item>@drawable/bg_5</item>
+        <item>@drawable/bg_6</item>
+        <item>@drawable/bg_7</item>
+        <item>@drawable/bg_8</item>
+        <item>@drawable/bg_9</item>
+        <item>@drawable/bg_10</item>
+        <item>@drawable/bg_11</item>
+        <item>@drawable/bg_12</item>
+        <item>@drawable/bg_13</item>
+        <item>@drawable/bg_14</item>
+        <item>@drawable/bg_15</item>
+        <item>@drawable/bg_16</item>
+        <item>@drawable/bg_17</item>
+        <item>@drawable/bg_18</item>
+        <item>@drawable/bg_19</item>
+        <item>@drawable/bg_20</item>
+        <item>@drawable/bg_21</item>
+        <item>@drawable/bg_22</item>
+        <item>@drawable/bg_23</item>
+    </integer-array>
+</resources>

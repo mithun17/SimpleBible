@@ -43,6 +43,8 @@ class MainActivity : AppCompatActivity() {
             when (destination.id) {
                 R.id.navigation_add_edit_note,
                 R.id.navigation_filter,
+                R.id.navigation_image_select,
+                R.id.navigation_image_share,
                 R.id.navigation_image_edit,
                 R.id.navigation_book_select -> {
                     navView.gone

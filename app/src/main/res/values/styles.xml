@@ -52,6 +52,18 @@
         <item name="android:textSize">20sp</item>
     </style>
 
+    <style name="Headline6.Bold" parent="Headline6">
+        <item name="fontFamily">@font/quicksand_semibold</item>
+        <item name="android:fontFamily">@font/quicksand_semibold</item>
+    </style>
+
+    <style name="ImageVerseStyle" parent="Headline6.Bold">
+        <item name="android:shadowColor">@color/black</item>
+        <item name="android:shadowDx">0.7</item>
+        <item name="android:shadowDy">0.5</item>
+        <item name="android:shadowRadius">1.6</item>
+    </style>
+
     <style name="Subtitle1" parent="TextAppearance.MaterialComponents.Subtitle1">
         <item name="fontFamily">@font/quicksand_regular</item>
         <item name="android:fontFamily">@font/quicksand_regular</item>
@@ -114,7 +126,6 @@
     <style name="Headline6.SelectedState" parent="Headline5">
         <item name="android:textColor">@color/selectedState</item>
     </style>
-
 
 
     <!-- Toolbar/Actionbar -->

@@ -12,9 +12,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.bumptech.glide.Glide
 import com.mithun.simplebible.R
 import com.mithun.simplebible.data.repository.Resource
-import com.mithun.simplebible.databinding.FragmentImageVerseBinding
+import com.mithun.simplebible.databinding.FragmentImageEditBinding
 import com.mithun.simplebible.ui.BaseFragment
 import com.mithun.simplebible.utilities.CommonUtils
 import com.mithun.simplebible.utilities.ExtensionUtils.toRegularText
@@ -29,7 +30,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class ImageEditFragment : BaseFragment() {
 
-    private var _binding: FragmentImageVerseBinding? = null
+    private var _binding: FragmentImageEditBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var verseText: String
@@ -49,7 +50,7 @@ class ImageEditFragment : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentImageVerseBinding.inflate(inflater, container, false)
+        _binding = FragmentImageEditBinding.inflate(inflater, container, false)
 
         verseText = args.verse.toRegularText()
         verseId = args.verseId
@@ -64,23 +65,47 @@ class ImageEditFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        binding.btnGenerate.setOnClickListener {
-            copyBitmapAndSaveImage(binding.imageCanvas)
-        }
-
+        inflateMenu(R.menu.menu_save)
+        initBackground(args.imageResourceId)
         initVerse()
         initTextColorListener()
+    }
+
+    private fun inflateMenu(menu: Int) {
+        with(binding.toolbar.root) {
+            inflateMenu(menu)
+            setOnMenuItemClickListener {
+                when (it.itemId) {
+                    R.id.action_save -> {
+                        copyBitmapAndSaveImage(binding.imageCanvas)
+                        true
+                    }
+                    else -> false
+                }
+            }
+        }
+    }
+
+    private fun initBackground(imageResourceId: Int) {
+        Glide.with(requireContext())
+            .load(imageResourceId)
+            .into(binding.ivVerseBackgorund)
     }
 
     private fun initTextColorListener() {
         binding.rgTextColor.setOnCheckedChangeListener { group, checkedId ->
             when (checkedId) {
                 R.id.rbColorWhite -> {
-                    binding.tvVerse.setTextColor(Color.WHITE)
+                    binding.tvVerse.apply {
+                        setTextColor(Color.WHITE)
+                        setShadowLayer(shadowRadius, shadowDx, shadowDy, Color.BLACK)
+                    }
                 }
                 R.id.rbColorBlack -> {
-                    binding.tvVerse.setTextColor(Color.BLACK)
+                    binding.tvVerse.apply {
+                        setTextColor(Color.BLACK)
+                        setShadowLayer(shadowRadius, shadowDx, shadowDy, Color.WHITE)
+                    }
                 }
             }
         }
@@ -154,8 +179,6 @@ class ImageEditFragment : BaseFragment() {
     private fun copyBitmapAndSaveImage(view: View) {
         viewLifecycleOwner.lifecycleScope.launch {
 
-            binding.btnGenerate.isEnabled = false
-
             val bitmap = Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
             val canvas = Canvas(bitmap)
             val bgDrawable = view.background
@@ -179,7 +202,6 @@ class ImageEditFragment : BaseFragment() {
                         // TODO show error
                     }
                 }
-                binding.btnGenerate.isEnabled = true
             }
         }
     }

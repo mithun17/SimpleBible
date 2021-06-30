@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -19,23 +20,22 @@
 
         <ImageView
             android:id="@+id/ivVerseBackgorund"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
-            android:src="@drawable/bg_blur1"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/bg_21" />
 
         <TextView
             android:id="@+id/tvVerse"
-            style="@style/Headline6"
+            style="@style/ImageVerseStyle"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_margin="16dp"
             android:gravity="center"
-            android:text="For God so loved the world, that he gave his only begotten Son, that whoever believeth in him should perish, but have everlasting life.\n-John 3:16"
             android:textAlignment="center"
             app:autoSizeMaxTextSize="24sp"
             app:autoSizeMinTextSize="8sp"
@@ -44,7 +44,8 @@
             app:layout_constraintBottom_toBottomOf="@id/ivVerseBackgorund"
             app:layout_constraintEnd_toEndOf="@id/ivVerseBackgorund"
             app:layout_constraintStart_toStartOf="@id/ivVerseBackgorund"
-            app:layout_constraintTop_toTopOf="@id/ivVerseBackgorund" />
+            app:layout_constraintTop_toTopOf="@id/ivVerseBackgorund"
+            tools:text="For God so loved the world, that he gave his only begotten Son, that whoever believeth in him should perish, but have everlasting life.\n-John 3:16" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
@@ -145,7 +146,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:text="Color"
-        app:layout_constraintBottom_toTopOf="@id/btnGenerate"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/rgTextColor"
         app:layout_constraintHorizontal_weight="1"
         app:layout_constraintStart_toStartOf="parent"
@@ -188,17 +189,6 @@
             android:textOn="" />
 
     </RadioGroup>
-
-
-    <Button
-        android:id="@+id/btnGenerate"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:text="Save"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

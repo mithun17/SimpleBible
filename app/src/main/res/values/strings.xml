@@ -6,18 +6,19 @@
     <string name="title_bookmarks">Bookmarks</string>
     <string name="title_settings">Settings</string>
     <string name="title_filter">Versions</string>
+    <string name="title_image_select">Select background</string>
     <string name="title_image_edit">Edit image</string>
     <string name="title_image_share">Share verse</string>
     <string name="booksFragmentTitle">Books</string>
     <string name="bookSelectTitle">Select</string>
 
     <!-- Menu items -->
-    <string name="menu_title_save">Save</string>
-    <string name="menu_title_version">Version</string>
-    <string name="menuItemNoteEdit">Edit</string>
-    <string name="menuItemNoteShare">Share</string>
-    <string name="menuItemNoteCopy">Copy</string>
-    <string name="menuItemNoteDelete">Delete</string>
+    <string name="menuItemSave">Save</string>
+    <string name="menuItemVersion">Version</string>
+    <string name="menuItemEdit">Edit</string>
+    <string name="menuItemShare">Share</string>
+    <string name="menuItemCopy">Copy</string>
+    <string name="menuItemDelete">Delete</string>
 
 
     <string name="versesActionSheetTitle">More Actions</string>

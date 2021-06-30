@@ -86,7 +86,6 @@ class AddEditNotesFragment : BaseFragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-
         when (item.itemId) {
             R.id.action_save -> {
                 saveNote()
