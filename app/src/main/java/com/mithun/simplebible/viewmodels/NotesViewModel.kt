@@ -99,7 +99,6 @@ class NotesViewModel @Inject constructor(
                     }.toList()
                 )
             }
-//            _notes.value = Resource.Success(notesRepository.getNotes(bibleVersionId))
         }
     }
 

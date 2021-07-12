@@ -4,23 +4,35 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import androidx.core.content.ContextCompat
 import com.mithun.simplebible.R
 
+/**
+ * Common utility methods
+ */
 object CommonUtils {
 
-    fun showShareIntent(context: Context, shareText: String) {
+    fun showTextShareIntent(context: Context, shareText: String) {
         val sendIntent: Intent = Intent().apply {
             action = Intent.ACTION_SEND
             putExtra(
                 Intent.EXTRA_TEXT,
                 shareText
             )
-            type = "text/plain"
+            type = TEXT_MIME_TYPE
         }
-
         val shareIntent = Intent.createChooser(sendIntent, context.getString(R.string.app_name))
         context.startActivity(shareIntent)
+    }
+
+    fun showImageShareIntent(context: Context, imageUri: Uri) {
+        val shareIntent: Intent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_STREAM, imageUri)
+            type = IMAGE_MIME_TYPE
+        }
+        context.startActivity(Intent.createChooser(shareIntent, context.getString(R.string.title_image_share)))
     }
 
     fun copyToClipboard(context: Context, copyText: String) {

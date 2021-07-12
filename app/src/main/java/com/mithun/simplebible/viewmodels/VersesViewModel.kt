@@ -26,7 +26,7 @@ class VersesViewModel @Inject constructor(
     private val _verses = MutableStateFlow<Resource<List<Verse>>>(Resource.Loading(emptyList()))
     val verses: StateFlow<Resource<List<Verse>>> = _verses
 
-    private val _bookmarkSaveState = MutableStateFlow<Resource<Boolean>>(Resource.Loading(null))
+    private val _bookmarkSaveState = MutableStateFlow<Resource<Boolean>>(Resource.Empty())
     val bookmarkSaveState: StateFlow<Resource<Boolean>> = _bookmarkSaveState
 
     private val versesExceptionHandler = CoroutineExceptionHandler { coroutineContext, throwable ->

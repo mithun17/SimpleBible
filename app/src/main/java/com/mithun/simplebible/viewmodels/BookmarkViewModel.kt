@@ -22,6 +22,10 @@ class BookmarkViewModel @Inject constructor(
     private val _bookmarks = MutableStateFlow<Resource<List<BookmarkItem>>>(Resource.Loading(emptyList()))
     val bookmarks: StateFlow<Resource<List<BookmarkItem>>> = _bookmarks
 
+    init {
+        getAllBookmarks()
+    }
+
     fun getAllBookmarks() {
         _bookmarks.value = Resource.Loading(null)
         viewModelScope.launch {

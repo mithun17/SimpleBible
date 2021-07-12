@@ -19,7 +19,6 @@ class ImageSelectGalleryFragment : BaseFragment() {
     private val binding get() = _binding!!
 
     private val args: ImageSelectGalleryFragmentArgs by navArgs()
-
     private val imageGalleryAdapter by lazy {
         ImageGalleryAdapter { imageResourceId ->
             setImageSelection(imageResourceId)
@@ -47,6 +46,7 @@ class ImageSelectGalleryFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.rvImages.adapter = imageGalleryAdapter
 
+        // image paths stored in array resource
         val imageArray = requireContext().resources.obtainTypedArray(R.array.images_for_verses)
         val imageList = mutableListOf<Int>()
         for (index in 0 until imageArray.length()) {

@@ -8,6 +8,9 @@ import com.mithun.simplebible.ui.adapter.BookmarkItem
 
 object ExtensionUtils {
 
+    const val RED_TAG_START = "<red>"
+    const val RED_TAG_END = "</red>"
+
     fun Map<Int, String>.toCopyText(chapterName: String): String {
         val copyText = StringBuilder().apply {
             append(chapterName)
@@ -17,7 +20,7 @@ object ExtensionUtils {
         forEach { entry ->
             with(copyText) {
                 append("[${entry.key}] ")
-                append(entry.value.replace("<red>", "").replace("</red>", ""))
+                append(entry.value.replace(RED_TAG_START, "").replace(RED_TAG_END, ""))
                 appendLine()
             }
         }
@@ -56,7 +59,7 @@ object ExtensionUtils {
         return shareText.toString()
     }
 
-    fun String.toRegularText() = replace("<red>", "").replace("</red>", "")
+    fun String.toRegularText() = replace(RED_TAG_START, "").replace(RED_TAG_END, "")
 }
 
 /**

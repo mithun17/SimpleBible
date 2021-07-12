@@ -9,11 +9,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.mithun.simplebible.R
+import com.mithun.simplebible.data.database.model.VerseEntity
 import com.mithun.simplebible.data.repository.Resource
 import com.mithun.simplebible.databinding.FragmentImageEditBinding
 import com.mithun.simplebible.ui.BaseFragment
@@ -36,8 +39,7 @@ class ImageEditFragment : BaseFragment() {
     private lateinit var verseText: String
     private lateinit var verseId: String
 
-    val args: ImageEditFragmentArgs by navArgs()
-
+    private val args: ImageEditFragmentArgs by navArgs()
     private val imageEditViewModel: ImageEditViewModel by viewModels()
 
     @Inject
@@ -51,16 +53,9 @@ class ImageEditFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentImageEditBinding.inflate(inflater, container, false)
-
         verseText = args.verse.toRegularText()
         verseId = args.verseId
-
         return binding.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -121,11 +116,8 @@ class ImageEditFragment : BaseFragment() {
                         // Loading message
                     }
                     is Resource.Success -> {
-                        val verse = resource.data
-                        verse?.let {
-                            imageVerseText = it.toShareText()
-                            binding.tvVerse.text = imageVerseText
-
+                        resource.data?.let {
+                            setImageVerse(it)
                             initTextSizeSeekBar()
                             initTextAlignmentListener()
                         }
@@ -136,6 +128,11 @@ class ImageEditFragment : BaseFragment() {
                 }
             }
         }
+    }
+
+    private fun setImageVerse(it: VerseEntity) {
+        imageVerseText = it.toShareText()
+        binding.tvVerse.text = imageVerseText
     }
 
     private fun initTextAlignmentListener() {
@@ -156,10 +153,9 @@ class ImageEditFragment : BaseFragment() {
     }
 
     private fun initTextSizeSeekBar() {
-
-        val minTextSize = 8 // scale independent pixels
+        val minTextSize = 8 // scale independent pixels. Min verse text size
+        val step = 2 // incremental steps for increasing text size
         val maxTextSize = CommonUtils.getPxToSp(requireContext(), binding.tvVerse.textSize).toInt()
-        val step = 2
         binding.sbTextSize.max = (maxTextSize - minTextSize) / step
 
         binding.sbTextSize.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
@@ -178,31 +174,37 @@ class ImageEditFragment : BaseFragment() {
 
     private fun copyBitmapAndSaveImage(view: View) {
         viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
 
-            val bitmap = Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
-            val canvas = Canvas(bitmap)
-            val bgDrawable = view.background
-            if (bgDrawable != null) bgDrawable.draw(canvas) else canvas.drawColor(Color.TRANSPARENT)
-            view.draw(canvas)
+                val bitmap = Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
+                val canvas = Canvas(bitmap)
+                val bgDrawable = view.background
+                if (bgDrawable != null) bgDrawable.draw(canvas) else canvas.drawColor(Color.TRANSPARENT)
+                view.draw(canvas)
 
-            imageEditViewModel.saveImage(verseId, bitmap)
-
-            imageEditViewModel.filePath.collect { status ->
-                when (status.first) {
-                    ImageEditViewModel.FileCopyStatus.STARTED -> {
-                        // TODO show progress
-                    }
-                    ImageEditViewModel.FileCopyStatus.SUCCESS -> {
-                        val fileUri = status.second
-                        if (fileUri.isNotEmpty()) {
-                            findNavController().navigate(ImageEditFragmentDirections.actionNavigationImageEditToNavigationImageShare(fileUri))
+                imageEditViewModel.saveImage(verseId, bitmap)
+                imageEditViewModel.filePath.collect { status ->
+                    when (status.first) {
+                        ImageEditViewModel.FileCopyStatus.STARTED -> {
+                            // TODO show progress
                         }
-                    }
-                    ImageEditViewModel.FileCopyStatus.FAIL -> {
-                        // TODO show error
+                        ImageEditViewModel.FileCopyStatus.SUCCESS -> {
+                            val fileUri = status.second
+                            if (fileUri.isNotEmpty()) {
+                                findNavController().navigate(ImageEditFragmentDirections.actionNavigationImageEditToNavigationImageShare(fileUri))
+                            }
+                        }
+                        ImageEditViewModel.FileCopyStatus.FAIL -> {
+                            // TODO show error
+                        }
                     }
                 }
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

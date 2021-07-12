@@ -1,6 +1,5 @@
 package com.mithun.simplebible.ui.share
 
-import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,6 +9,7 @@ import androidx.navigation.fragment.navArgs
 import com.mithun.simplebible.R
 import com.mithun.simplebible.databinding.FragmentImageShareBinding
 import com.mithun.simplebible.ui.BaseFragment
+import com.mithun.simplebible.utilities.CommonUtils
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -18,8 +18,7 @@ class ImageShareFragment : BaseFragment() {
     private var _binding: FragmentImageShareBinding? = null
     private val binding get() = _binding!!
 
-    val args: ImageShareFragmentArgs by navArgs()
-
+    private val args: ImageShareFragmentArgs by navArgs()
     private val fileUri by lazy { Uri.parse(args.fileUri) }
 
     override fun onCreateView(
@@ -29,11 +28,6 @@ class ImageShareFragment : BaseFragment() {
     ): View {
         _binding = FragmentImageShareBinding.inflate(inflater, container, false)
         return binding.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -48,18 +42,17 @@ class ImageShareFragment : BaseFragment() {
             setOnMenuItemClickListener {
                 when (it.itemId) {
                     R.id.action_share -> {
-                        val shareIntent: Intent = Intent().apply {
-                            action = Intent.ACTION_SEND
-                            putExtra(Intent.EXTRA_STREAM, fileUri)
-                            type = "image/jpeg"
-                        }
-                        startActivity(Intent.createChooser(shareIntent, getString(R.string.title_image_share)))
-
+                        CommonUtils.showImageShareIntent(requireContext(), fileUri)
                         true
                     }
                     else -> false
                 }
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

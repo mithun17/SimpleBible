@@ -5,6 +5,7 @@ import android.graphics.Paint
 import android.util.AttributeSet
 import androidx.core.content.ContextCompat
 import com.mithun.simplebible.R
+import com.mithun.simplebible.utilities.ExtensionUtils
 import com.mithun.simplebible.utilities.VerseFormatter.toSpannedStyle
 
 class VerseTextView @JvmOverloads constructor(
@@ -61,8 +62,8 @@ enum class TAG {
         override fun end() = "</number>"
     },
     RED {
-        override fun start() = "<red>"
-        override fun end() = "</red>"
+        override fun start() = ExtensionUtils.RED_TAG_START
+        override fun end() = ExtensionUtils.RED_TAG_END
     };
 
     abstract fun start(): String

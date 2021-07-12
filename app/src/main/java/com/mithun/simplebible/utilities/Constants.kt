@@ -16,3 +16,6 @@ const val KJV_BIBLE_ID = "de4e12af7f28f599-02"
 const val TAMIL_BIBLE_ID = "03a021185023710b-01"
 const val DEFAULT_BIBLE_ID = KJV_BIBLE_ID
 const val DEFAULT_BIBLE_VERSION = "KJV"
+
+const val IMAGE_MIME_TYPE = "image/jpeg"
+const val TEXT_MIME_TYPE = "text/plain"

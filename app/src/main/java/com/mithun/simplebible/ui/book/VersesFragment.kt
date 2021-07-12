@@ -31,7 +31,7 @@ import com.mithun.simplebible.ui.adapter.VersesAdapter
 import com.mithun.simplebible.ui.dialog.Action
 import com.mithun.simplebible.ui.dialog.ActionsBottomSheet
 import com.mithun.simplebible.utilities.CommonUtils.copyToClipboard
-import com.mithun.simplebible.utilities.CommonUtils.showShareIntent
+import com.mithun.simplebible.utilities.CommonUtils.showTextShareIntent
 import com.mithun.simplebible.utilities.ExtensionUtils.toCopyText
 import com.mithun.simplebible.utilities.Prefs
 import com.mithun.simplebible.utilities.gone
@@ -191,6 +191,8 @@ class VersesFragment : BaseCollapsibleFragment(), ActionsBottomSheet.ActionPicke
                 launch {
                     versesViewModel.bookmarkSaveState.collect { resource ->
                         when (resource) {
+                            is Resource.Empty -> { /* do nothing */
+                            }
                             is Resource.Loading -> showLoading()
                             is Resource.Success -> resource.data?.let {
                                 // bookmark saved
@@ -277,7 +279,7 @@ class VersesFragment : BaseCollapsibleFragment(), ActionsBottomSheet.ActionPicke
                 when (actionRequestCode) {
                     kActionRequestCodeShare -> {
                         // Create an implicit intent to share text data to other apps
-                        showShareIntent(requireContext(), versesAdapter.listOfSelectedVerses.toCopyText(chapterName))
+                        showTextShareIntent(requireContext(), versesAdapter.listOfSelectedVerses.toCopyText(chapterName))
                     }
                     kActionRequestCodeCopy -> {
                         // structure the verse text and copy to clipboard

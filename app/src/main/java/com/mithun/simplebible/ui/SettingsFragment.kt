@@ -21,14 +21,12 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     override fun onResume() {
         super.onResume()
-        preferenceScreen.sharedPreferences
-            .registerOnSharedPreferenceChangeListener(preferenceChangeListener)
+        preferenceScreen.sharedPreferences.registerOnSharedPreferenceChangeListener(preferenceChangeListener)
     }
 
     override fun onPause() {
         super.onPause()
-        preferenceScreen.sharedPreferences
-            .unregisterOnSharedPreferenceChangeListener(preferenceChangeListener)
+        preferenceScreen.sharedPreferences.unregisterOnSharedPreferenceChangeListener(preferenceChangeListener)
     }
 
     private fun initSettings() {
