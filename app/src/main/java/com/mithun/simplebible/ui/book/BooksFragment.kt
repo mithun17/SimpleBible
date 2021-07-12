@@ -69,7 +69,7 @@ class BooksFragment : Fragment() {
     private fun loadBooks(listOfBooks: List<Book>) {
         // success or error data
         bookAdapter.submitList(listOfBooks)
-        bookAdapter.setSelectedBook(selectionViewModel.selectedBookId.value)
+        bookAdapter.setSelectedBook(selectionViewModel.selectedBookId.value, binding.rvBooks)
         binding.pbHome.visibility = View.GONE
     }
 

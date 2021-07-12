@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.widget.TextViewCompat
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.mithun.simplebible.R
@@ -12,6 +13,8 @@ import com.mithun.simplebible.databinding.ListItemBookBinding
 
 class BookAdapter constructor(private val bookSelectListener: (bookName: String, bookId: String, chapterCount: Int) -> Unit) :
     ListAdapter<Book, BookAdapter.ViewHolder>(BookDiffUtil()) {
+
+    private val kScrollOffset = 20
 
     private var selectedBookId = ""
 
@@ -45,9 +48,14 @@ class BookAdapter constructor(private val bookSelectListener: (bookName: String,
         holder.bind(getItem(position))
     }
 
-    fun setSelectedBook(bookId: String) {
+    fun setSelectedBook(bookId: String, recyclerView: RecyclerView) {
         selectedBookId = bookId
+        val index = currentList.indexOfFirst { it.id == bookId }
         notifyDataSetChanged()
+        recyclerView.post {
+            val linearLayoutManager = recyclerView.layoutManager as LinearLayoutManager?
+            linearLayoutManager?.scrollToPositionWithOffset(index, kScrollOffset)
+        }
     }
 }
 
