@@ -8,13 +8,16 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.mithun.simplebible.databinding.FragmentVerseSelectBinding
 import com.mithun.simplebible.ui.adapter.VerseSelectAdapter
 import com.mithun.simplebible.ui.adapter.VersesItem
 import com.mithun.simplebible.viewmodels.SelectionViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.launch
 
 class VerseSelectFragment : Fragment() {
 
@@ -38,32 +41,38 @@ class VerseSelectFragment : Fragment() {
         setFragmentResult(SelectionFragment.kRequestKeyBookSelectFragment, bundleOf(kVerseSelectState to true))
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentVerseSelectBinding.inflate(inflater, container, false)
         return binding.root
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.rvChapters.adapter = versesSelectionAdapter
+        subscribeUi()
+    }
+
+    private fun subscribeUi() {
         val bookName = selectionViewModel.selectedBookName
         val bookId = selectionViewModel.selectedBookId
         val versesCount = selectionViewModel.versesCount
-        binding.rvChapters.adapter = versesSelectionAdapter
 
-        lifecycleScope.launchWhenCreated {
-            combine(bookName, bookId, versesCount) { bookName, bookId, versesCount ->
-                loadVersesForChapterId(bookId, bookName, versesCount)
-            }.collect()
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                combine(bookName, bookId, versesCount) { bookName, bookId, versesCount ->
+                    loadVersesForChapterId(bookId, bookName, versesCount)
+                }.collect()
+            }
         }
     }
 
     private fun loadVersesForChapterId(bookId: String, bookName: String, verseCount: Int) {
         val chapterList = MutableList(verseCount) { VersesItem(bookId, bookName, it + 1) }
         versesSelectionAdapter.submitList(chapterList)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

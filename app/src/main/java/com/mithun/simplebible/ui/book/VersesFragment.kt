@@ -1,7 +1,6 @@
 package com.mithun.simplebible.ui.book
 
 import android.os.Bundle
-import android.util.TypedValue
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.Menu
@@ -11,7 +10,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -22,6 +23,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.mithun.simplebible.R
 import com.mithun.simplebible.data.database.model.Bookmark
+import com.mithun.simplebible.data.model.Verse
 import com.mithun.simplebible.data.repository.Resource
 import com.mithun.simplebible.databinding.FragmentChapterVersesBinding
 import com.mithun.simplebible.ui.BaseCollapsibleFragment
@@ -36,7 +38,6 @@ import com.mithun.simplebible.utilities.gone
 import com.mithun.simplebible.utilities.visible
 import com.mithun.simplebible.viewmodels.VersesViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -44,25 +45,29 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class VersesFragment : BaseCollapsibleFragment(), ActionsBottomSheet.ActionPickerListener {
 
-    // Action sheet request codes
+    // Action sheet selection request codes
     private val kActionRequestCodeShare = 1
     private val kActionRequestCodeCopy = 2
     private val kActionRequestCodeNote = 3
     private val kActionRequestCodeBookmark = 4
     private val kActionRequestCodeImage = 5
 
+    // Action sheet request code
+    private val kRequestCodeActionSheet = 1
+
     @Inject
     lateinit var prefs: Prefs
 
+    private lateinit var chapterId: String
+    private lateinit var chapterName: String
+    private lateinit var menu: Menu
+    private lateinit var bottomNav: BottomNavigationView
+
     private val versesViewModel: VersesViewModel by viewModels()
+    private val args: VersesFragmentArgs by navArgs()
 
     private var _binding: FragmentChapterVersesBinding? = null
     private val binding get() = _binding!!
-    private var lookupJob: Job? = null
-
-    val args: VersesFragmentArgs by navArgs()
-
-    private val kRequestCodeActionSheet = 1
 
     private val versesAdapter by lazy {
         VersesAdapter(object : VersesAdapter.clickListener {
@@ -75,12 +80,6 @@ class VersesFragment : BaseCollapsibleFragment(), ActionsBottomSheet.ActionPicke
             }
         })
     }
-
-    private lateinit var chapterId: String
-    private lateinit var chapterName: String
-
-    private lateinit var menu: Menu
-    private lateinit var bottomNav: BottomNavigationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -96,23 +95,14 @@ class VersesFragment : BaseCollapsibleFragment(), ActionsBottomSheet.ActionPicke
         return binding.root
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         bottomNav = requireActivity().findViewById(R.id.nav_view)
         binding.rvVerses.adapter = versesAdapter
-
         chapterId = args.chapterId ?: prefs.lastReadChapter
         chapterName = args.chapterFullName ?: ""
-
         setTitle(chapterName)
         initUI()
-        initViewModelAndSetCollectors()
-        versesViewModel.getVerses(prefs.selectedBibleVersionId, chapterId)
     }
 
     private fun initUI() {
@@ -122,22 +112,20 @@ class VersesFragment : BaseCollapsibleFragment(), ActionsBottomSheet.ActionPicke
         setSelectionClickListener {
             navigateToBookSelection()
         }
-        val tv = TypedValue()
+        initScrollListener()
+        initFab()
+        subscribeUi()
+    }
 
-        var actionBarHeight = 0f
-        if (requireActivity().theme.resolveAttribute(R.attr.actionBarSize, tv, true)) {
-            actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data, resources.displayMetrics)
-                .toFloat()
-        }
-
+    private fun initScrollListener() {
         val parent: ViewGroup = requireActivity().findViewById(R.id.container)
         val transitionDown: Transition = Slide(Gravity.BOTTOM)
 
         binding.nestedScrollView.setOnScrollChangeListener(
-            NestedScrollView.OnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+            NestedScrollView.OnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
                 if (scrollY > oldScrollY) {
                     // Scroll DOWN
-                    transitionDown.setDuration(600)
+                    transitionDown.duration = 600
                     transitionDown.addTarget(bottomNav)
 
                     TransitionManager.beginDelayedTransition(parent, transitionDown)
@@ -182,9 +170,61 @@ class VersesFragment : BaseCollapsibleFragment(), ActionsBottomSheet.ActionPicke
         return super.onOptionsItemSelected(item)
     }
 
-    private fun initViewModelAndSetCollectors() {
+    private fun subscribeUi() {
+        // fetch verses for selection chapter
+        versesViewModel.getVerses(prefs.selectedBibleVersionId, chapterId)
 
-        // set click listener
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    versesViewModel.verses.collect { resource ->
+                        when (resource) {
+                            is Resource.Loading -> showLoading()
+                            is Resource.Success -> {
+                                resource.data?.let { populateVerses(it) }
+                            }
+                            is Resource.Error -> showError(resource.message)
+                        }
+                    }
+                }
+
+                launch {
+                    versesViewModel.bookmarkSaveState.collect { resource ->
+                        when (resource) {
+                            is Resource.Loading -> showLoading()
+                            is Resource.Success -> resource.data?.let {
+                                // bookmark saved
+                                binding.pbDialog.visibility = View.GONE
+                            }
+                            is Resource.Error -> showError(resource.message)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun showError(errorMessage: String?) {
+        Snackbar.make(binding.root, errorMessage ?: "", Snackbar.LENGTH_LONG).show()
+        binding.pbDialog.visibility = View.GONE
+    }
+
+    private fun showLoading() {
+        // Loading message
+        binding.pbDialog.visibility = View.VISIBLE
+    }
+
+    private fun populateVerses(verses: List<Verse>) {
+        // success or error data
+        if (verses.isNotEmpty()) {
+            chapterName = verses.first().reference
+            setTitle(chapterName)
+        }
+        versesAdapter.submitList(verses)
+        binding.pbDialog.visibility = View.GONE
+    }
+
+    private fun initFab() {
         binding.fabMore.setOnClickListener {
             fragmentManager?.let {
                 val actionList = mutableListOf(
@@ -226,52 +266,6 @@ class VersesFragment : BaseCollapsibleFragment(), ActionsBottomSheet.ActionPicke
                     .with(it, kRequestCodeActionSheet, this@VersesFragment)
                     .action(actionList)
                     .show()
-            }
-        }
-
-        lookupJob?.cancel()
-        lookupJob = lifecycleScope.launch {
-            versesViewModel.verses.collect { resource ->
-                when (resource) {
-                    is Resource.Loading -> {
-                        // Loading message
-                        binding.pbDialog.visibility = View.VISIBLE
-                    }
-                    is Resource.Success -> {
-                        val listOfVerses = resource.data
-                        // success or error data
-                        listOfVerses?.let { verses ->
-                            if (verses.isNotEmpty()) {
-                                chapterName = verses.first().reference
-                                setTitle(chapterName)
-                            }
-                        }
-                        versesAdapter.submitList(listOfVerses)
-                        binding.pbDialog.visibility = View.GONE
-                    }
-                    is Resource.Error -> {
-                        // error
-                        val errorMessage = resource.message
-                        Snackbar.make(binding.root, errorMessage ?: "", Snackbar.LENGTH_LONG).show()
-                        binding.pbDialog.visibility = View.GONE
-                    }
-                }
-            }
-
-            versesViewModel.bookmarkSaveState.collect { resource ->
-                resource.message?.let { errorMessage ->
-                    // error
-                    Snackbar.make(binding.root, errorMessage, Snackbar.LENGTH_LONG).show()
-                    binding.pbDialog.visibility = View.GONE
-                }
-
-                resource.data?.let { saveState ->
-                    // bookmark saved
-                    binding.pbDialog.visibility = View.GONE
-                } ?: run {
-                    // Loading message
-                    binding.pbDialog.visibility = View.VISIBLE
-                }
             }
         }
     }
@@ -320,5 +314,10 @@ class VersesFragment : BaseCollapsibleFragment(), ActionsBottomSheet.ActionPicke
                 }
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

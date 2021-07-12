@@ -1,6 +1,34 @@
 ext {
 
     Version = [
-            hilt_version    : '2.37'
+
+            // Dagger-hilt
+            hilt_version    : '2.37',
+            hilt_compiler   : '1.0.0',
+
+            // lifecycle
+            lifecycle_stable: '2.3.1',
+            lifecycle_alpha : '2.4.0-alpha02',
+            fragment_ktx    : '1.3.5',
+
+            // navigation
+            nav_component   : '2.3.5',
+
+            // networking
+            retrofit        : '2.9.0',
+            gson            : '2.8.6',
+            stetho          : '1.5.1',
+
+            // coroutines
+            coroutine       : '1.5.0',
+
+            // room
+            room            : '2.3.0',
+
+            // image loading
+            glide           : '4.12.0',
+
+            // preference
+            preference      : '1.1.1'
     ]
 }

@@ -8,7 +8,9 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.mithun.simplebible.databinding.FragmentChapterSelectBinding
 import com.mithun.simplebible.ui.adapter.ChapterAdapter
 import com.mithun.simplebible.ui.adapter.ChapterItem
@@ -22,6 +24,7 @@ import kotlinx.coroutines.launch
 class ChapterSelectionFragment : Fragment() {
 
     companion object {
+        // key set to track the status of chapter selection in view pager
         const val kChapterSelectState = "chapterSelectState"
     }
 
@@ -33,47 +36,54 @@ class ChapterSelectionFragment : Fragment() {
     private val chapterSelectionAdapter by lazy {
         ChapterAdapter { chapterId ->
             selectionViewModel.setSelectedChapterId(chapterId)
-            setResult()
+            setChapterSelectionResult()
         }
     }
 
-    private fun setResult() {
-        setFragmentResult(SelectionFragment.kRequestKeyBookSelectFragment, bundleOf(kChapterSelectState to true))
-    }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentChapterSelectBinding.inflate(inflater, container, false)
         return binding.root
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.rvChapters.adapter = chapterSelectionAdapter
+        subscribeUi()
+    }
+
+    private fun subscribeUi() {
         val bookName = selectionViewModel.selectedBookName
         val bookId = selectionViewModel.selectedBookId
         val chapterCount = selectionViewModel.chapterCount
 
-        binding.rvChapters.adapter = chapterSelectionAdapter
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    combine(bookName, bookId, chapterCount) { bookName, bookId, chapterCount ->
+                        loadChaptersForBookId(bookId, bookName, chapterCount)
+                    }.collect()
+                }
 
-        lifecycleScope.launchWhenCreated {
-            combine(bookName, bookId, chapterCount) { bookName, bookId, chapterCount ->
-                loadChaptersForBookId(bookId, bookName, chapterCount)
-            }.collect()
-        }
-
-        lifecycleScope.launch {
-            selectionViewModel.chapterNumber.collect { chapterNumber ->
-                chapterSelectionAdapter.setSelectedChapterNumber(chapterNumber)
+                launch {
+                    selectionViewModel.chapterNumber.collect { chapterNumber ->
+                        chapterSelectionAdapter.setSelectedChapterNumber(chapterNumber)
+                    }
+                }
             }
         }
     }
 
     private fun loadChaptersForBookId(bookId: String, bookName: String, chapterCount: Int) {
-        val chapterList = MutableList<ChapterItem>(chapterCount) { ChapterItem(bookId, bookName, it + 1) }
+        val chapterList = MutableList(chapterCount) { ChapterItem(bookId, bookName, it + 1) }
         chapterSelectionAdapter.submitList(chapterList)
+    }
+
+    private fun setChapterSelectionResult() {
+        setFragmentResult(SelectionFragment.kRequestKeyBookSelectFragment, bundleOf(kChapterSelectState to true))
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

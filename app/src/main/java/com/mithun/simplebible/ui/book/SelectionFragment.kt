@@ -27,10 +27,11 @@ class SelectionFragment : BaseFragment() {
 
     private val selectionViewModel: SelectionViewModel by viewModels()
 
-    private lateinit var binding: FragmentSelectionBinding
+    private var _binding: FragmentSelectionBinding? = null
+    private val binding get() = _binding!!
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = FragmentSelectionBinding.inflate(inflater, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        _binding = FragmentSelectionBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -39,8 +40,8 @@ class SelectionFragment : BaseFragment() {
 
         val tabLayout = binding.tabLayout
         val viewPager = binding.vpTabs
-
         selectionViewModel.chapterCount
+
         viewPager.adapter = BookSelectPageAdapter(this)
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = getTabTitle(position)
@@ -50,7 +51,7 @@ class SelectionFragment : BaseFragment() {
     }
 
     private fun initFragmentResultListener(viewPager: ViewPager2) {
-        childFragmentManager.setFragmentResultListener(kRequestKeyBookSelectFragment, this) { key, bundle ->
+        childFragmentManager.setFragmentResultListener(kRequestKeyBookSelectFragment, this) { _, bundle ->
             with(bundle) {
                 when {
                     getBoolean(BooksFragment.kBookSelectState) -> {
@@ -74,5 +75,10 @@ class SelectionFragment : BaseFragment() {
             VERSES_PAGE_INDEX -> getString(R.string.title_tab_verses)
             else -> null
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

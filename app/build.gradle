@@ -11,7 +11,7 @@ apply plugin: 'dagger.hilt.android.plugin'
 
 android {
     compileSdkVersion 30
-    buildToolsVersion "30.0.1"
+    buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "com.mithun.simplebible"
@@ -23,8 +23,8 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    buildFeatures {
-        viewBinding true
+    viewBinding {
+        enabled = true
     }
 
     buildTypes {
@@ -49,45 +49,49 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.3.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    implementation 'androidx.navigation:navigation-fragment:2.3.5'
-    implementation 'androidx.navigation:navigation-ui:2.3.5'
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.1'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1'
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.3.5'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.3.5'
-    implementation "androidx.fragment:fragment-ktx:1.3.5"
-    implementation 'androidx.preference:preference:1.1.1'
+    implementation 'androidx.recyclerview:recyclerview:1.2.1'
+
+    // Test
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
+    // Lifecycle
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$Version.lifecycle_stable"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$Version.lifecycle_stable"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$Version.lifecycle_alpha"
+    implementation "androidx.fragment:fragment-ktx:$Version.fragment_ktx"
+
+    //Navigation component
+    implementation "androidx.navigation:navigation-fragment-ktx:$Version.nav_component"
+    implementation "androidx.navigation:navigation-ui-ktx:$Version.nav_component"
+
     // Retrofit and gson
-    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-    implementation 'com.google.code.gson:gson:2.8.6'
-    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation "com.squareup.retrofit2:retrofit:$Version.retrofit"
+    implementation "com.squareup.retrofit2:converter-gson:$Version.retrofit"
+    implementation "com.google.code.gson:gson:$Version.gson"
 
     // Coroutines
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.2'
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$Version.coroutine"
 
     // stetho
-    implementation 'com.facebook.stetho:stetho:1.5.1'
-    implementation 'com.facebook.stetho:stetho-okhttp3:1.5.1'
-
-    implementation 'androidx.recyclerview:recyclerview:1.2.1'
+    implementation "com.facebook.stetho:stetho:$Version.stetho"
+    implementation "com.facebook.stetho:stetho-okhttp3:$Version.stetho"
 
     // room
-    implementation "androidx.room:room-runtime:2.2.5"
-    kapt "androidx.room:room-compiler:2.2.5"
-    implementation "androidx.room:room-ktx:2.2.5"
+    implementation "androidx.room:room-runtime:$Version.room"
+    kapt "androidx.room:room-compiler:$Version.room"
+    implementation "androidx.room:room-ktx:$Version.room"
 
     // DI
     implementation "com.google.dagger:hilt-android:$Version.hilt_version"
     kapt "com.google.dagger:hilt-compiler:$Version.hilt_version"
-    kapt "androidx.hilt:hilt-compiler:1.0.0"
+    kapt "androidx.hilt:hilt-compiler:$Version.hilt_compiler"
 
-    implementation 'com.github.bumptech.glide:glide:4.12.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
+    // Glide image loading library
+    implementation "com.github.bumptech.glide:glide:$Version.glide"
+    annotationProcessor "com.github.bumptech.glide:compiler:$Version.glide"
 
     // preference settings
-    implementation "androidx.preference:preference-ktx:1.1.1"
+    implementation "androidx.preference:preference-ktx:$Version.preference"
 }

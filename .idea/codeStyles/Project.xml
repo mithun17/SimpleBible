@@ -131,6 +131,7 @@
     <codeStyleSettings language="kotlin">
       <option name="CODE_STYLE_DEFAULTS" value="KOTLIN_OFFICIAL" />
       <option name="CALL_PARAMETERS_WRAP" value="0" />
+      <option name="CALL_PARAMETERS_RPAREN_ON_NEXT_LINE" value="false" />
       <option name="METHOD_PARAMETERS_WRAP" value="0" />
       <option name="ASSIGNMENT_WRAP" value="0" />
     </codeStyleSettings>
