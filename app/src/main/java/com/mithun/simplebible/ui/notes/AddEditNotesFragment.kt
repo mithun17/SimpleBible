@@ -12,8 +12,8 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.mithun.simplebible.R
-import com.mithun.simplebible.data.database.model.VerseEntity
 import com.mithun.simplebible.data.repository.Resource
+import com.mithun.simplebible.data.repository.data.FullNote
 import com.mithun.simplebible.databinding.FragmentAddEditNoteBinding
 import com.mithun.simplebible.ui.BaseFragment
 import com.mithun.simplebible.utilities.Prefs
@@ -46,7 +46,7 @@ class AddEditNotesFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentAddEditNoteBinding.inflate(inflater, container, false)
-        notesViewModel.fetchListOfVerses(prefs.selectedBibleVersionId, verseIds)
+        notesViewModel.fetchNoteById(noteId)
         initUi()
         return binding.root
     }
@@ -94,7 +94,7 @@ class AddEditNotesFragment : BaseFragment() {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 // observe note loading
                 launch {
-                    notesViewModel.verses.collect { resource ->
+                    notesViewModel.note.collect { resource ->
                         when (resource) {
                             is Resource.Success -> loadNote(resource)
                             is Resource.Error -> {
@@ -135,9 +135,9 @@ class AddEditNotesFragment : BaseFragment() {
         findNavController().navigateUp()
     }
 
-    private fun loadNote(resource: Resource<List<VerseEntity>>) {
+    private fun loadNote(resource: Resource<FullNote>) {
         binding.pbSaving.gone
-        val verseEntities = resource.data
+        val verseEntities = resource.data?.verses
         val verseStringBuilder = SpannableStringBuilder()
         verseEntities?.forEach { entity ->
             verseStringBuilder.append(

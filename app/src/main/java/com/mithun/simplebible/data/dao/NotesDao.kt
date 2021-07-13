@@ -14,6 +14,9 @@ interface NotesDao {
     @Query("SELECT * FROM notes ORDER BY dateUpdated DESC")
     fun getNotes(): Flow<List<Note>>
 
+    @Query("SELECT * FROM notes WHERE id=:noteId LIMIT 1")
+    fun getNoteById(noteId: Long): Flow<Note>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addNote(note: Note): Long
 

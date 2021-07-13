@@ -37,14 +37,29 @@ class NotesViewModel @Inject constructor(
     private val _notes = MutableStateFlow<Resource<List<FullNote>>>(Resource.Loading(emptyList()))
     val notes: StateFlow<Resource<List<FullNote>>> = _notes
 
+    private val _note = MutableStateFlow<Resource<FullNote>>(Resource.Empty())
+    val note: StateFlow<Resource<FullNote>> = _note
+
     private val versesExceptionHandler = CoroutineExceptionHandler { coroutineContext, throwable ->
         _verses.value = Resource.Error(
             throwable.message ?: resourcesUtil.getString(R.string.errorGenericString), emptyList()
         )
     }
 
-    private val notesExceptionHandler = CoroutineExceptionHandler { coroutineContext, throwable ->
+    private val noteSaveExceptionHandler = CoroutineExceptionHandler { coroutineContext, throwable ->
         _noteSaveState.value = Resource.Error(
+            throwable.message ?: resourcesUtil.getString(R.string.errorGenericString), null
+        )
+    }
+
+    private val notesExceptionHandler = CoroutineExceptionHandler { coroutineContext, throwable ->
+        _notes.value = Resource.Error(
+            throwable.message ?: resourcesUtil.getString(R.string.errorGenericString), null
+        )
+    }
+
+    private val noteExceptionHandler = CoroutineExceptionHandler { coroutineContext, throwable ->
+        _note.value = Resource.Error(
             throwable.message ?: resourcesUtil.getString(R.string.errorGenericString), null
         )
     }
@@ -67,7 +82,7 @@ class NotesViewModel @Inject constructor(
             comment = comment
         )
 
-        viewModelScope.launch(notesExceptionHandler) {
+        viewModelScope.launch(noteSaveExceptionHandler) {
             notesRepository.saveNote(note)
             _noteSaveState.value = Resource.Success(true)
         }
@@ -78,7 +93,7 @@ class NotesViewModel @Inject constructor(
     }
 
     private fun fetchNotes() {
-        viewModelScope.launch {
+        viewModelScope.launch(notesExceptionHandler) {
             notesRepository.getNotes().collect { notes ->
                 _notes.value = Resource.Success(
                     notes.map { note ->
@@ -106,5 +121,30 @@ class NotesViewModel @Inject constructor(
         viewModelScope.launch {
             notesRepository.deleteNote(note.id)
         }
+    }
+
+    fun fetchNoteById(noteId: Long) {
+        viewModelScope.launch(noteExceptionHandler) {
+            notesRepository.getNoteById(noteId).collect { note ->
+                val verseIds = note.verses.map { it -> "${note.chapterId}.$it" }.toList()
+                val verses = versesRepository.getVersesById(note.bibleId, verseIds)
+                _note.value = Resource.Success(note.toFullNote(verses))
+            }
+        }
+    }
+
+    private fun Note.toFullNote(verses: List<VerseEntity>): FullNote {
+        val note = this
+        return FullNote(
+            id = note.id,
+            bibleId = note.bibleId,
+            chapterId = note.chapterId,
+            chapterName = note.chapterName,
+            verseIds = note.verses,
+            verses = verses,
+            comment = note.comment,
+            dateAdded = note.dateAdded,
+            dateUpdated = note.dateUpdated
+        )
     }
 }
