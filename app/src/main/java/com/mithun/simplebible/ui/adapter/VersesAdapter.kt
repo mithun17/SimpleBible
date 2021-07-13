@@ -8,10 +8,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mithun.simplebible.data.model.Verse
 import com.mithun.simplebible.ui.custom.VerseTextView
 
-class VersesAdapter(private val callback: clickListener) :
+class VersesAdapter(private val callback: ClickListener) :
     ListAdapter<Verse, VersesAdapter.ViewHolder>(VersesDiffUtil()) {
 
-    interface clickListener {
+    interface ClickListener {
         fun onClick()
         fun unClick()
     }
@@ -53,6 +53,11 @@ class VersesAdapter(private val callback: clickListener) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(getItem(position))
+    }
+
+    fun clearSelection() {
+        listOfSelectedVerses.clear()
+        notifyDataSetChanged()
     }
 
     fun setBookmarked(verseNumber: Int) {

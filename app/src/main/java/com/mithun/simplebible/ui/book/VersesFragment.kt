@@ -65,7 +65,7 @@ class VersesFragment : BaseCollapsibleFragment(), ActionsBottomSheet.ActionPicke
     private val binding get() = _binding!!
 
     private val versesAdapter by lazy {
-        VersesAdapter(object : VersesAdapter.clickListener {
+        VersesAdapter(object : VersesAdapter.ClickListener {
             override fun onClick() {
                 binding.fabMore.show()
             }
@@ -257,13 +257,16 @@ class VersesFragment : BaseCollapsibleFragment(), ActionsBottomSheet.ActionPicke
                     kActionRequestCodeShare -> {
                         // Create an implicit intent to share text data to other apps
                         showTextShareIntent(requireContext(), versesAdapter.listOfSelectedVerses.toCopyText(chapterName))
+                        versesAdapter.clearSelection()
                     }
                     kActionRequestCodeCopy -> {
                         // structure the verse text and copy to clipboard
                         copyToClipboard(requireContext(), versesAdapter.listOfSelectedVerses.toCopyText(chapterName))
+                        versesAdapter.clearSelection()
                     }
                     kActionRequestCodeNote -> {
                         val verseIds = versesAdapter.listOfSelectedVerses.keys.toIntArray()
+                        versesAdapter.clearSelection()
                         binding.root.findNavController()
                             .navigate(VersesFragmentDirections.actionAddEditNote(0L, chapterName, chapterId, verseIds, null))
                     }
@@ -289,8 +292,10 @@ class VersesFragment : BaseCollapsibleFragment(), ActionsBottomSheet.ActionPicke
                         verseText?.let {
                             findNavController().navigate(VersesFragmentDirections.actionImageSelect(verseText, verseId))
                         }
+                        versesAdapter.clearSelection()
                     }
                 }
+                binding.fabMore.hide()
             }
         }
     }

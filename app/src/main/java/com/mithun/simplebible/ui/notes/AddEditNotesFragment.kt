@@ -12,6 +12,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.mithun.simplebible.R
+import com.mithun.simplebible.data.database.model.VerseEntity
 import com.mithun.simplebible.data.repository.Resource
 import com.mithun.simplebible.data.repository.data.FullNote
 import com.mithun.simplebible.databinding.FragmentAddEditNoteBinding
@@ -46,14 +47,23 @@ class AddEditNotesFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentAddEditNoteBinding.inflate(inflater, container, false)
-        notesViewModel.fetchNoteById(noteId)
         initUi()
         return binding.root
+    }
+
+    private fun isAdd(): Boolean {
+        return args.noteId == 0L
     }
 
     private fun initUi() {
         binding.tvNoteTitle.text = args.chapterFullName
         binding.etNotesComment.setText(args.comment)
+
+        if (isAdd()) {
+            notesViewModel.fetchListOfVerses(prefs.selectedBibleVersionId, verseIds)
+        } else {
+            notesViewModel.fetchNoteById(noteId)
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -93,14 +103,29 @@ class AddEditNotesFragment : BaseFragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 // observe note loading
-                launch {
-                    notesViewModel.note.collect { resource ->
-                        when (resource) {
-                            is Resource.Success -> loadNote(resource)
-                            is Resource.Error -> {
-                                binding.pbSaving.gone
+
+                if (isAdd()) {
+                    launch {
+                        notesViewModel.verses.collect { resource ->
+                            when (resource) {
+                                is Resource.Success -> loadVersesInNote(resource.data)
+                                is Resource.Error -> {
+                                    binding.pbSaving.gone
+                                }
+                                is Resource.Loading -> binding.pbSaving.visible
                             }
-                            is Resource.Loading -> binding.pbSaving.visible
+                        }
+                    }
+                } else {
+                    launch {
+                        notesViewModel.note.collect { resource ->
+                            when (resource) {
+                                is Resource.Success -> loadNote(resource)
+                                is Resource.Error -> {
+                                    binding.pbSaving.gone
+                                }
+                                is Resource.Loading -> binding.pbSaving.visible
+                            }
                         }
                     }
                 }
@@ -122,6 +147,21 @@ class AddEditNotesFragment : BaseFragment() {
         }
     }
 
+    private fun loadVersesInNote(verseEntities: List<VerseEntity>?) {
+        binding.pbSaving.gone
+        val verseStringBuilder = SpannableStringBuilder()
+        verseEntities?.forEach { entity ->
+            verseStringBuilder.append(
+                VerseFormatter.formatVerseForDisplay(
+                    requireContext(),
+                    entity.number.toInt(),
+                    entity.text
+                )
+            )
+        }
+        binding.tvNoteVerses.text = verseStringBuilder
+    }
+
     private fun showLoading(data: Boolean?) {
         if (data == true) {
             binding.pbSaving.visible
@@ -136,19 +176,8 @@ class AddEditNotesFragment : BaseFragment() {
     }
 
     private fun loadNote(resource: Resource<FullNote>) {
-        binding.pbSaving.gone
         val verseEntities = resource.data?.verses
-        val verseStringBuilder = SpannableStringBuilder()
-        verseEntities?.forEach { entity ->
-            verseStringBuilder.append(
-                VerseFormatter.formatVerseForDisplay(
-                    requireContext(),
-                    entity.number.toInt(),
-                    entity.text
-                )
-            )
-        }
-        binding.tvNoteVerses.text = verseStringBuilder
+        loadVersesInNote(verseEntities)
     }
 
     override fun onDestroyView() {
