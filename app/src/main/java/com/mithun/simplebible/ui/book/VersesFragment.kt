@@ -1,14 +1,12 @@
 package com.mithun.simplebible.ui.book
 
 import android.os.Bundle
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -16,9 +14,6 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.transition.Slide
-import androidx.transition.Transition
-import androidx.transition.TransitionManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.mithun.simplebible.R
@@ -34,8 +29,6 @@ import com.mithun.simplebible.utilities.CommonUtils.copyToClipboard
 import com.mithun.simplebible.utilities.CommonUtils.showTextShareIntent
 import com.mithun.simplebible.utilities.ExtensionUtils.toCopyText
 import com.mithun.simplebible.utilities.Prefs
-import com.mithun.simplebible.utilities.gone
-import com.mithun.simplebible.utilities.visible
 import com.mithun.simplebible.viewmodels.VersesViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -62,6 +55,8 @@ class VersesFragment : BaseCollapsibleFragment(), ActionsBottomSheet.ActionPicke
     private lateinit var chapterName: String
     private lateinit var menu: Menu
     private lateinit var bottomNav: BottomNavigationView
+
+    private var selectedVerseNumber = -1
 
     private val versesViewModel: VersesViewModel by viewModels()
     private val args: VersesFragmentArgs by navArgs()
@@ -99,6 +94,7 @@ class VersesFragment : BaseCollapsibleFragment(), ActionsBottomSheet.ActionPicke
         super.onViewCreated(view, savedInstanceState)
         bottomNav = requireActivity().findViewById(R.id.nav_view)
         binding.rvVerses.adapter = versesAdapter
+        binding.rvVerses.isNestedScrollingEnabled = false
         chapterId = args.chapterId ?: prefs.lastReadChapter
         chapterName = args.chapterFullName ?: ""
         setTitle(chapterName)
@@ -112,35 +108,15 @@ class VersesFragment : BaseCollapsibleFragment(), ActionsBottomSheet.ActionPicke
         setSelectionClickListener {
             navigateToBookSelection()
         }
-        initScrollListener()
         initFab()
         subscribeUi()
-    }
 
-    private fun initScrollListener() {
-        val parent: ViewGroup = requireActivity().findViewById(R.id.container)
-        val transitionDown: Transition = Slide(Gravity.BOTTOM)
-
-        binding.nestedScrollView.setOnScrollChangeListener(
-            NestedScrollView.OnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
-                if (scrollY > oldScrollY) {
-                    // Scroll DOWN
-                    transitionDown.duration = 600
-                    transitionDown.addTarget(bottomNav)
-
-                    TransitionManager.beginDelayedTransition(parent, transitionDown)
-                    bottomNav.gone
+        with(findNavController()) {
+            currentBackStackEntry?.savedStateHandle?.getLiveData<Int>(VerseSelectFragment.kVerseSelectedNumber)
+                ?.observe(viewLifecycleOwner) { verseNumber ->
+                    selectedVerseNumber = verseNumber
                 }
-                if (scrollY < oldScrollY) {
-                    // Scroll UP
-                    transitionDown.setDuration(300)
-                    transitionDown.addTarget(bottomNav)
-
-                    TransitionManager.beginDelayedTransition(parent, transitionDown)
-                    bottomNav.visible
-                }
-            }
-        )
+        }
     }
 
     private fun navigateToBookSelection() {
@@ -223,6 +199,7 @@ class VersesFragment : BaseCollapsibleFragment(), ActionsBottomSheet.ActionPicke
             setTitle(chapterName)
         }
         versesAdapter.submitList(verses)
+        versesAdapter.scrollToVerse(binding.nestedScrollView, binding.rvVerses, selectedVerseNumber)
         binding.pbDialog.visibility = View.GONE
     }
 

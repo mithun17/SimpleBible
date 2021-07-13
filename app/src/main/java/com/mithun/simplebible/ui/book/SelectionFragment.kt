@@ -61,7 +61,10 @@ class SelectionFragment : BaseFragment() {
                         viewPager.currentItem = VERSES_PAGE_INDEX
                     }
                     getBoolean(VerseSelectFragment.kVerseSelectState) -> {
-                        findNavController().navigateUp()
+                        with(findNavController()) {
+                            previousBackStackEntry?.savedStateHandle?.set(VerseSelectFragment.kVerseSelectedNumber, getInt(VerseSelectFragment.kVerseSelectedNumber, -1))
+                            findNavController().navigateUp()
+                        }
                     }
                 }
             }

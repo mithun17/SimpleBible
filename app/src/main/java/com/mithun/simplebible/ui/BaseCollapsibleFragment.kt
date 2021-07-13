@@ -34,7 +34,6 @@ open class BaseCollapsibleFragment : Fragment() {
     protected var fabSelection: FloatingActionButton? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
         val navController = findNavController()
         val appBarConfiguration = AppBarConfiguration(navController.graph)
         toolbar = view.findViewById(R.id.toolbar)
@@ -82,5 +81,15 @@ open class BaseCollapsibleFragment : Fragment() {
         toolbarTextView.setOnClickListener {
             callback.invoke()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        appBarLayout.visible
+    }
+
+    override fun onStop() {
+        super.onStop()
+        appBarLayout.gone
     }
 }

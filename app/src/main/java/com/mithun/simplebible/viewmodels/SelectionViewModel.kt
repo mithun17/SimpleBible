@@ -26,7 +26,9 @@ class SelectionViewModel @Inject constructor(
     private val prefs: Prefs
 ) : ViewModel() {
 
-    val chapterNumber: MutableStateFlow<Int> = MutableStateFlow(1)
+    val chapterNumber: MutableStateFlow<Int> = MutableStateFlow(
+        prefs.lastReadChapter.split(".").last().toInt()
+    )
     var verseNumber = 1
 
     private val _selectedBookName: MutableStateFlow<String> = MutableStateFlow("")
@@ -87,7 +89,7 @@ class SelectionViewModel @Inject constructor(
     // set Book eg: GEN, EXO, MAT
     fun setSelectedBookId(bookId: String) {
         _selectedBookId.value = bookId
-        _selectedChapterId.value = "$bookId.1" // default to 1st chapter when a book is selected
+        setSelectedChapterId("$bookId.1") // default to 1st chapter when a book is selected
     }
 
     fun setSelectedBookName(bookName: String) {
@@ -109,7 +111,8 @@ class SelectionViewModel @Inject constructor(
         _books.value = Resource.Loading(null)
         viewModelScope.launch(booksExceptionHandler) {
             val bibleBooks = bibleRepository.getBooks(bibleId)
-            _chapterCount.value = bibleBooks.first { it.id == selectedBookId.value }.chapters.filter { it.number != "intro" }.count()
+            _chapterCount.value = bibleBooks.first { it.id == selectedBookId.value }.chapters.filter { it.number != "intro" }
+                .count()
             _books.value = Resource.Success(bibleBooks)
         }
     }

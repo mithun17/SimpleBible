@@ -1,6 +1,7 @@
 package com.mithun.simplebible.ui.adapter
 
 import android.view.ViewGroup
+import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -59,6 +60,15 @@ class VersesAdapter(private val callback: clickListener) :
         val index = if (verseNumber> 0) verseNumber - 1 else 0
         getItem(index).isBookmarked = true
         notifyItemChanged(index)
+    }
+
+    fun scrollToVerse(scrollView: NestedScrollView, recyclerView: RecyclerView, selectedVerseNumber: Int) {
+        val index = currentList.indexOfFirst { it.number == selectedVerseNumber }
+        if (index != -1) {
+            recyclerView.post {
+                scrollView.smoothScrollTo(0, recyclerView.getChildAt(index).y.toInt())
+            }
+        }
     }
 }
 

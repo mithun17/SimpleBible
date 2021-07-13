@@ -23,6 +23,7 @@ class VerseSelectFragment : Fragment() {
 
     companion object {
         const val kVerseSelectState = "verseSelectState"
+        const val kVerseSelectedNumber = "verseSelectedNumber"
     }
 
     private var _binding: FragmentVerseSelectBinding? = null
@@ -33,12 +34,12 @@ class VerseSelectFragment : Fragment() {
     private val versesSelectionAdapter by lazy {
         VerseSelectAdapter { verseNumber ->
             selectionViewModel.setSelectedVerseNumber(verseNumber)
-            setResult()
+            setResult(verseNumber)
         }
     }
 
-    private fun setResult() {
-        setFragmentResult(SelectionFragment.kRequestKeyBookSelectFragment, bundleOf(kVerseSelectState to true))
+    private fun setResult(verseNumber: Int) {
+        setFragmentResult(SelectionFragment.kRequestKeyBookSelectFragment, bundleOf(kVerseSelectState to true, kVerseSelectedNumber to verseNumber))
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
