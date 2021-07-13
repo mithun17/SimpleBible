@@ -13,7 +13,19 @@ It is a passion project that makes use of the latest Android [Jetpack](https://d
 Share your favorite verses with a variety of background images to choose from  
 <img width="256" alt="Screen Shot 2021-05-01 at 2 15 14 AM" src="https://user-images.githubusercontent.com/1130895/125149641-0031c780-e0ef-11eb-9ab6-b3acf7096457.png"> 
 
+#### Notes  
+Take notes  
+<img width="256" alt="Screen Shot 2021-05-01 at 2 15 14 AM" src="https://user-images.githubusercontent.com/1130895/125420589-863452f0-121d-4f88-b4f0-0d48c0d75e42.png">  
+  
+<img width="256" alt="Screen Shot 2021-05-01 at 2 15 14 AM" src="https://user-images.githubusercontent.com/1130895/125421327-23cd12a4-572b-4cb7-8c6f-e8d11d2e3a80.png">   
 
+#### Bookmarks  
+Bookmark your favorites and share  
+<img width="256" alt="Screen Shot 2021-05-01 at 2 15 14 AM" src="https://user-images.githubusercontent.com/1130895/125420833-05d9521f-81cf-4b01-b797-fe477f919986.png">
+
+#### More Actions  
+Do more than just copy  
+<img width="256" alt="Screen Shot 2021-05-01 at 2 15 14 AM" src="https://user-images.githubusercontent.com/1130895/125421075-ffcb1adf-f3bb-47ce-9150-8e786f98ff61.png">
 
   
     
