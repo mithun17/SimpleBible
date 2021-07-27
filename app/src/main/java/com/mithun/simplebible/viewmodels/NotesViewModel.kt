@@ -83,7 +83,7 @@ class NotesViewModel @Inject constructor(
         )
 
         viewModelScope.launch(noteSaveExceptionHandler) {
-            notesRepository.saveNote(note)
+            notesRepository.addNote(note)
             _noteSaveState.value = Resource.Success(true)
         }
     }

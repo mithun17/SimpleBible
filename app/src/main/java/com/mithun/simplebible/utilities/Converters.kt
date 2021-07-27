@@ -3,7 +3,7 @@ package com.mithun.simplebible.utilities
 import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.mithun.simplebible.data.database.model.SmallChapter
+import com.mithun.simplebible.data.model.SmallChapter
 import java.util.Calendar
 
 class Converters {

@@ -6,7 +6,7 @@ import com.mithun.simplebible.data.api.RetrofitBuilder
 import com.mithun.simplebible.data.dao.BibleDao
 import com.mithun.simplebible.data.dao.BooksDao
 import com.mithun.simplebible.data.database.model.Bible
-import com.mithun.simplebible.data.model.Book
+import com.mithun.simplebible.data.database.model.Book
 import com.mithun.simplebible.utilities.ASV_BIBLE_ID
 import com.mithun.simplebible.utilities.KJV_BIBLE_ID
 import com.mithun.simplebible.utilities.TAMIL_BIBLE_ID

@@ -1,4 +1,4 @@
-package com.mithun.simplebible.data.database.model
+package com.mithun.simplebible.data.model
 
 data class SmallChapter(
     val id: String,

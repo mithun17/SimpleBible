@@ -12,11 +12,11 @@ import com.mithun.simplebible.data.dao.ChaptersDao
 import com.mithun.simplebible.data.dao.NotesDao
 import com.mithun.simplebible.data.dao.VersesEntityDao
 import com.mithun.simplebible.data.database.model.Bible
+import com.mithun.simplebible.data.database.model.Book
 import com.mithun.simplebible.data.database.model.Bookmark
 import com.mithun.simplebible.data.database.model.FullChapter
 import com.mithun.simplebible.data.database.model.Note
 import com.mithun.simplebible.data.database.model.VerseEntity
-import com.mithun.simplebible.data.model.Book
 import com.mithun.simplebible.utilities.Converters
 import com.mithun.simplebible.utilities.DB_NAME
 

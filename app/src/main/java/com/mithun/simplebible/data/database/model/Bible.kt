@@ -4,9 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.mithun.simplebible.utilities.TABLE_BIBLE
 
-@Entity(
-    tableName = TABLE_BIBLE
-)
+@Entity(tableName = TABLE_BIBLE)
 data class Bible(
     @PrimaryKey
     val id: String,

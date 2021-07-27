@@ -4,9 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.mithun.simplebible.utilities.TABLE_CHAPTER
 
-@Entity(
-    tableName = TABLE_CHAPTER
-)
+@Entity(tableName = TABLE_CHAPTER)
 class FullChapter(
     @PrimaryKey
     val id: String,

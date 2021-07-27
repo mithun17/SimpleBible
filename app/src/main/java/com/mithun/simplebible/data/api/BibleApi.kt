@@ -2,8 +2,8 @@ package com.mithun.simplebible.data.api
 
 import com.google.gson.JsonObject
 import com.mithun.simplebible.data.database.model.Bible
+import com.mithun.simplebible.data.database.model.Book
 import com.mithun.simplebible.data.model.BaseData
-import com.mithun.simplebible.data.model.Book
 import com.mithun.simplebible.data.model.Chapter
 import com.mithun.simplebible.utilities.API_KEY
 import com.mithun.simplebible.utilities.ASV_BIBLE_ID

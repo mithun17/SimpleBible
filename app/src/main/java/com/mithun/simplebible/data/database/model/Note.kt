@@ -5,9 +5,7 @@ import androidx.room.PrimaryKey
 import com.mithun.simplebible.utilities.TABLE_NOTE
 import java.util.Calendar
 
-@Entity(
-    tableName = TABLE_NOTE
-)
+@Entity(tableName = TABLE_NOTE)
 data class Note(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,

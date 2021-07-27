@@ -12,7 +12,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.snackbar.Snackbar
-import com.mithun.simplebible.data.model.Book
+import com.mithun.simplebible.data.database.model.Book
 import com.mithun.simplebible.data.repository.Resource
 import com.mithun.simplebible.databinding.FragmentBooksBinding
 import com.mithun.simplebible.ui.adapter.BookAdapter

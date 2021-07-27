@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.mithun.simplebible.R
-import com.mithun.simplebible.data.model.Book
+import com.mithun.simplebible.data.database.model.Book
 import com.mithun.simplebible.databinding.ListItemBookBinding
 
 class BookAdapter constructor(private val bookSelectListener: (bookName: String, bookId: String, chapterCount: Int) -> Unit) :

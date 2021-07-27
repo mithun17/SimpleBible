@@ -5,9 +5,7 @@ import androidx.room.PrimaryKey
 import com.mithun.simplebible.utilities.TABLE_BOOKMARK
 import java.util.Calendar
 
-@Entity(
-    tableName = TABLE_BOOKMARK
-)
+@Entity(tableName = TABLE_BOOKMARK)
 data class Bookmark(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,

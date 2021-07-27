@@ -3,7 +3,7 @@ package com.mithun.simplebible.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mithun.simplebible.R
-import com.mithun.simplebible.data.model.Book
+import com.mithun.simplebible.data.database.model.Book
 import com.mithun.simplebible.data.model.Verse
 import com.mithun.simplebible.data.repository.BibleRepository
 import com.mithun.simplebible.data.repository.Resource
