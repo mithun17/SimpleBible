@@ -4,21 +4,21 @@
     <item
         android:id="@+id/navigation_chapter_verses"
         android:icon="@drawable/ic_read"
-        android:title="@string/title_read"/>
+        android:title="@string/readTitle"/>
 
     <item
         android:id="@+id/navigation_notes"
         android:icon="@drawable/ic_menu_notes"
-        android:title="@string/title_notes"/>
+        android:title="@string/notesTitle"/>
 
     <item
         android:id="@+id/navigation_bookmarks"
         android:icon="@drawable/ic_menu_bookmarks"
-        android:title="@string/title_bookmarks"/>
+        android:title="@string/bookmarksTitle"/>
 
     <item
         android:id="@+id/navigation_settings_fragment"
         android:icon="@drawable/ic_settings"
-        android:title="@string/title_settings"/>
+        android:title="@string/settingsTitle"/>
 
 </menu>

@@ -30,10 +30,10 @@ class SettingsFragment : PreferenceFragmentCompat() {
     }
 
     private fun initSettings() {
-
         preferenceChangeListener = SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
             when (key) {
                 getString(R.string.preference_theme_key) -> {
+                    // Day or Night mode
                     val nightModeToggle: SwitchPreferenceCompat? = findPreference(getString(R.string.preference_theme_key))
                     nightModeToggle?.let {
                         if (it.isChecked) {

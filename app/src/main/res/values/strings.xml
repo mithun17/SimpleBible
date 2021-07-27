@@ -1,15 +1,14 @@
 <resources>
     <string name="app_name">Simple Bible</string>
-    <string name="title_read">Read</string>
-    <string name="title_notes">Notes</string>
-    <string name="title_note">Note</string>
-    <string name="title_bookmarks">Bookmarks</string>
-    <string name="title_settings">Settings</string>
-    <string name="title_filter">Versions</string>
-    <string name="title_image_select">Select background</string>
-    <string name="title_image_edit">Edit image</string>
-    <string name="title_image_share">Share verse</string>
-    <string name="booksFragmentTitle">Books</string>
+    <string name="readTitle">Read</string>
+    <string name="notesTitle">Notes</string>
+    <string name="noteTitle">Note</string>
+    <string name="bookmarksTitle">Bookmarks</string>
+    <string name="settingsTitle">Settings</string>
+    <string name="filterTitle">Versions</string>
+    <string name="backgroundSelectTitle">Select background</string>
+    <string name="backgroundEditTitle">Edit image</string>
+    <string name="imageVerseShareTitle">Share verse</string>
     <string name="bookSelectTitle">Select</string>
 
     <!-- Menu items -->
@@ -20,8 +19,6 @@
     <string name="menuItemCopy">Copy</string>
     <string name="menuItemDelete">Delete</string>
 
-
-    <string name="versesActionSheetTitle">More Actions</string>
 
     <!-- Error strings -->
     <string name="errorGenericString">Something went wrong. please try again later.</string>
@@ -38,9 +35,6 @@
     <string name="actionSheetNoteLabel">Note</string>
     <string name="actionSheetBookmarkLabel">Bookmark</string>
     <string name="actionSheetImageLabel">Image</string>
-
-    <!-- Bookmarks screen -->
-    <string name="bookmarksTitle">Bookmarks</string>
 
 
     <!-- Menu Action Strings -->

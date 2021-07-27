@@ -45,18 +45,30 @@ class Prefs @Inject constructor(private val context: Context) {
         }
     }
 
+    /**
+     * last stored bible version id
+     */
     var selectedBibleVersionId: String
         get() = get(PREF_SELECTED_BIBLE_VERSION_ID, DEFAULT_BIBLE_ID)
         set(value) = set(PREF_SELECTED_BIBLE_VERSION_ID, value)
 
+    /**
+     * last stored bible version name
+     */
     var selectedBibleVersionName: String
         get() = get(PREF_SELECTED_BIBLE_VERSION_NAME, DEFAULT_BIBLE_VERSION)
         set(value) = set(PREF_SELECTED_BIBLE_VERSION_NAME, value)
 
+    /**
+     * store last read chapter
+     */
     var lastReadChapter: String
         get() = get(PREF_LAST_READ_CHAPTER_ID, kLastReadChapterDefaultId)
         set(value) = set(PREF_LAST_READ_CHAPTER_ID, value)
 
+    /**
+     * store night mode setting
+     */
     var isNightMode: Boolean
         get() = get(context.getString(R.string.preference_theme_key), false)
         set(value) = set(context.getString(R.string.preference_theme_key), value)
@@ -65,7 +77,6 @@ class Prefs @Inject constructor(private val context: Context) {
         private const val PREF_SELECTED_BIBLE_VERSION_ID = "PrefSelectedBibleVersionId"
         private const val PREF_SELECTED_BIBLE_VERSION_NAME = "PrefSelectedBibleVersionName"
         private const val PREF_LAST_READ_CHAPTER_ID = "PrefLastReadChapterId"
-
         private const val kLastReadChapterDefaultId = "JHN.3"
     }
 }

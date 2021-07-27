@@ -9,20 +9,27 @@ import com.mithun.simplebible.ui.custom.TAG
 
 object VerseFormatter {
 
-    fun formatVerseForDisplay(
-        context: Context,
-        number: Int,
-        verse: String
-    ): SpannableStringBuilder {
+    /**
+     * Turn a regular verse string with/without provided with verse number into a display friendly spannable string
+     * @param context activity context
+     * @param number verse number
+     * @param verse verse text
+     * @return spannable string
+     */
+    fun formatVerseForDisplay(context: Context, number: Int, verse: String): SpannableStringBuilder {
         val verseNumberText = "${TAG.NUMBER.start()}[$number]${TAG.NUMBER.end()}"
         val fullVerse = "$verseNumberText $verse"
         return fullVerse.toSpannedStyle(context)
     }
 
+    /**
+     * Turn a regular string with/without format tags into a display friendly spannable string
+     * @param context activity context
+     * @return spannable string
+     */
     fun String.toSpannedStyle(context: Context): SpannableStringBuilder {
         var temp = this
         val spannableStringBuilder = SpannableStringBuilder()
-
         // Verse number style
         val startIndexOfNumberTag = temp.indexOf(TAG.NUMBER.start())
         temp = temp.replaceFirst(TAG.NUMBER.start(), "")
@@ -38,9 +45,7 @@ object VerseFormatter {
 
         while (temp.contains(TAG.RED.start())) {
             val startIndexOfRedTag = temp.indexOf(TAG.RED.start())
-
             if (startIndexOfRedTag != 0) {
-
                 val startIndexOfNormalText = spannableStringBuilder.length
                 spannableStringBuilder.append(
                     temp.substring(
@@ -64,7 +69,7 @@ object VerseFormatter {
 
             spannableStringBuilder.append(temp.substring(startIndexOfRedTag, endIndexOfRedTag))
 
-            // Red Text
+            // Red Text. God text
             spannableStringBuilder.setSpan(
                 TextAppearanceSpan(context, R.style.Body1_GodText),
                 startIndexOfRedTag,
@@ -73,6 +78,7 @@ object VerseFormatter {
             )
         }
 
+        // Style the remaining text with normal style
         if (temp.length > spannableStringBuilder.length) {
             val startIndexOfRemaingText = spannableStringBuilder.length
             spannableStringBuilder.append(temp.substring(startIndexOfRemaingText, temp.lastIndex))

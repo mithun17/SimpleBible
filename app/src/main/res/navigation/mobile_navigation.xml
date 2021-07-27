@@ -14,7 +14,7 @@
     <fragment
         android:id="@+id/navigation_books"
         android:name="com.mithun.simplebible.ui.book.BooksFragment"
-        android:label="@string/title_read"
+        android:label="@string/readTitle"
         tools:layout="@layout/fragment_books">
         <argument
             android:name="bookId"
@@ -33,7 +33,7 @@
     <fragment
         android:id="@+id/navigation_filter"
         android:name="com.mithun.simplebible.ui.filter.FilterFragment"
-        android:label="@string/title_filter"
+        android:label="@string/filterTitle"
         tools:layout="@layout/fragment_filter" />
 
     <fragment
@@ -107,7 +107,7 @@
     <fragment
         android:id="@+id/navigation_image_select"
         android:name="com.mithun.simplebible.ui.share.ImageSelectGalleryFragment"
-        android:label="@string/title_image_select"
+        android:label="@string/backgroundSelectTitle"
         tools:layout="@layout/fragment_image_select_gallery">
         <argument
             android:name="verse"
@@ -133,7 +133,7 @@
     <fragment
         android:id="@+id/navigation_image_edit"
         android:name="com.mithun.simplebible.ui.share.ImageEditFragment"
-        android:label="@string/title_image_edit"
+        android:label="@string/backgroundEditTitle"
         tools:layout="@layout/fragment_image_edit">
         <argument
             android:name="verse"
@@ -156,7 +156,7 @@
     <fragment
         android:id="@+id/navigation_image_share"
         android:name="com.mithun.simplebible.ui.share.ImageShareFragment"
-        android:label="@string/title_image_share"
+        android:label="@string/imageVerseShareTitle"
         tools:layout="@layout/fragment_image_share">
         <argument
             android:name="fileUri"
@@ -166,7 +166,7 @@
     <fragment
         android:id="@+id/navigation_notes"
         android:name="com.mithun.simplebible.ui.notes.NotesFragment"
-        android:label="@string/title_notes"
+        android:label="@string/notesTitle"
         tools:layout="@layout/fragment_notes">
         <action
             android:id="@+id/action_add_edit_note"
@@ -191,7 +191,7 @@
     <fragment
         android:id="@+id/navigation_add_edit_note"
         android:name="com.mithun.simplebible.ui.notes.AddEditNotesFragment"
-        android:label="@string/title_note"
+        android:label="@string/noteTitle"
         tools:layout="@layout/fragment_add_edit_note">
         <argument
             android:name="noteId"
@@ -215,7 +215,7 @@
     <fragment
         android:id="@+id/navigation_bookmarks"
         android:name="com.mithun.simplebible.ui.bookmark.BookmarkFragment"
-        android:label="@string/title_bookmarks"
+        android:label="@string/bookmarksTitle"
         tools:layout="@layout/fragment_bookmarks" />
 
     <fragment

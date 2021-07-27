@@ -32,7 +32,6 @@ class MainActivity : AppCompatActivity() {
         navView.setOnNavigationItemReselectedListener {
             // empty. Prevents recreating fragment when same menu item is clicked multiple times
         }
-
         initUI(navView)
     }
 
@@ -47,6 +46,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.navigation_image_share,
                 R.id.navigation_image_edit,
                 R.id.navigation_book_select -> {
+                    // hide the bottom nav bar if it hits any of these destinations
                     navView.gone
                 }
                 else -> {
@@ -56,6 +56,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    // initialize with the correct mode
     private fun initMode() {
         delegate.localNightMode = if (prefs.isNightMode) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
     }

@@ -11,12 +11,20 @@ object ExtensionUtils {
     const val RED_TAG_START = "<red>"
     const val RED_TAG_END = "</red>"
 
+    /**
+     * Convert multiple verses to a shareable text.
+     *
+     * ex: "For God so loved the world,
+     *      that he gave his only begotten Son,
+     *      that whosoever believeth in him should
+     *      not perish, but have everlasting life.
+     *                          - John 3:16"
+     */
     fun Map<Int, String>.toCopyText(chapterName: String): String {
         val copyText = StringBuilder().apply {
             append(chapterName)
             appendLine()
         }
-
         forEach { entry ->
             with(copyText) {
                 append("[${entry.key}] ")
@@ -24,10 +32,21 @@ object ExtensionUtils {
                 appendLine()
             }
         }
-
         return copyText.toString()
     }
 
+    /**
+     * Convert a Note along with its comments to a shareable text.
+     *
+     * ex: "John 3
+     *      [16] For God so loved the world,
+     *      that he gave his only begotten Son,
+     *      that whosoever believeth in him should
+     *      not perish, but have everlasting life.
+     *
+     *      Note
+     *      Notes from John"
+     */
     fun FullNote.toCopyText(resourceUtil: ResourcesUtil): String {
         val verses = this.verses.associateBy({ it.id.split(".").last().toInt() }, { it.text })
         val copyText = StringBuilder().apply {
@@ -43,6 +62,15 @@ object ExtensionUtils {
         return copyText.toString()
     }
 
+    /**
+     * Convert a Bookmark to a shareable text.
+     *
+     * ex: "John 3
+     *      [16] For God so loved the world,
+     *      that he gave his only begotten Son,
+     *      that whosoever believeth in him should
+     *      not perish, but have everlasting life."
+     */
     fun BookmarkItem.toCopyText(resourceUtil: ResourcesUtil): String {
         val verse = mapOf(verseId.split(".").last().toInt() to verse)
         val copyText = StringBuilder().apply {
@@ -51,6 +79,15 @@ object ExtensionUtils {
         return copyText.toString()
     }
 
+    /**
+     * Convert to a shareable text.
+     *
+     * ex: "For God so loved the world,
+     *      that he gave his only begotten Son,
+     *      that whosoever believeth in him should
+     *      not perish, but have everlasting life.
+     *                          - John 3:16"
+     */
     fun VerseEntity.toShareText(): String {
         val shareText = StringBuilder()
         shareText.append(text.toRegularText())
@@ -59,6 +96,9 @@ object ExtensionUtils {
         return shareText.toString()
     }
 
+    /**
+     * Convert verse string to normal string.
+     */
     fun String.toRegularText() = replace(RED_TAG_START, "").replace(RED_TAG_END, "")
 }
 
