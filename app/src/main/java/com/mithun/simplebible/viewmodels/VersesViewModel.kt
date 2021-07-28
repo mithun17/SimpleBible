@@ -23,7 +23,7 @@ class VersesViewModel @Inject constructor(
 
     // backing property so that the activity or fragment has access to only the immutable 'verses' object.
     // this prevents any setting of data directly on a variable in viewModel.
-    private val _verses = MutableStateFlow<Resource<List<Verse>>>(Resource.Loading(emptyList()))
+    private val _verses = MutableStateFlow<Resource<List<Verse>>>(Resource.Loading(null))
     val verses: StateFlow<Resource<List<Verse>>> = _verses
 
     private val _bookmarkSaveState = MutableStateFlow<Resource<Boolean>>(Resource.Empty())
@@ -39,14 +39,8 @@ class VersesViewModel @Inject constructor(
 
     fun getVerses(bibleId: String, chapterId: String) {
         _verses.value = Resource.Loading(null)
-
         viewModelScope.launch(versesExceptionHandler) {
             _verses.value = Resource.Success(versesRepository.getVerses(bibleId, chapterId))
-        }
-    }
-
-    fun getChapterName(bibleId: String, chapterId: String) {
-        viewModelScope.launch {
         }
     }
 
