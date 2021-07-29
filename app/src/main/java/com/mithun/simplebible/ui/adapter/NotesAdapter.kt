@@ -40,7 +40,7 @@ class NotesAdapter(private val moreOptionsClickListener: (View, FullNote) -> Uni
 
             binding.root.setOnClickListener {
                 it.findNavController()
-                    .navigate(NotesFragmentDirections.actionAddEditNote(item.id, item.chapterName, item.chapterId, item.verseIds.toIntArray(), item.comment))
+                    .navigate(NotesFragmentDirections.actionAddEditNote(item.id, item.bibleId, item.chapterName, item.chapterId, item.verseIds.toIntArray(), item.comment))
             }
         }
     }

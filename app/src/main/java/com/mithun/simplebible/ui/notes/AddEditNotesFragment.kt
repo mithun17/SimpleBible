@@ -60,7 +60,7 @@ class AddEditNotesFragment : BaseFragment() {
         binding.etNotesComment.setText(args.comment)
 
         if (isAdd()) {
-            notesViewModel.fetchListOfVerses(prefs.selectedBibleVersionId, verseIds)
+            notesViewModel.fetchListOfVerses(args.bibleId, verseIds)
         } else {
             notesViewModel.fetchNoteById(noteId)
         }
@@ -91,7 +91,7 @@ class AddEditNotesFragment : BaseFragment() {
         val comment = binding.etNotesComment.text.toString()
         notesViewModel.saveNote(
             noteId = noteId,
-            bibleVersionId = prefs.selectedBibleVersionId,
+            bibleVersionId = args.bibleId,
             chapterId = args.chapterId,
             chapterName = args.chapterFullName,
             verseIds = args.verses.toList(),

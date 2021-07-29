@@ -64,18 +64,22 @@ class NotesViewModel @Inject constructor(
         )
     }
 
-    fun fetchListOfVerses(bibleVersionId: String, verseIds: List<String>) {
+    fun fetchListOfVerses(bibleVersionId: String?, verseIds: List<String>) {
         viewModelScope.launch(versesExceptionHandler) {
             _verses.value =
-                Resource.Success(versesRepository.getVersesById(bibleId = bibleVersionId, verseIds))
+                Resource.Success(
+                    versesRepository.getVersesById(
+                        bibleVersionId ?: prefs.selectedBibleVersionId, verseIds
+                    )
+                )
         }
     }
 
-    fun saveNote(noteId: Long, bibleVersionId: String, chapterId: String, chapterName: String, verseIds: List<Int>, comment: String) {
+    fun saveNote(noteId: Long, bibleVersionId: String?, chapterId: String, chapterName: String, verseIds: List<Int>, comment: String) {
         _noteSaveState.value = Resource.Loading(true)
         val note = Note(
             id = if (noteId != 0L) noteId else 0,
-            bibleId = bibleVersionId,
+            bibleId = bibleVersionId ?: prefs.selectedBibleVersionId,
             chapterId = chapterId,
             chapterName = chapterName,
             verses = verseIds,

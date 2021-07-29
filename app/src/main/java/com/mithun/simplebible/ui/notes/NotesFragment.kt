@@ -75,7 +75,7 @@ class NotesFragment : BaseFragment() {
 
             when (menuItem.itemId) {
                 R.id.editNote -> {
-                    findNavController().navigate(NotesFragmentDirections.actionAddEditNote(note.id, note.chapterName, note.chapterId, note.verseIds.toIntArray(), note.comment))
+                    findNavController().navigate(NotesFragmentDirections.actionAddEditNote(note.id, note.bibleId, note.chapterName, note.chapterId, note.verseIds.toIntArray(), note.comment))
                 }
                 R.id.shareNote -> {
                     // trigger share intent

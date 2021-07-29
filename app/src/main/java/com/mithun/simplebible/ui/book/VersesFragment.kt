@@ -268,7 +268,7 @@ class VersesFragment : BaseCollapsibleFragment(), ActionsBottomSheet.ActionPicke
                         val verseIds = versesAdapter.listOfSelectedVerses.keys.toIntArray()
                         versesAdapter.clearSelection()
                         binding.root.findNavController()
-                            .navigate(VersesFragmentDirections.actionAddEditNote(0L, chapterName, chapterId, verseIds, null))
+                            .navigate(VersesFragmentDirections.actionAddEditNote(0L, prefs.selectedBibleVersionId, chapterName, chapterId, verseIds, null))
                     }
                     kActionRequestCodeBookmark -> {
 
