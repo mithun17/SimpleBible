@@ -136,7 +136,8 @@
             app:argType="integer" />
         <action
             android:id="@+id/action_navigation_image_edit_to_navigation_image_share"
-            app:destination="@id/navigation_image_share">
+            app:destination="@id/navigation_image_share"
+            app:popUpTo="@id/navigation_chapter_verses">
             <argument
                 android:name="fileUri"
                 app:argType="string" />
@@ -230,9 +231,5 @@
     <action
         android:id="@+id/action_global_navigation_filter"
         app:destination="@id/navigation_filter" />
-
-    <action
-        android:id="@+id/action_global_image_select"
-        app:destination="@id/navigation_image_select" />
 
 </navigation>

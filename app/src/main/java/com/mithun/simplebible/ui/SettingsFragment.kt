@@ -4,7 +4,6 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.navigation.fragment.findNavController
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreferenceCompat
@@ -46,9 +45,9 @@ class SettingsFragment : PreferenceFragmentCompat() {
             }
         }
 
-        val imageSharedPreferences: Preference? = findPreference("imageShare")
+        val imageSharedPreferences: Preference? = findPreference(getString(R.string.preference_image_share_key))
         imageSharedPreferences?.setOnPreferenceClickListener {
-            findNavController().navigate(R.id.action_global_image_select)
+            // do nothing
             true
         }
     }

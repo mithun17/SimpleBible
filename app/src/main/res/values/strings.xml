@@ -54,4 +54,8 @@
     <string name="preference_theme_key">preference_theme</string>
     <string name="preference_theme_title">Night mode</string>
 
+    <string name="preference_image_share_key">imageShare</string>
+    <string name="preference_image_share_title">Image Share</string>
+    <string name="preference_image_share_summary">Experimental Image share feature</string>
+
 </resources>
