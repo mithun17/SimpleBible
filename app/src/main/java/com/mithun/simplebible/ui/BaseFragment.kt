@@ -9,6 +9,9 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.mithun.simplebible.R
 
+/**
+ * Base fragment for all screens that use a regular toolbar
+ */
 open class BaseFragment : Fragment() {
     protected lateinit var toolbar: Toolbar
 

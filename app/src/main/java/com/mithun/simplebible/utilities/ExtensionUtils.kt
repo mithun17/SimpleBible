@@ -11,6 +11,9 @@ object ExtensionUtils {
     const val RED_TAG_START = "<red>"
     const val RED_TAG_END = "</red>"
 
+    const val NUMBER_TAG_START = "<number>"
+    const val NUMBER_TAG_END = "</number>"
+
     /**
      * Convert multiple verses to a shareable text.
      *

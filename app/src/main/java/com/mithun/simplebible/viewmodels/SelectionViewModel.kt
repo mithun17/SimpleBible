@@ -26,6 +26,9 @@ class SelectionViewModel @Inject constructor(
     private val prefs: Prefs
 ) : ViewModel() {
 
+    // verse to be filtered when displaying in the UI
+    private val filterVerse = "intro"
+
     val chapterNumber: MutableStateFlow<Int> = MutableStateFlow(
         prefs.lastReadChapter.split(".").last().toInt()
     )
@@ -48,22 +51,24 @@ class SelectionViewModel @Inject constructor(
     private val _selectedChapterId: MutableStateFlow<String> = MutableStateFlow(
         prefs.lastReadChapter
     )
-    val selectedChapterId: StateFlow<String> = _selectedChapterId
+    private val selectedChapterId: StateFlow<String> = _selectedChapterId
 
-    // backing property so that the activity or fragment has access to only the immutable 'verses' object.
-    // this prevents any setting of data directly on a variable in viewModel.
+    // books returned from repository
     private val _books = MutableStateFlow<Resource<List<Book>>>(Resource.Loading(emptyList()))
     val books: StateFlow<Resource<List<Book>>> = _books
 
+    // verses for a selected chapter
     private val _verses = MutableStateFlow<Resource<List<Verse>>>(Resource.Loading(emptyList()))
     val verses: StateFlow<Resource<List<Verse>>> = _verses
 
+    // error handling the books fetch call
     private val booksExceptionHandler = CoroutineExceptionHandler { _, throwable ->
         _books.value = Resource.Error(
             throwable.message ?: resourcesUtil.getString(R.string.errorGenericString), emptyList()
         )
     }
 
+    // error handling verses fetch call
     private val versesExceptionHandler = CoroutineExceptionHandler { _, throwable ->
         _verses.value = Resource.Error(
             throwable.message ?: resourcesUtil.getString(R.string.errorGenericString), emptyList()
@@ -71,7 +76,8 @@ class SelectionViewModel @Inject constructor(
     }
 
     init {
-        // get the list of books for the selected bible version
+        // get the list of books for the selected bible version.
+        // selected bible version is stored in preference.
         viewModelScope.launch {
             _selectedChapterId.collect { chapterId ->
                 fetchVerses(prefs.selectedBibleVersionId, chapterId)
@@ -92,6 +98,7 @@ class SelectionViewModel @Inject constructor(
         setSelectedChapterId("$bookId.1") // default to 1st chapter when a book is selected
     }
 
+    // set Book name eg: Genesis, Romans
     fun setSelectedBookName(bookName: String) {
         _selectedBookName.value = bookName
     }
@@ -102,6 +109,7 @@ class SelectionViewModel @Inject constructor(
         chapterNumber.value = chapterId.split(".").last().toInt()
     }
 
+    // set the number of the verse
     fun setSelectedVerseNumber(verseNumber: Int) {
         this.verseNumber = verseNumber
         prefs.lastReadChapter = selectedChapterId.value
@@ -111,7 +119,7 @@ class SelectionViewModel @Inject constructor(
         _books.value = Resource.Loading(null)
         viewModelScope.launch(booksExceptionHandler) {
             val bibleBooks = bibleRepository.getBooks(bibleId)
-            _chapterCount.value = bibleBooks.first { it.id == selectedBookId.value }.chapters.filter { it.number != "intro" }
+            _chapterCount.value = bibleBooks.first { it.id == selectedBookId.value }.chapters.filter { it.number != filterVerse }
                 .count()
             _books.value = Resource.Success(bibleBooks)
         }

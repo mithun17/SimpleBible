@@ -29,16 +29,13 @@ class ActionsBottomSheet : BottomSheetDialogFragment() {
          *
          * @param dialogRequestCode request code set on the bottom sheet dialog
          */
-        fun onDismissDialog(dialogRequestCode: Int) { /* default implementation to make it optional */ }
+        fun onDismissDialog(dialogRequestCode: Int) { /* default implementation to make it optional */
+        }
     }
 
     private lateinit var actionPickerListener: ActionPickerListener
 
-    // refer https://developer.android.com/topic/libraries/view-binding#kotlin to learn how view binding is initialized for fragments
     private var _binding: FragmentActionBottomSheetBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     companion object {
@@ -79,11 +76,12 @@ class ActionsBottomSheet : BottomSheetDialogFragment() {
             private fun getFragmentInstance(): ActionsBottomSheet {
 
                 builderArguments.putInt(kActionSheetRequestCode, requestCode)
-                val fragment: ActionsBottomSheet = (fragmentManager.findFragmentByTag(getTagValue()) as ActionsBottomSheet?) ?: run {
-                    ActionsBottomSheet().apply {
-                        arguments = builderArguments
+                val fragment: ActionsBottomSheet = (fragmentManager.findFragmentByTag(getTagValue()) as ActionsBottomSheet?)
+                    ?: run {
+                        ActionsBottomSheet().apply {
+                            arguments = builderArguments
+                        }
                     }
-                }
                 targetFragment?.let { fragment.setTargetFragment(it, requestCode) }
                 return fragment
             }
@@ -116,22 +114,17 @@ class ActionsBottomSheet : BottomSheetDialogFragment() {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentActionBottomSheetBinding.inflate(inflater, container, false)
         val rootView = binding.root
 
         // set request code for the bottom sheet
         val requestCode = arguments?.getInt(kActionSheetRequestCode)
 
-        // set title
-//        arguments?.getString(kActionSheetTitle)?.let { binding.tvTitle.text = it }
-
         // get the items passed to bottom sheet
         arguments?.getParcelableArrayList<Action>(kActionSheetList)?.let { list ->
 
             binding.rvItemPicker.layoutManager = LinearLayoutManager(context)
-
             val adapter = ActionSheetAdapter(
                 list,
                 object : ActionSheetAdapter.ClickListener {
@@ -143,7 +136,6 @@ class ActionsBottomSheet : BottomSheetDialogFragment() {
                     }
                 }
             )
-
             binding.rvItemPicker.adapter = adapter
         }
         return rootView

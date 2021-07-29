@@ -10,7 +10,11 @@ const val BOOKS_PAGE_INDEX = 0
 const val CHAPTERS_PAGE_INDEX = 1
 const val VERSES_PAGE_INDEX = 2
 
+/**
+ * Page Adapter for Book selection View Pager
+ */
 class BookSelectPageAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
+    // mapping of viewPager page indexes to the corresponding Fragments
     private val tabFragments: Map<Int, Fragment> = mapOf(
         BOOKS_PAGE_INDEX to BooksFragment(),
         CHAPTERS_PAGE_INDEX to ChapterSelectionFragment(),

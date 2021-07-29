@@ -8,6 +8,9 @@ import com.mithun.simplebible.R
 import com.mithun.simplebible.utilities.ExtensionUtils
 import com.mithun.simplebible.utilities.VerseFormatter.toSpannedStyle
 
+/**
+ * Compound view to represent the verses
+ */
 class VerseTextView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
@@ -39,27 +42,33 @@ class VerseTextView @JvmOverloads constructor(
         verseText = verse
         val verseNumberText = "${TAG.NUMBER.start()}[$number]${TAG.NUMBER.end()}"
         val fullVerse = "$verseNumberText $verseText"
-
+        // set the stylized string as text in this Text View
         setText(fullVerse.toSpannedStyle(context), BufferType.SPANNABLE)
 
+        // indicate with a bookmark icon if verse was bookmarked
         if (isBookmarked) {
             setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(context, R.drawable.ic_bookmark), null, null, null)
         }
     }
 
+    // verse selection. show an underlined verse
     fun selectVerse() {
         paintFlags = Paint.UNDERLINE_TEXT_FLAG
     }
 
+    // reset the style. clear underline
     fun unselectVerse() {
         paintFlags = 0
     }
 }
 
+/**
+ * To represent the number and red text in a verse string
+ */
 enum class TAG {
     NUMBER {
-        override fun start() = "<number>"
-        override fun end() = "</number>"
+        override fun start() = ExtensionUtils.NUMBER_TAG_START
+        override fun end() = ExtensionUtils.NUMBER_TAG_END
     },
     RED {
         override fun start() = ExtensionUtils.RED_TAG_START

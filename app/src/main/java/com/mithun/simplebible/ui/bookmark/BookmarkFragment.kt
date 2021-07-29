@@ -61,6 +61,9 @@ class BookmarkFragment : BaseFragment() {
                         is Resource.Loading -> binding.pbLoading.visible
                         is Resource.Success -> resource.data?.let { showBookmarks(it) }
                         is Resource.Error -> resource.message?.let { showError(it) }
+                        is Resource.Empty -> {
+                            // do nothing
+                        }
                     }
                 }
             }

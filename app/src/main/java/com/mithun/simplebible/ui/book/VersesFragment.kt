@@ -66,11 +66,11 @@ class VersesFragment : BaseCollapsibleFragment(), ActionsBottomSheet.ActionPicke
 
     private val versesAdapter by lazy {
         VersesAdapter(object : VersesAdapter.ClickListener {
-            override fun onClick() {
+            override fun onSelect() {
                 binding.fabMore.show()
             }
 
-            override fun unClick() {
+            override fun onUnSelect() {
                 binding.fabMore.hide()
             }
         })
@@ -87,16 +87,16 @@ class VersesFragment : BaseCollapsibleFragment(), ActionsBottomSheet.ActionPicke
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentChapterVersesBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         bottomNav = requireActivity().findViewById(R.id.nav_view)
         binding.rvVerses.adapter = versesAdapter
         binding.rvVerses.isNestedScrollingEnabled = false
         chapterId = args.chapterId ?: prefs.lastReadChapter
         chapterName = args.chapterFullName ?: ""
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         setTitle(chapterName)
         initUI()
     }
@@ -112,6 +112,7 @@ class VersesFragment : BaseCollapsibleFragment(), ActionsBottomSheet.ActionPicke
         subscribeUi()
 
         with(findNavController()) {
+            // get the verse number
             currentBackStackEntry?.savedStateHandle?.getLiveData<Int>(VerseSelectFragment.kVerseSelectedNumber)
                 ?.observe(viewLifecycleOwner) { verseNumber ->
                     selectedVerseNumber = verseNumber
@@ -206,6 +207,7 @@ class VersesFragment : BaseCollapsibleFragment(), ActionsBottomSheet.ActionPicke
     private fun initFab() {
         binding.fabMore.setOnClickListener {
             fragmentManager?.let {
+                // default list of options for share bottom sheet
                 val actionList = mutableListOf(
                     Action(
                         kActionRequestCodeShare,
@@ -224,6 +226,7 @@ class VersesFragment : BaseCollapsibleFragment(), ActionsBottomSheet.ActionPicke
                     )
                 )
 
+                // if selected verse is size 1, then include the options to `Bookmark` or `Image` share
                 if (versesAdapter.listOfSelectedVerses.size == 1) {
                     actionList.addAll(
                         listOf(
@@ -257,16 +260,13 @@ class VersesFragment : BaseCollapsibleFragment(), ActionsBottomSheet.ActionPicke
                     kActionRequestCodeShare -> {
                         // Create an implicit intent to share text data to other apps
                         showTextShareIntent(requireContext(), versesAdapter.listOfSelectedVerses.toCopyText(chapterName))
-                        versesAdapter.clearSelection()
                     }
                     kActionRequestCodeCopy -> {
                         // structure the verse text and copy to clipboard
                         copyToClipboard(requireContext(), versesAdapter.listOfSelectedVerses.toCopyText(chapterName))
-                        versesAdapter.clearSelection()
                     }
                     kActionRequestCodeNote -> {
                         val verseIds = versesAdapter.listOfSelectedVerses.keys.toIntArray()
-                        versesAdapter.clearSelection()
                         binding.root.findNavController()
                             .navigate(VersesFragmentDirections.actionAddEditNote(0L, prefs.selectedBibleVersionId, chapterName, chapterId, verseIds, null))
                     }
@@ -292,9 +292,10 @@ class VersesFragment : BaseCollapsibleFragment(), ActionsBottomSheet.ActionPicke
                         verseText?.let {
                             findNavController().navigate(VersesFragmentDirections.actionImageSelect(verseText, verseId))
                         }
-                        versesAdapter.clearSelection()
                     }
                 }
+                // reset out the selected verses if any, after any option in the action sheet was selected.
+                versesAdapter.clearSelection()
                 binding.fabMore.hide()
             }
         }

@@ -81,12 +81,14 @@ class ImageEditFragment : BaseFragment() {
         }
     }
 
+    // Load the image view with the chosen image as background
     private fun initBackground(imageResourceId: Int) {
         Glide.with(requireContext())
             .load(imageResourceId)
             .into(binding.ivVerseBackgorund)
     }
 
+    // initialize text color selector
     private fun initTextColorListener() {
         binding.rgTextColor.setOnCheckedChangeListener { group, checkedId ->
             when (checkedId) {
@@ -130,11 +132,13 @@ class ImageEditFragment : BaseFragment() {
         }
     }
 
+    // set the text view that is overlayed on the image view
     private fun setImageVerse(it: VerseEntity) {
         imageVerseText = it.toShareText()
         binding.tvVerse.text = imageVerseText
     }
 
+    // initialize text alignment selectors
     private fun initTextAlignmentListener() {
         binding.rgTextAlignment.setOnCheckedChangeListener { group, checkedId ->
             when (checkedId) {
@@ -152,6 +156,7 @@ class ImageEditFragment : BaseFragment() {
         }
     }
 
+    // initialize font size adjustors
     private fun initTextSizeSeekBar() {
         val minTextSize = 8 // scale independent pixels. Min verse text size
         val step = 2 // incremental steps for increasing text size
@@ -176,10 +181,15 @@ class ImageEditFragment : BaseFragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
 
+                // Create a blank bitmap with the image view dimensions
                 val bitmap = Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
+                // create a canvas for this blank bitmap
                 val canvas = Canvas(bitmap)
+                // get drawable from this image view background
                 val bgDrawable = view.background
+                // copy the above drawable into the blank bitmap created above
                 if (bgDrawable != null) bgDrawable.draw(canvas) else canvas.drawColor(Color.TRANSPARENT)
+                // copy the view and all its children into the canvas containing the bitmap
                 view.draw(canvas)
 
                 imageEditViewModel.saveImage(verseId, bitmap)

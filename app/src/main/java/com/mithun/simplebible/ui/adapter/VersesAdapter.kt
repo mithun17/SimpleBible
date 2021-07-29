@@ -8,12 +8,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mithun.simplebible.data.model.Verse
 import com.mithun.simplebible.ui.custom.VerseTextView
 
-class VersesAdapter(private val callback: ClickListener) :
+/**
+ * Adapter to display all the Bible verses for a selected chapter
+ * @param onVerseSelect verse selection listener
+ */
+class VersesAdapter(private val onVerseSelect: ClickListener) :
     ListAdapter<Verse, VersesAdapter.ViewHolder>(VersesDiffUtil()) {
 
     interface ClickListener {
-        fun onClick()
-        fun unClick()
+        fun onSelect()
+        fun onUnSelect()
     }
 
     // Map of verse <id, text>
@@ -27,6 +31,7 @@ class VersesAdapter(private val callback: ClickListener) :
                 view.selectVerse()
             }
 
+            // handle the verse selection and un-selection
             view.setOnClickListener {
                 item.isSelected = !item.isSelected
 
@@ -39,9 +44,9 @@ class VersesAdapter(private val callback: ClickListener) :
                 }
 
                 if (listOfSelectedVerses.isNotEmpty()) {
-                    callback.onClick()
+                    onVerseSelect.onSelect()
                 } else {
-                    callback.unClick()
+                    onVerseSelect.onUnSelect()
                 }
             }
         }
@@ -60,6 +65,10 @@ class VersesAdapter(private val callback: ClickListener) :
         notifyDataSetChanged()
     }
 
+    /**
+     * Mark a verse as bookmarked. Display a bookmark icon next to the verse
+     * @param verseNumber verse to be bookmarked
+     */
     fun setBookmarked(verseNumber: Int) {
         listOfSelectedVerses.remove(verseNumber)
         val index = if (verseNumber> 0) verseNumber - 1 else 0
@@ -67,6 +76,7 @@ class VersesAdapter(private val callback: ClickListener) :
         notifyItemChanged(index)
     }
 
+    // scroll to the selected verse number
     fun scrollToVerse(scrollView: NestedScrollView, recyclerView: RecyclerView, selectedVerseNumber: Int) {
         val index = currentList.indexOfFirst { it.number == selectedVerseNumber }
         if (index != -1) {

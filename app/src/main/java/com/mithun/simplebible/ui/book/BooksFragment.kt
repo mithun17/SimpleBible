@@ -81,7 +81,7 @@ class BooksFragment : Fragment() {
 
     // set book selection in fragment bundle
     private fun setBookSelectionResult() {
-        setFragmentResult(SelectionFragment.kRequestKeyBookSelectFragment, bundleOf(kBookSelectState to true))
+        setFragmentResult(SelectionFragment.kRequestKeyBookSelect, bundleOf(kBookSelectState to true))
     }
 
     override fun onDestroyView() {

@@ -7,7 +7,11 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.mithun.simplebible.databinding.GalleryItemChapterBinding
 
-class VerseSelectAdapter constructor(private val verseSelectListener: (Int) -> Unit) :
+/**
+ * Adapter to display the verse numbers for a selected chapter
+ * @param onVerseSelect verse selection listener
+ */
+class VerseSelectAdapter constructor(private val onVerseSelect: (Int) -> Unit) :
     ListAdapter<VersesItem, VerseSelectAdapter.ViewHolder>(VersesItemDiffUtil()) {
 
     inner class ViewHolder(private val binding: GalleryItemChapterBinding) :
@@ -15,7 +19,7 @@ class VerseSelectAdapter constructor(private val verseSelectListener: (Int) -> U
         fun bind(item: VersesItem) {
             binding.tvChapterNumber.text = item.number.toString()
             binding.root.setOnClickListener {
-                verseSelectListener.invoke(item.number)
+                onVerseSelect.invoke(item.number)
             }
         }
     }
@@ -29,12 +33,6 @@ class VerseSelectAdapter constructor(private val verseSelectListener: (Int) -> U
     }
 }
 
-data class VersesItem(
-    val bookId: String,
-    val bookName: String,
-    val number: Int
-)
-
 private class VersesItemDiffUtil : DiffUtil.ItemCallback<VersesItem>() {
     override fun areItemsTheSame(oldItem: VersesItem, newItem: VersesItem): Boolean {
         return oldItem.number == newItem.number
@@ -44,3 +42,12 @@ private class VersesItemDiffUtil : DiffUtil.ItemCallback<VersesItem>() {
         return oldItem.number == newItem.number
     }
 }
+
+/**
+ * Data model representing the verse item in the list
+ */
+data class VersesItem(
+    val bookId: String,
+    val bookName: String,
+    val number: Int
+)

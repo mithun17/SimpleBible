@@ -9,13 +9,18 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.mithun.simplebible.databinding.ListItemImageBinding
 
-class ImageGalleryAdapter(private val imageSelectListener: (Int) -> Unit) :
+/**
+ * Adapter to display all the images that can be used as background for verses.
+ * @param onImageSelect image selection listener
+ */
+class ImageGalleryAdapter(private val onImageSelect: (Int) -> Unit) :
     ListAdapter<Int, ImageGalleryAdapter.ViewHolder>(ImagesDiffUtil()) {
 
     inner class ViewHolder(private val binding: ListItemImageBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Int) {
 
+            // Load the drawable from resource identifier
             Glide.with(binding.root.context)
                 .load(item)
                 .centerCrop()
@@ -24,7 +29,7 @@ class ImageGalleryAdapter(private val imageSelectListener: (Int) -> Unit) :
                 .into(binding.ivBackground)
 
             binding.root.setOnClickListener {
-                imageSelectListener.invoke(item)
+                onImageSelect.invoke(item)
             }
         }
     }

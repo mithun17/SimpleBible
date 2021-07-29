@@ -12,8 +12,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.mithun.simplebible.databinding.FragmentChapterSelectBinding
-import com.mithun.simplebible.ui.adapter.ChapterAdapter
 import com.mithun.simplebible.ui.adapter.ChapterItem
+import com.mithun.simplebible.ui.adapter.ChapterSelectAdapter
 import com.mithun.simplebible.viewmodels.SelectionViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -34,7 +34,7 @@ class ChapterSelectionFragment : Fragment() {
     private val selectionViewModel: SelectionViewModel by viewModels({ requireParentFragment() })
 
     private val chapterSelectionAdapter by lazy {
-        ChapterAdapter { chapterId ->
+        ChapterSelectAdapter { chapterId ->
             selectionViewModel.setSelectedChapterId(chapterId)
             setChapterSelectionResult()
         }
@@ -78,8 +78,9 @@ class ChapterSelectionFragment : Fragment() {
         chapterSelectionAdapter.submitList(chapterList)
     }
 
+    // set flag that chapter is selected
     private fun setChapterSelectionResult() {
-        setFragmentResult(SelectionFragment.kRequestKeyBookSelectFragment, bundleOf(kChapterSelectState to true))
+        setFragmentResult(SelectionFragment.kRequestKeyBookSelect, bundleOf(kChapterSelectState to true))
     }
 
     override fun onDestroyView() {

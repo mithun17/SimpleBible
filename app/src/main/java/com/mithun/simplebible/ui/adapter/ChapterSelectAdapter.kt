@@ -9,19 +9,23 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mithun.simplebible.R
 import com.mithun.simplebible.databinding.GalleryItemChapterBinding
 
-class ChapterAdapter constructor(private val chapterSelectListener: (String) -> Unit) :
-    ListAdapter<ChapterItem, ChapterAdapter.ViewHolder>(ChapterDiffUtil()) {
+/**
+ * Adapter to display all the chapter numbers for a book
+ * @param onChapterSelect chapter selection listener
+ */
+class ChapterSelectAdapter constructor(private val onChapterSelect: (String) -> Unit) :
+    ListAdapter<ChapterItem, ChapterSelectAdapter.ViewHolder>(ChapterDiffUtil()) {
 
+    // keep track of selected chapter. default to 1
     private var selectedChapterNumber = 1
 
     inner class ViewHolder(private val binding: GalleryItemChapterBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: ChapterItem) {
             binding.tvChapterNumber.text = item.number.toString()
-
             binding.root.setOnClickListener {
                 selectedChapterNumber = item.number
-                chapterSelectListener.invoke("${item.bookId}.${item.number}")
+                onChapterSelect.invoke("${item.bookId}.${item.number}")
             }
 
             if (item.number == selectedChapterNumber) {
@@ -32,11 +36,11 @@ class ChapterAdapter constructor(private val chapterSelectListener: (String) -> 
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChapterAdapter.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChapterSelectAdapter.ViewHolder {
         return ViewHolder(GalleryItemChapterBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
-    override fun onBindViewHolder(holder: ChapterAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ChapterSelectAdapter.ViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
 
@@ -45,12 +49,6 @@ class ChapterAdapter constructor(private val chapterSelectListener: (String) -> 
         notifyDataSetChanged()
     }
 }
-
-data class ChapterItem(
-    val bookId: String,
-    val bookName: String,
-    val number: Int
-)
 
 private class ChapterDiffUtil : DiffUtil.ItemCallback<ChapterItem>() {
     override fun areItemsTheSame(oldItem: ChapterItem, newItem: ChapterItem): Boolean {
@@ -61,3 +59,12 @@ private class ChapterDiffUtil : DiffUtil.ItemCallback<ChapterItem>() {
         return oldItem.number == newItem.number
     }
 }
+
+/**
+ * Data model representing the Chapter item in the list
+ */
+data class ChapterItem(
+    val bookId: String,
+    val bookName: String,
+    val number: Int
+)

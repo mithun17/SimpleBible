@@ -6,6 +6,9 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.mithun.simplebible.databinding.ItemActionSheetBinding
 
+/**
+ * Adapter to display the list of items in the Action sheet
+ */
 class ActionSheetAdapter(
     private val actionList: List<Action>,
     private val callback: ClickListener

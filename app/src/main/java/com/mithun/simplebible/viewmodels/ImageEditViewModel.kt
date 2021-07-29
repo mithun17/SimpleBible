@@ -50,6 +50,7 @@ class ImageEditViewModel @Inject constructor(
         }
     }
 
+    // Save image into the Pictures directory which is accessible publicly
     fun saveImage(verseId: String, bitmap: Bitmap) {
 
         _filePath.value = Pair(FileCopyStatus.STARTED, "")

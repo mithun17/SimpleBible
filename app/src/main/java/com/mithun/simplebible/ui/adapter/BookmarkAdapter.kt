@@ -8,7 +8,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mithun.simplebible.databinding.ListItemBookmarkBinding
 import com.mithun.simplebible.utilities.VerseFormatter
 
-class BookmarkAdapter constructor(private val onItemClick: (View, BookmarkItem) -> Unit) :
+/**
+ * Adapter to display the bookmarks
+ * @param onMoreOptionsClick click listener for the more options menu
+ */
+class BookmarkAdapter constructor(private val onMoreOptionsClick: (View, BookmarkItem) -> Unit) :
     RecyclerView.Adapter<BookmarkAdapter.ViewHolder>() {
 
     private var bookmarkList: List<BookmarkItem> = mutableListOf()
@@ -20,9 +24,8 @@ class BookmarkAdapter constructor(private val onItemClick: (View, BookmarkItem) 
     inner class ViewHolder(private val binding: ListItemBookmarkBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(bookmark: BookmarkItem) {
-
             val spannableString = SpannableStringBuilder()
-
+            // Style the verses with red text when applicable
             spannableString.append(
                 VerseFormatter.formatVerseForDisplay(
                     binding.root.context,
@@ -33,7 +36,7 @@ class BookmarkAdapter constructor(private val onItemClick: (View, BookmarkItem) 
             binding.tvBookmarkVerse.text = spannableString
             binding.tvBookmarkTitle.text = bookmark.reference
             binding.ivBookmarkShare.setOnClickListener {
-                onItemClick.invoke(it, bookmark)
+                onMoreOptionsClick.invoke(it, bookmark)
             }
         }
     }

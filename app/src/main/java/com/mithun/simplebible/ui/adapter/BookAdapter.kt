@@ -11,24 +11,28 @@ import com.mithun.simplebible.R
 import com.mithun.simplebible.data.database.model.Book
 import com.mithun.simplebible.databinding.ListItemBookBinding
 
-class BookAdapter constructor(private val bookSelectListener: (bookName: String, bookId: String, chapterCount: Int) -> Unit) :
+/**
+ * Adapter to display all the books in the Bible
+ * @param onBookSelect book selection listener lambda
+ */
+class BookAdapter constructor(private val onBookSelect: (bookName: String, bookId: String, chapterCount: Int) -> Unit) :
     ListAdapter<Book, BookAdapter.ViewHolder>(BookDiffUtil()) {
 
+    // scroll offset from the top
     private val kScrollOffset = 20
-
+    // keep track of the selected book
     private var selectedBookId = ""
 
     inner class ViewHolder(private val binding: ListItemBookBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Book) {
             binding.tvBookName.text = item.name
-
             binding.root.setOnClickListener {
                 val bookName = item.name
                 val bookId = item.id
                 val chapterCount = item.chapters.last().number.toInt()
                 selectedBookId = bookId
-                bookSelectListener.invoke(bookName, bookId, chapterCount)
+                onBookSelect.invoke(bookName, bookId, chapterCount)
             }
 
             // set selected item style
@@ -52,6 +56,7 @@ class BookAdapter constructor(private val bookSelectListener: (bookName: String,
         selectedBookId = bookId
         val index = currentList.indexOfFirst { it.id == bookId }
         notifyDataSetChanged()
+        // scroll down to the previously selected Book
         recyclerView.post {
             val linearLayoutManager = recyclerView.layoutManager as LinearLayoutManager?
             linearLayoutManager?.scrollToPositionWithOffset(index, kScrollOffset)

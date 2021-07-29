@@ -39,7 +39,8 @@ class VerseSelectFragment : Fragment() {
     }
 
     private fun setResult(verseNumber: Int) {
-        setFragmentResult(SelectionFragment.kRequestKeyBookSelectFragment, bundleOf(kVerseSelectState to true, kVerseSelectedNumber to verseNumber))
+        // set flag that verse is selected, and set verse number
+        setFragmentResult(SelectionFragment.kRequestKeyBookSelect, bundleOf(kVerseSelectState to true, kVerseSelectedNumber to verseNumber))
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {

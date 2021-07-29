@@ -13,7 +13,11 @@ import com.mithun.simplebible.databinding.ListItemNoteBinding
 import com.mithun.simplebible.ui.notes.NotesFragmentDirections
 import com.mithun.simplebible.utilities.VerseFormatter
 
-class NotesAdapter(private val moreOptionsClickListener: (View, FullNote) -> Unit) :
+/**
+ * Adapter to display all the notes stored in the device
+ * @param onNoteMoreOptionsClick click listener for more options
+ */
+class NotesAdapter(private val onNoteMoreOptionsClick: (View, FullNote) -> Unit) :
     ListAdapter<FullNote, NotesAdapter.ViewHolder>(NoteDiffUtil()) {
 
     inner class ViewHolder(private val binding: ListItemNoteBinding) :
@@ -23,8 +27,8 @@ class NotesAdapter(private val moreOptionsClickListener: (View, FullNote) -> Uni
             binding.tvNoteComment.text = item.comment
 
             val spannableString = SpannableStringBuilder()
-
             item.verses.forEach {
+                // Apply styles for the verses within a note
                 spannableString.append(
                     VerseFormatter.formatVerseForDisplay(
                         binding.root.context,
@@ -35,12 +39,21 @@ class NotesAdapter(private val moreOptionsClickListener: (View, FullNote) -> Uni
             }
             binding.tvNoteVerses.text = spannableString
             binding.ivNoteShare.setOnClickListener {
-                moreOptionsClickListener(it, item)
+                onNoteMoreOptionsClick(it, item)
             }
 
             binding.root.setOnClickListener {
                 it.findNavController()
-                    .navigate(NotesFragmentDirections.actionAddEditNote(item.id, item.bibleId, item.chapterName, item.chapterId, item.verseIds.toIntArray(), item.comment))
+                    .navigate(
+                        NotesFragmentDirections.actionAddEditNote(
+                            item.id,
+                            item.bibleId,
+                            item.chapterName,
+                            item.chapterId,
+                            item.verseIds.toIntArray(),
+                            item.comment
+                        )
+                    )
             }
         }
     }
