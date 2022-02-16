@@ -127,20 +127,4 @@
         <item name="android:textColor">@color/selectedState</item>
     </style>
 
-
-    <!-- Toolbar/Actionbar -->
-    <!--    <style name="Toolbar" parent="Headline5"/>-->
-
-    <!--    <style name="Toolbar.Title" parent="Toolbar">-->
-    <!--        <item name="android:fontFamily">@font/quicksand_light</item>-->
-    <!--    </style>-->
-
-    <!--    <style name="Toolbar.Title.Day" parent="Toolbar.Title">-->
-    <!--        <item name="android:textColor">@color/primaryText</item>-->
-    <!--    </style>-->
-
-    <!--    <style name="Toolbar.Title.Night" parent="Toolbar.Title">-->
-    <!--        <item name="android:fontFamily">@color/white</item>-->
-    <!--    </style>-->
-
 </resources>
