@@ -1,4 +1,6 @@
 # Simple Bible  
+[![Android CI](https://github.com/mithun17/SimpleBible/actions/workflows/android.yml/badge.svg)](https://github.com/mithun17/SimpleBible/actions/workflows/android.yml)  
+  
 Simple Bible is a light weight Bible app that lets you read the Bible, take notes, bookmark them and share it with your friends.  
   
 It is a passion project that makes use of the latest Android [Jetpack](https://developer.android.com/jetpack) components like [Dagger-Hilt](https://developer.android.com/training/dependency-injection/hilt-android), [Room](https://developer.android.com/jetpack/androidx/releases/room), [Navigation component](https://developer.android.com/guide/navigation/navigation-getting-started) and follows the [MVVM](https://developer.android.com/jetpack/guide) architecture.  
