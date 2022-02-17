@@ -2,7 +2,6 @@ package com.mithun.simplebible.data.repository
 
 import android.util.Log
 import com.mithun.simplebible.data.api.BibleApi
-import com.mithun.simplebible.data.api.RetrofitBuilder
 import com.mithun.simplebible.data.dao.BibleDao
 import com.mithun.simplebible.data.dao.BooksDao
 import com.mithun.simplebible.data.database.model.Bible
@@ -66,7 +65,4 @@ class BibleRepository @Inject constructor(
 
         return booksDb
     }
-
-    suspend fun getChapterJson(bibleId: String, chapterId: String) =
-        RetrofitBuilder.bibleApi.getChapterJson(bibleId, chapterId)
 }

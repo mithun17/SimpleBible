@@ -2,6 +2,7 @@ package com.mithun.simplebible.di
 
 import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.mithun.simplebible.data.api.BibleApi
+import com.mithun.simplebible.data.api.NetworkInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -31,6 +32,7 @@ class NetworkModule {
     fun provideOkHttpClient(): OkHttpClient =
         OkHttpClient.Builder()
             .addNetworkInterceptor(StethoInterceptor())
+            .addNetworkInterceptor(NetworkInterceptor())
             .build()
 
     @Provides
