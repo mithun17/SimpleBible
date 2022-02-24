@@ -64,7 +64,7 @@ class VersesViewModelTest {
     fun `getVersesTest success`() = testCoroutineRule.testDispatcher.runBlockingTest {
         val sampleVerseData = TestDataProvider.getTestVerses()
 
-        Mockito.`when`(mockVersesRepository.getVerses(testBibleId, testChapterId))
+        Mockito.`when`(mockVersesRepository.getAllVersesForChapter(testBibleId, testChapterId))
             .thenReturn(sampleVerseData)
 
         versesViewModel.verses.test {
@@ -87,7 +87,7 @@ class VersesViewModelTest {
     fun `getVersesTest error`() = testCoroutineRule.testDispatcher.runBlockingTest {
         genericErrorString = "Unknown error"
         val sampleVerseData = RuntimeException(genericErrorString)
-        Mockito.`when`(mockVersesRepository.getVerses(testBibleId, testChapterId))
+        Mockito.`when`(mockVersesRepository.getAllVersesForChapter(testBibleId, testChapterId))
             .thenThrow(sampleVerseData)
 
         versesViewModel.verses.test {
@@ -108,7 +108,7 @@ class VersesViewModelTest {
             val sampleVerseData = RuntimeException()
             Mockito.`when`(mockResourcesUtil.getString(R.string.errorGenericString))
                 .thenReturn(genericErrorFromStringResource)
-            Mockito.`when`(mockVersesRepository.getVerses(testBibleId, testChapterId))
+            Mockito.`when`(mockVersesRepository.getAllVersesForChapter(testBibleId, testChapterId))
                 .thenThrow(sampleVerseData)
 
             versesViewModel.verses.test {

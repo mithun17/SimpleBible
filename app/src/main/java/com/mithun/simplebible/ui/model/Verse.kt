@@ -1,4 +1,4 @@
-package com.mithun.simplebible.data.model
+package com.mithun.simplebible.ui.model
 
 data class Verse(
     val number: Int,

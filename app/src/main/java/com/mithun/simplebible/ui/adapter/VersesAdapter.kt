@@ -5,8 +5,8 @@ import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.mithun.simplebible.data.model.Verse
 import com.mithun.simplebible.ui.custom.VerseTextView
+import com.mithun.simplebible.ui.model.Verse
 
 /**
  * Adapter to display all the Bible verses for a selected chapter

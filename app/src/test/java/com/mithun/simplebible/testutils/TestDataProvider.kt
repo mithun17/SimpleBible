@@ -1,6 +1,6 @@
 package com.mithun.simplebible.testutils
 
-import com.mithun.simplebible.data.model.Verse
+import com.mithun.simplebible.ui.model.Verse
 
 object TestDataProvider {
 

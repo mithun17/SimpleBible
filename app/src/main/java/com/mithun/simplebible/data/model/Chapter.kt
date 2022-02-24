@@ -8,5 +8,7 @@ data class Chapter(
     val bibleId: String,
     val reference: String,
     val content: List<Content>,
-    val verseCount: Int
+    val verseCount: Int,
+    val next: Page?,
+    val previous: Page?
 )

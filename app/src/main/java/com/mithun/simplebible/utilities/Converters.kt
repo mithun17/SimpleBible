@@ -21,7 +21,11 @@ class Converters {
 
     @TypeConverter
     fun stringToSmallChapters(smallChaptersString: String): List<SmallChapter> {
-        return Gson().fromJson(smallChaptersString, object : TypeToken<List<SmallChapter>>() {}.type)
+        return Gson().fromJson(
+            smallChaptersString,
+            object :
+                TypeToken<List<SmallChapter>>() {}.type
+        )
     }
 
     @TypeConverter
