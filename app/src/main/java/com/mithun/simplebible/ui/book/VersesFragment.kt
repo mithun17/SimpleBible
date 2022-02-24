@@ -14,17 +14,19 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.ConcatAdapter
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.mithun.simplebible.R
 import com.mithun.simplebible.data.database.model.Bookmark
-import com.mithun.simplebible.data.model.Verse
 import com.mithun.simplebible.data.repository.Resource
 import com.mithun.simplebible.databinding.FragmentChapterVersesBinding
 import com.mithun.simplebible.ui.BaseCollapsibleFragment
 import com.mithun.simplebible.ui.adapter.VersesAdapter
+import com.mithun.simplebible.ui.adapter.VersesFooterAdapter
 import com.mithun.simplebible.ui.dialog.Action
 import com.mithun.simplebible.ui.dialog.ActionsBottomSheet
+import com.mithun.simplebible.ui.model.Verse
 import com.mithun.simplebible.utilities.CommonUtils.copyToClipboard
 import com.mithun.simplebible.utilities.CommonUtils.showTextShareIntent
 import com.mithun.simplebible.utilities.ExtensionUtils.toCopyText
@@ -76,6 +78,8 @@ class VersesFragment : BaseCollapsibleFragment(), ActionsBottomSheet.ActionPicke
         })
     }
 
+    private lateinit var versesFooterAdapter: VersesFooterAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
@@ -88,7 +92,7 @@ class VersesFragment : BaseCollapsibleFragment(), ActionsBottomSheet.ActionPicke
     ): View {
         _binding = FragmentChapterVersesBinding.inflate(inflater, container, false)
         bottomNav = requireActivity().findViewById(R.id.nav_view)
-        binding.rvVerses.adapter = versesAdapter
+//        binding.rvVerses.adapter = versesAdapter
         binding.rvVerses.isNestedScrollingEnabled = false
         chapterId = args.chapterId ?: prefs.lastReadChapter
         chapterName = args.chapterFullName ?: ""
@@ -158,7 +162,22 @@ class VersesFragment : BaseCollapsibleFragment(), ActionsBottomSheet.ActionPicke
                         when (resource) {
                             is Resource.Loading -> showLoading()
                             is Resource.Success -> {
-                                resource.data?.let { populateVerses(it) }
+
+                                // populate the verses
+                                resource.data?.let { (verses, prevChapter, nextChapter) ->
+
+                                    versesFooterAdapter = VersesFooterAdapter(prevChapter, nextChapter) { chapterId ->
+                                        // set last read chapter id
+                                        prefs.lastReadChapter = chapterId
+                                        // navigate to same fragment but with selected selected chapter id
+                                        findNavController().navigate(
+                                            VersesFragmentDirections.actionLookupChapter(chapterId = chapterId)
+                                        )
+                                    }
+
+                                    binding.rvVerses.adapter = ConcatAdapter(versesAdapter, versesFooterAdapter)
+                                    populateVerses(verses)
+                                }
                             }
                             is Resource.Error -> showError(resource.message)
                         }

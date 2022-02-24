@@ -58,6 +58,21 @@
                 android:name="verseId"
                 app:argType="string" />
         </action>
+        <action
+            android:id="@+id/action_lookup_chapter"
+            app:destination="@id/navigation_chapter_verses"
+            app:launchSingleTop="true">
+            <argument
+                android:name="chapterId"
+                android:defaultValue="@null"
+                app:argType="string"
+                app:nullable="true" />
+            <argument
+                android:name="chapterFullName"
+                android:defaultValue="@null"
+                app:argType="string"
+                app:nullable="true" />
+        </action>
     </fragment>
 
     <fragment

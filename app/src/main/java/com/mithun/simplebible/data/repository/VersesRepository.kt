@@ -9,9 +9,7 @@ import com.mithun.simplebible.data.database.model.VerseEntity
 import com.mithun.simplebible.data.model.Items
 import com.mithun.simplebible.data.model.Name
 import com.mithun.simplebible.data.model.Type
-import com.mithun.simplebible.data.model.Verse
 import com.mithun.simplebible.ui.custom.TAG
-import java.lang.StringBuilder
 import javax.inject.Inject
 
 class VersesRepository @Inject constructor(
@@ -21,9 +19,14 @@ class VersesRepository @Inject constructor(
     val notesDao: NotesDao
 ) {
 
-    suspend fun getVerses(bibleId: String, chapterId: String): List<Verse> {
+    suspend fun getAllVersesForChapter(bibleId: String, chapterId: String): List<VerseEntity> {
         // fetch verses from local DB
         var verses = versesEntityDao.getVersesForChapter(bibleId, chapterId)
+
+        // previous and next chapters to this current chapter
+        var prevPage: String? = null
+        var nextPage: String? = null
+
         // if verses from DB is empty, fetch from network
         if (verses.isEmpty()) {
             // fetch chapter (aka) fetch verses for a chapter from network
@@ -59,6 +62,26 @@ class VersesRepository @Inject constructor(
                 }
             }
 
+            if (chapter.previous != null) {
+                // if previous chapter is intro, skip it and fetch the chapter before it
+                prevPage = if (chapter.previous.id.split(".").last() == "intro") {
+                    val prevChapter = bibleApi.getChapter(bibleId, chapter.previous.id).data
+                    prevChapter.previous?.id
+                } else {
+                    chapter.previous.id
+                }
+            }
+
+            if (chapter.next != null) {
+                // if next chapter is intro, skip it and fetch the chapter after it
+                nextPage = if (chapter.next.id.split(".").last() == "intro") {
+                    val nextChapter = bibleApi.getChapter(bibleId, chapter.next.id).data
+                    nextChapter.next?.id
+                } else {
+                    chapter.next.id
+                }
+            }
+
             val versesToBeInsertedToDB = mapOfVerses.map {
                 val verseNumber = it.key.split(".").last()
                 val verseText = it.value
@@ -71,17 +94,15 @@ class VersesRepository @Inject constructor(
                     number = verseNumber,
                     text = verseText,
                     bookmarks = emptyList(),
-                    notes = emptyList()
+                    notes = emptyList(),
+                    prevChapterId = prevPage,
+                    nextChapterId = nextPage
                 )
             }.toList()
             versesEntityDao.insertVerses(versesToBeInsertedToDB)
             verses = versesEntityDao.getVersesForChapter(bibleId, chapterId)
         }
-
-        val result = verses.map { verse ->
-            Verse(verse.number.toInt(), verse.reference, verse.text, hasNotes = verse.notes.isNotEmpty(), isBookmarked = verse.bookmarks.isNotEmpty())
-        }.toList().sortedBy { it.number }
-        return result
+        return verses
     }
 
     private fun parseRegularItem(item: Items, mapOfVerses: MutableMap<String, String>) {

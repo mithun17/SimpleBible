@@ -4,10 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mithun.simplebible.R
 import com.mithun.simplebible.data.database.model.Book
-import com.mithun.simplebible.data.model.Verse
 import com.mithun.simplebible.data.repository.BibleRepository
 import com.mithun.simplebible.data.repository.Resource
 import com.mithun.simplebible.data.repository.VersesRepository
+import com.mithun.simplebible.ui.model.Verse
+import com.mithun.simplebible.utilities.ExtensionUtils.toVerses
 import com.mithun.simplebible.utilities.Prefs
 import com.mithun.simplebible.utilities.ResourcesUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -76,18 +77,18 @@ class SelectionViewModel @Inject constructor(
     }
 
     init {
-        // get the list of books for the selected bible version.
-        // selected bible version is stored in preference.
+        // fetch the verses for the selected chapter
         viewModelScope.launch {
             _selectedChapterId.collect { chapterId ->
                 fetchVerses(prefs.selectedBibleVersionId, chapterId)
             }
         }
 
+        // get the list of books for the selected bible version.
+        // selected bible version is stored in preference.
         viewModelScope.launch {
             _selectedBookId.collect { bookId ->
                 fetchBooks(prefs.selectedBibleVersionId)
-                fetchVerses(prefs.selectedBibleVersionId, "$bookId.1")
             }
         }
     }
@@ -128,8 +129,8 @@ class SelectionViewModel @Inject constructor(
     private fun fetchVerses(bibleId: String, chapterId: String) {
         _verses.value = Resource.Loading(null)
         viewModelScope.launch(versesExceptionHandler) {
-            with(versesRepository.getVerses(bibleId, chapterId)) {
-                _verses.value = Resource.Success(this)
+            with(versesRepository.getAllVersesForChapter(bibleId, chapterId)) {
+                _verses.value = Resource.Success(this.toVerses())
                 _versesCount.value = this.count()
             }
         }

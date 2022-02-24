@@ -12,5 +12,7 @@ data class VerseEntity(
     val number: String,
     val text: String,
     val notes: List<Long>,
-    val bookmarks: List<Long>
+    val bookmarks: List<Long>,
+    val prevChapterId: String?,
+    val nextChapterId: String?
 )

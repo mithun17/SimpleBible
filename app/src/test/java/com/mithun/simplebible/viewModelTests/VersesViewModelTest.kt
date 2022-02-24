@@ -62,9 +62,9 @@ class VersesViewModelTest {
 
     @Test
     fun `getVersesTest success`() = testCoroutineRule.testDispatcher.runBlockingTest {
-        val sampleVerseData = TestDataProvider.getTestVerses()
+        val sampleVerseData = TestDataProvider.getTestVerseEntities()
 
-        Mockito.`when`(mockVersesRepository.getVerses(testBibleId, testChapterId))
+        Mockito.`when`(mockVersesRepository.getAllVersesForChapter(testBibleId, testChapterId))
             .thenReturn(sampleVerseData)
 
         versesViewModel.verses.test {
@@ -73,10 +73,10 @@ class VersesViewModelTest {
             assertEquals(expectItem()::class, Resource.Loading::class)
             val successResponse = expectItem()
             assertTrue(successResponse is Resource.Success)
-            assertTrue(successResponse.data?.size == 3)
-            successResponse.data?.forEachIndexed { index, verse ->
+            assertTrue(successResponse.data?.first?.size == 3)
+            successResponse.data?.first?.forEachIndexed { index, verse ->
                 assertTrue(verse.number == (index + 1))
-                assertTrue(verse.reference == "verse ${index + 1}")
+                assertTrue(verse.reference == "John ${index + 1}")
                 assertTrue(verse.text == "verse text ${index + 1}")
             }
             cancelAndConsumeRemainingEvents()
@@ -87,7 +87,7 @@ class VersesViewModelTest {
     fun `getVersesTest error`() = testCoroutineRule.testDispatcher.runBlockingTest {
         genericErrorString = "Unknown error"
         val sampleVerseData = RuntimeException(genericErrorString)
-        Mockito.`when`(mockVersesRepository.getVerses(testBibleId, testChapterId))
+        Mockito.`when`(mockVersesRepository.getAllVersesForChapter(testBibleId, testChapterId))
             .thenThrow(sampleVerseData)
 
         versesViewModel.verses.test {
@@ -108,7 +108,7 @@ class VersesViewModelTest {
             val sampleVerseData = RuntimeException()
             Mockito.`when`(mockResourcesUtil.getString(R.string.errorGenericString))
                 .thenReturn(genericErrorFromStringResource)
-            Mockito.`when`(mockVersesRepository.getVerses(testBibleId, testChapterId))
+            Mockito.`when`(mockVersesRepository.getAllVersesForChapter(testBibleId, testChapterId))
                 .thenThrow(sampleVerseData)
 
             versesViewModel.verses.test {

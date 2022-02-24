@@ -5,6 +5,7 @@ import com.mithun.simplebible.R
 import com.mithun.simplebible.data.database.model.VerseEntity
 import com.mithun.simplebible.data.repository.data.FullNote
 import com.mithun.simplebible.ui.adapter.BookmarkItem
+import com.mithun.simplebible.ui.model.Verse
 
 object ExtensionUtils {
 
@@ -103,6 +104,15 @@ object ExtensionUtils {
      * Convert verse string to normal string.
      */
     fun String.toRegularText() = replace(RED_TAG_START, "").replace(RED_TAG_END, "")
+
+    /**
+     * Convert list of VerseEntity to list of Verse
+     */
+    fun List<VerseEntity>.toVerses(): List<Verse> {
+        return map { verse ->
+            Verse(verse.number.toInt(), verse.reference, verse.text, hasNotes = verse.notes.isNotEmpty(), isBookmarked = verse.bookmarks.isNotEmpty())
+        }.toList().sortedBy { it.number }
+    }
 }
 
 /**
