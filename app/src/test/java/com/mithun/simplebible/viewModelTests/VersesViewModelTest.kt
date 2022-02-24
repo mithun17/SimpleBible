@@ -62,7 +62,7 @@ class VersesViewModelTest {
 
     @Test
     fun `getVersesTest success`() = testCoroutineRule.testDispatcher.runBlockingTest {
-        val sampleVerseData = TestDataProvider.getTestVerses()
+        val sampleVerseData = TestDataProvider.getTestVerseEntities()
 
         Mockito.`when`(mockVersesRepository.getAllVersesForChapter(testBibleId, testChapterId))
             .thenReturn(sampleVerseData)
@@ -73,10 +73,10 @@ class VersesViewModelTest {
             assertEquals(expectItem()::class, Resource.Loading::class)
             val successResponse = expectItem()
             assertTrue(successResponse is Resource.Success)
-            assertTrue(successResponse.data?.size == 3)
-            successResponse.data?.forEachIndexed { index, verse ->
+            assertTrue(successResponse.data?.first?.size == 3)
+            successResponse.data?.first?.forEachIndexed { index, verse ->
                 assertTrue(verse.number == (index + 1))
-                assertTrue(verse.reference == "verse ${index + 1}")
+                assertTrue(verse.reference == "John ${index + 1}")
                 assertTrue(verse.text == "verse text ${index + 1}")
             }
             cancelAndConsumeRemainingEvents()
