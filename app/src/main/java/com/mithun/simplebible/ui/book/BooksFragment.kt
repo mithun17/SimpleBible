@@ -60,6 +60,8 @@ class BooksFragment : Fragment() {
                             // Loading
                             binding.pbHome.visibility = View.VISIBLE
                         }
+
+                        else -> {}
                     }
                 }
             }

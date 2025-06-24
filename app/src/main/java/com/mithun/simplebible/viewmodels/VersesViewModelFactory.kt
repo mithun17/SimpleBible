@@ -9,7 +9,7 @@ class VersesViewModelFactory(
     private val versesRepository: VersesRepository,
     private val resourcesUtil: ResourcesUtil
 ) : ViewModelProvider.Factory {
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return VersesViewModel(versesRepository, resourcesUtil) as T
     }
 }

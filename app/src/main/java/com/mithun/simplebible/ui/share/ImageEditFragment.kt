@@ -127,6 +127,8 @@ class ImageEditFragment : BaseFragment() {
                     is Resource.Error -> {
                         // error
                     }
+
+                    else -> {}
                 }
             }
         }
@@ -207,6 +209,8 @@ class ImageEditFragment : BaseFragment() {
                         ImageEditViewModel.FileCopyStatus.FAIL -> {
                             // TODO show error
                         }
+
+                        else -> {}
                     }
                 }
             }

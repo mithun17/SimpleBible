@@ -8,7 +8,7 @@ const val TABLE_BOOKMARK = "bookmarks"
 const val TABLE_NOTE = "notes"
 const val TABLE_BIBLE = "bible"
 
-const val API_KEY = "7e474a2a05c476db0c8c4ae7e1fefcba"
+const val API_KEY = "811fdbf01f56ac7f6c4fa34b2721b694"
 
 // available bibles
 const val ASV_BIBLE_ID = "06125adad2d5898a-01"
