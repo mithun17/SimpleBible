@@ -46,12 +46,12 @@ class NotesAdapter(private val onNoteMoreOptionsClick: (View, FullNote) -> Unit)
                 it.findNavController()
                     .navigate(
                         NotesFragmentDirections.actionAddEditNote(
-                            item.id,
-                            item.bibleId,
-                            item.chapterName,
-                            item.chapterId,
-                            item.verseIds.toIntArray(),
-                            item.comment
+                            noteId = item.id,
+                            bibleId = item.bibleId,
+                            chapterFullName = item.chapterName,
+                            chapterId = item.chapterId,
+                            verses = item.verseIds.toIntArray(),
+                            comment = item.comment
                         )
                     )
             }

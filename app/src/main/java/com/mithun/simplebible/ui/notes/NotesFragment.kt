@@ -62,6 +62,8 @@ class NotesFragment : BaseFragment() {
                         }
                         is Resource.Loading -> {
                         }
+
+                        else -> {}
                     }
                 }
             }
@@ -75,7 +77,7 @@ class NotesFragment : BaseFragment() {
 
             when (menuItem.itemId) {
                 R.id.editNote -> {
-                    findNavController().navigate(NotesFragmentDirections.actionAddEditNote(note.id, note.bibleId, note.chapterName, note.chapterId, note.verseIds.toIntArray(), note.comment))
+                    findNavController().navigate(NotesFragmentDirections.actionAddEditNote(noteId = note.id, bibleId = note.bibleId, chapterFullName = note.chapterName, chapterId = note.chapterId, verses = note.verseIds.toIntArray(), comment = note.comment))
                 }
                 R.id.shareNote -> {
                     // trigger share intent

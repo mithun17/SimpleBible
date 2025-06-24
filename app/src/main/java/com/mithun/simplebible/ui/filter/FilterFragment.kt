@@ -54,6 +54,8 @@ class FilterFragment : BaseFragment() {
                     }
                     is Resource.Error -> { /* TODO */
                     }
+
+                    else -> {}
                 }
             }
         }

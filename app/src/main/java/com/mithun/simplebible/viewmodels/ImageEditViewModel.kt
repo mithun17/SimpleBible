@@ -79,7 +79,7 @@ class ImageEditViewModel @Inject constructor(
                         path = image.toURI().toString()
                         FileOutputStream(image)
                     }
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos)
+                    fos?.let { bitmap.compress(Bitmap.CompressFormat.JPEG, 100, it) }
                     fos?.close()
                     path?.let { filePath ->
                         _filePath.value = Pair(FileCopyStatus.SUCCESS, filePath)

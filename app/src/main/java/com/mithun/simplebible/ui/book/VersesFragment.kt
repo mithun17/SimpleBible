@@ -180,6 +180,7 @@ class VersesFragment : BaseCollapsibleFragment(), ActionsBottomSheet.ActionPicke
                                 }
                             }
                             is Resource.Error -> showError(resource.message)
+                            else -> {}
                         }
                     }
                 }
@@ -287,7 +288,8 @@ class VersesFragment : BaseCollapsibleFragment(), ActionsBottomSheet.ActionPicke
                     kActionRequestCodeNote -> {
                         val verseIds = versesAdapter.listOfSelectedVerses.keys.toIntArray()
                         binding.root.findNavController()
-                            .navigate(VersesFragmentDirections.actionAddEditNote(0L, prefs.selectedBibleVersionId, chapterName, chapterId, verseIds, null))
+                            .navigate(VersesFragmentDirections.actionAddEditNote(
+                                noteId = 0L, bibleId = prefs.selectedBibleVersionId, chapterFullName=chapterName, chapterId=chapterId, verses = verseIds, comment = null))
                     }
                     kActionRequestCodeBookmark -> {
 

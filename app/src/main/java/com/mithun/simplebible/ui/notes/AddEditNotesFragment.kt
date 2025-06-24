@@ -113,6 +113,7 @@ class AddEditNotesFragment : BaseFragment() {
                                     binding.pbSaving.gone
                                 }
                                 is Resource.Loading -> binding.pbSaving.visible
+                                else -> {}
                             }
                         }
                     }
@@ -125,6 +126,7 @@ class AddEditNotesFragment : BaseFragment() {
                                     binding.pbSaving.gone
                                 }
                                 is Resource.Loading -> binding.pbSaving.visible
+                                else -> {}
                             }
                         }
                     }
@@ -140,6 +142,7 @@ class AddEditNotesFragment : BaseFragment() {
                                 binding.pbSaving.gone
                             }
                             is Resource.Loading -> showLoading(data)
+                            else -> {}
                         }
                     }
                 }

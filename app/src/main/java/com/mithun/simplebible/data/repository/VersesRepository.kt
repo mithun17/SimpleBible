@@ -128,7 +128,7 @@ class VersesRepository @Inject constructor(
                 redText.append(TAG.RED.end())
                 finalItem.attrs?.verseId?.let {
                     val value = mapOfVerses[finalItem.attrs?.verseId] ?: ""
-                    mapOfVerses[finalItem.attrs?.verseId] = value + redText.toString()
+                    mapOfVerses[finalItem.attrs.verseId] = value + redText.toString()
                 }
             } else {
                 parseJesusItems(finalItem, mapOfVerses)
